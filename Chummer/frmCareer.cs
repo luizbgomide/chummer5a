@@ -20571,8 +20571,6 @@ namespace Chummer
 			ProcessConditionMonitor(_objCharacter.StunCMFilled, panStunCM, _objCharacter.StunCM, _objCharacter.StunCMFilled,
 				stun, out int intStunCMPenalty, true);
 
-			UpdateConditionMonitor(lblCMPhysical, lblCMStun, tipTooltip, _objImprovementManager);
-
 			int intCMPenalty = 0;
 			int intCMOverflow = _objCharacter.CMOverflow;
 			int intCMThreshold = _objCharacter.CMThreshold;

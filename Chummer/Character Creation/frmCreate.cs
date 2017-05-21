@@ -97,7 +97,6 @@ namespace Chummer
             _objCharacter.SkillsSection.LinguistChanged += objCharacter_LinguistChanged;
             _objCharacter.LightningReflexesChanged += objCharacter_LightningReflexesChanged;
             _objCharacter.FameChanged += objCharacter_FameChanged;
-            _objCharacter.BornRichChanged += objCharacter_BornRichChanged;
             _objCharacter.ErasedChanged += objCharacter_ErasedChanged;
 
             tabPowerUc.ChildPropertyChanged += PowerPropertyChanged;
@@ -242,7 +241,6 @@ namespace Chummer
                 nudMAG.Enabled = false;
                 nudDEP.Enabled = false;
             }
-            nudNuyen.Value = _objCharacter.NuyenBP;
 
             // Remove the Magician, Adept, and Technomancer tabs since they are not in use until the appropriate Quality is selected.
             if (!_objCharacter.MagicianEnabled && !_objCharacter.AdeptEnabled)
@@ -272,6 +270,7 @@ namespace Chummer
                 cmdAddSpirit.Visible = false;
                 panSpirits.Visible = false;
             }
+
 
             // Set the visibility of the Bioware Suites menu options.
             mnuSpecialAddBiowareSuite.Visible = _objCharacter.Options.AllowBiowareSuites;
@@ -366,58 +365,119 @@ namespace Chummer
             }
             lblMetatype.Text = strMetatype;
             lblMetatypeSource.Text = strBook + " " + strPage;
-            txtCharacterName.Text = _objCharacter.Name;
-            txtSex.Text = _objCharacter.Sex;
-            txtAge.Text = _objCharacter.Age;
-            txtEyes.Text = _objCharacter.Eyes;
-            txtHeight.Text = _objCharacter.Height;
-            txtWeight.Text = _objCharacter.Weight;
-            txtSkin.Text = _objCharacter.Skin;
-            txtHair.Text = _objCharacter.Hair;
-            txtDescription.Text = _objCharacter.Description;
-            txtBackground.Text = _objCharacter.Background;
-            txtConcept.Text = _objCharacter.Concept;
-            txtNotes.Text = _objCharacter.Notes;
-            txtAlias.Text = _objCharacter.Alias;
-            txtPlayerName.Text = _objCharacter.PlayerName;
-
+			txtCharacterName.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Name), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtSex.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Sex), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtAge.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Age), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtEyes.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Eyes), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtHeight.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Height), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtWeight.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Weight), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtSkin.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Skin), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtHair.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Hair), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtDescription.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Description), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtBackground.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Background), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtConcept.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Concept), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtNotes.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Notes), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtAlias.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Alias), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtPlayerName.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Name), false, DataSourceUpdateMode.OnPropertyChanged);
 			objCharacter_AmbidextrousChanged(null);
 
-            // Check for Special Attributes.
-            lblMAGLabel.Enabled = _objCharacter.MAGEnabled;
-            lblMAGAug.Enabled = _objCharacter.MAGEnabled;
-            if ((_objCharacter.BuildMethod != CharacterBuildMethod.Karma) && (_objCharacter.BuildMethod != CharacterBuildMethod.LifeModule))
+			// Check for Special Attributes.
+			lblMAGLabel.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+            lblMAGAug.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			if ((_objCharacter.BuildMethod != CharacterBuildMethod.Karma) && (_objCharacter.BuildMethod != CharacterBuildMethod.LifeModule))
             {
-                nudMAG.Enabled = _objCharacter.MAGEnabled;
-            }
-            nudKMAG.Enabled = _objCharacter.MAGEnabled;
-            lblMAGMetatype.Enabled = _objCharacter.MAGEnabled;
-            lblFoci.Visible = _objCharacter.MAGEnabled;
-            treFoci.Visible = _objCharacter.MAGEnabled;
-	        nudAdeptWayDiscount.Visible = _objCharacter.MAGEnabled;
-	        lblAdeptWayDiscount.Visible = _objCharacter.MAGEnabled;
-            cmdCreateStackedFocus.Visible = _objCharacter.MAGEnabled;
+                nudMAG.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			}
+            nudKMAG.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMAGMetatype.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblFoci.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			treFoci.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			nudAdeptWayDiscount.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblAdeptWayDiscount.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			cmdCreateStackedFocus.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
 
-			lblDEPAug.Enabled = _objCharacter.DEPEnabled;
-			lblDEPLabel.Enabled = _objCharacter.DEPEnabled;
-            if ((_objCharacter.BuildMethod != CharacterBuildMethod.Karma) && (_objCharacter.BuildMethod != CharacterBuildMethod.LifeModule))
+			lblDEPAug.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.DEPEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblDEPLabel.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.DEPEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			if ((_objCharacter.BuildMethod != CharacterBuildMethod.Karma) && (_objCharacter.BuildMethod != CharacterBuildMethod.LifeModule))
 			{ 
-				nudDEP.Enabled = _objCharacter.DEPEnabled;
-            }
-			nudKDEP.Enabled = _objCharacter.DEPEnabled;
-            lblDEPMetatype.Enabled = _objCharacter.DEPEnabled;
+				nudDEP.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.DEPEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			}
+			nudKDEP.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.DEPEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblDEPMetatype.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.DEPEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
 
-            lblRESLabel.Enabled = _objCharacter.RESEnabled;
-            lblRESAug.Enabled = _objCharacter.RESEnabled;
-            if (_objCharacter.BuildMethod != CharacterBuildMethod.Karma || _objCharacter.BuildMethod != CharacterBuildMethod.LifeModule)
+			lblRESLabel.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.RESEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblRESAug.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.RESEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			if (_objCharacter.BuildMethod != CharacterBuildMethod.Karma || _objCharacter.BuildMethod != CharacterBuildMethod.LifeModule)
             {
-                nudRES.Enabled = _objCharacter.RESEnabled;
-            }
-            nudKRES.Enabled = _objCharacter.RESEnabled;
-            lblRESMetatype.Enabled = _objCharacter.RESEnabled;
+                nudRES.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.RESEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			}
+            nudKRES.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.RESEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblRESMetatype.DataBindings.Add("Enabled", _objCharacter, nameof(_objCharacter.RESEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
 
-            // Define the XML objects that will be used.
-            XmlDocument objXmlDocument = new XmlDocument();
+			nudMysticAdeptMAGMagician.DataBindings.Add("Maximum", _objCharacter, nameof(_objCharacter.MAG.TotalValue), false, DataSourceUpdateMode.OnPropertyChanged);
+			nudMysticAdeptMAGMagician.DataBindings.Add("Value", _objCharacter, nameof(_objCharacter.MysticAdeptPowerPoints), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMysticAdeptAssignment.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MysticAdeptEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			nudMysticAdeptMAGMagician.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MysticAdeptEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			nudNuyen.DataBindings.Add("Maximum", _objCharacter, nameof(_objCharacter.NuyenMaximum), false, DataSourceUpdateMode.OnPropertyChanged);
+			nudNuyen.DataBindings.Add("Value", _objCharacter, nameof(_objCharacter.NuyenBP), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			lblComposure.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.ComposureTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblComposure.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Composure), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblJudgeIntentions.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.JudgeIntentionsTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblJudgeIntentions.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.JudgeIntentions), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLiftCarry.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LiftAndCarryTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLiftCarry.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LiftAndCarry), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMemory.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.MemoryTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMemory.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Memory), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMovement.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Movement), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSwim.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Swim), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblFly.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Fly), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCMPhysical.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.PhysicalCM), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCMPhysical.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.PhysicalCMTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCMStun.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.StunCM), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCMStun.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.StunCMTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			#region Spell Defence
+			lblSpellDefenceIndirectDodge.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectDodge), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIndirectDodge.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectDodgeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIndirectSoak.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectSoak), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIndirectSoak.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectSoakTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDirectSoakMana.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDirectSoakMana), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDirectSoakMana.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDirectSoakManaTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDirectSoakPhysical.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDirectSoakPhysical), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDirectSoakPhysical.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDirectSoakPhysicalTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDetection.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDetection), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDetection.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDetectionTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttBOD.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttBOD), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttBOD.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttBODTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttAGI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttAGI), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttAGI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttAGITooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttREA.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttREA), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttREA.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttREATooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttSTR.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttSTR), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttSTR.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttSTRTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttCHA.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttCHA), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttCHA.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttCHATooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttINT.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttINT), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttINT.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttINTTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttLOG.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttLOG), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttLOG.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttLOGTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttWIL.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttWIL), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttWIL.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttWILTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIllusionMana.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceIllusionMana), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIllusionMana.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceIllusionManaTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIllusionPhysical.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceIllusionPhysical), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIllusionPhysical.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceIllusionPhysicalTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceManipMental.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceManipMental), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceManipMental.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceManipMentalTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lbllSpellDefenceManipPhysical.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceManipPhysical), false, DataSourceUpdateMode.OnPropertyChanged);
+			lbllSpellDefenceManipPhysical.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceManipPhysicalTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			nudCounterspellingDice.DataBindings.Add("Value", _objCharacter, nameof(_objCharacter.CounterspellingDice), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblActiveSkillsBP.DataBindings.Add("Text", _objCharacter.SkillsSection, nameof(_objCharacter.SkillsSection.ActiveSkillsCost), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSkillGroupsBP.DataBindings.Add("Text", _objCharacter.SkillsSection, nameof(_objCharacter.SkillsSection.SkillGroupsCost), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblKnowledgeSkillsBP.DataBindings.Add("Text", _objCharacter.SkillsSection, nameof(_objCharacter.SkillsSection.KnowledgeSkillsCost), false, DataSourceUpdateMode.OnPropertyChanged);
+			#endregion
+			// Define the XML objects that will be used.
+			XmlDocument objXmlDocument = new XmlDocument();
 
 			if (_objCharacter.BuildMethod == CharacterBuildMethod.LifeModule)
 			{
@@ -514,55 +574,11 @@ namespace Chummer
             cboSpiritCombat.DataSource = lstSpirit;
             cboSpiritCombat.EndUpdate();
 
-            // Populate the Magician Custom Spirits lists - Detection.
-            lstSpirit = new List<ListItem>();
-            objSpiritBlank = new ListItem();
-            objSpiritBlank.Value = string.Empty;
-            objSpiritBlank.Name = string.Empty;
-            lstSpirit.Add(objSpiritBlank);
-            foreach (XmlNode objXmlSpirit in objXmlDocument.SelectNodes("/chummer/spirits/spirit"))
-            {
-				if (limit.Count > 0 && limit.Contains(objXmlSpirit["name"].InnerText) || limit.Count == 0)
-				{
-					ListItem objItem = new ListItem();
-					objItem.Value = objXmlSpirit["name"].InnerText;
-					if (objXmlSpirit["translate"] != null)
-						objItem.Name = objXmlSpirit["translate"].InnerText;
-					else
-						objItem.Name = objXmlSpirit["name"].InnerText;
-					lstSpirit.Add(objItem);
-				}
-			}
-            objSpiritSort = new SortListItem();
-            lstSpirit.Sort(objSpiritSort.Compare);
-
             cboSpiritDetection.BeginUpdate();
             cboSpiritDetection.ValueMember = "Value";
             cboSpiritDetection.DisplayMember = "Name";
             cboSpiritDetection.DataSource = lstSpirit;
             cboSpiritDetection.EndUpdate();
-
-            // Populate the Magician Custom Spirits lists - Health.
-            lstSpirit = new List<ListItem>();
-            objSpiritBlank = new ListItem();
-            objSpiritBlank.Value = string.Empty;
-            objSpiritBlank.Name = string.Empty;
-            lstSpirit.Add(objSpiritBlank);
-            foreach (XmlNode objXmlSpirit in objXmlDocument.SelectNodes("/chummer/spirits/spirit"))
-            {
-				if (limit.Count > 0 && limit.Contains(objXmlSpirit["name"].InnerText) || limit.Count == 0)
-				{
-					ListItem objItem = new ListItem();
-					objItem.Value = objXmlSpirit["name"].InnerText;
-					if (objXmlSpirit["translate"] != null)
-						objItem.Name = objXmlSpirit["translate"].InnerText;
-					else
-						objItem.Name = objXmlSpirit["name"].InnerText;
-					lstSpirit.Add(objItem);
-				}
-			}
-            objSpiritSort = new SortListItem();
-            lstSpirit.Sort(objSpiritSort.Compare);
 
             cboSpiritHealth.BeginUpdate();
             cboSpiritHealth.ValueMember = "Value";
@@ -570,55 +586,11 @@ namespace Chummer
             cboSpiritHealth.DataSource = lstSpirit;
             cboSpiritHealth.EndUpdate();
 
-            // Populate the Magician Custom Spirits lists - Illusion.
-            lstSpirit = new List<ListItem>();
-            objSpiritBlank = new ListItem();
-            objSpiritBlank.Value = string.Empty;
-            objSpiritBlank.Name = string.Empty;
-            lstSpirit.Add(objSpiritBlank);
-            foreach (XmlNode objXmlSpirit in objXmlDocument.SelectNodes("/chummer/spirits/spirit"))
-            {
-				if (limit.Count > 0 && limit.Contains(objXmlSpirit["name"].InnerText) || limit.Count == 0)
-				{
-					ListItem objItem = new ListItem();
-					objItem.Value = objXmlSpirit["name"].InnerText;
-					if (objXmlSpirit["translate"] != null)
-						objItem.Name = objXmlSpirit["translate"].InnerText;
-					else
-						objItem.Name = objXmlSpirit["name"].InnerText;
-					lstSpirit.Add(objItem);
-				}
-			}
-            objSpiritSort = new SortListItem();
-            lstSpirit.Sort(objSpiritSort.Compare);
-
             cboSpiritIllusion.BeginUpdate();
             cboSpiritIllusion.ValueMember = "Value";
             cboSpiritIllusion.DisplayMember = "Name";
             cboSpiritIllusion.DataSource = lstSpirit;
             cboSpiritIllusion.EndUpdate();
-
-            // Populate the Magician Custom Spirits lists - Manipulation.
-            lstSpirit = new List<ListItem>();
-            objSpiritBlank = new ListItem();
-            objSpiritBlank.Value = string.Empty;
-            objSpiritBlank.Name = string.Empty;
-            lstSpirit.Add(objSpiritBlank);
-            foreach (XmlNode objXmlSpirit in objXmlDocument.SelectNodes("/chummer/spirits/spirit"))
-            {
-				if (limit.Count > 0 && limit.Contains(objXmlSpirit["name"].InnerText) || limit.Count == 0)
-				{
-					ListItem objItem = new ListItem();
-					objItem.Value = objXmlSpirit["name"].InnerText;
-					if (objXmlSpirit["translate"] != null)
-						objItem.Name = objXmlSpirit["translate"].InnerText;
-					else
-						objItem.Name = objXmlSpirit["name"].InnerText;
-					lstSpirit.Add(objItem);
-				}
-			}
-            objSpiritSort = new SortListItem();
-            lstSpirit.Sort(objSpiritSort.Compare);
 
             cboSpiritManipulation.BeginUpdate();
             cboSpiritManipulation.ValueMember = "Value";
@@ -630,32 +602,11 @@ namespace Chummer
             // to UpdateCharacterInformation();
             MetatypeSelected();
 
-            // If the character is a Mystic Adept, set the values for the Mystic Adept NUD.
-            if (_objCharacter.AdeptEnabled && _objCharacter.MagicianEnabled)
-            {
-                nudMysticAdeptMAGMagician.Maximum = _objCharacter.MAG.TotalValue;
-                nudMysticAdeptMAGMagician.Value = _objCharacter.MysticAdeptPowerPoints;
-
-                lblMysticAdeptAssignment.Visible = true;
-                nudMysticAdeptMAGMagician.Visible = true;
-            }
-
-	        if (_objCharacter.AdeptEnabled)
+			if (_objCharacter.AdeptEnabled)
 	        {
 				tabPowerUc.MissingDatabindingsWorkaround();
 			}
 
-            // Nuyen can be affected by Qualities, so adjust the total amount available to the character.
-            if (_objCharacter.IgnoreRules == false)
-            {
-				nudNuyen.Maximum = _objCharacter.NuyenMaximumBP;
-			}
-            else
-            {
-                nudNuyen.Maximum = int.MaxValue / 2000 - 75000; // To ensure there is no overflow in character nuyen even with max karma to nuyen and in debt quality
-            }
-	        if (_objCharacter.BornRich) nudNuyen.Maximum += 30;
-			nudNuyen.Value = _objCharacter.NuyenBP;
 
 			// Load the Skills information.
 			objXmlDocument = XmlManager.Instance.Load("skills.xml");
@@ -1888,24 +1839,6 @@ namespace Chummer
             }
         }
 
-        private void objCharacter_BornRichChanged(object sender)
-        {
-            if (_blnReapplyImprovements)
-                return;
-
-            
-            if (_objCharacter.BornRich)
-            {
-				nudNuyen.Maximum += 30;
-            }
-            else
-            {
-				nudNuyen.Maximum -= 30;
-			}
-
-	        
-        }
-
         private void objCharacter_ErasedChanged(object sender)
         {
             if (_blnReapplyImprovements)
@@ -1945,7 +1878,6 @@ namespace Chummer
 			
 			CalculateBP();
 			UpdateWindowTitle();
-			UpdateSkillRelatedInfo();
 		}
 
 		public void ScheduleCharacterUpdate()
@@ -13006,9 +12938,7 @@ namespace Chummer
         private void nudNuyen_ValueChanged(object sender, EventArgs e)
         {
 	        if (_blnLoading) return;
-
-            // Calculate the amount of Nuyen for the selected BP cost.
-            _objCharacter.NuyenBP = nudNuyen.Value;
+			
             ScheduleCharacterUpdate();
 
             _blnIsDirty = true;
@@ -13017,7 +12947,6 @@ namespace Chummer
 
         private void txtCharacterName_TextChanged(object sender, EventArgs e)
         {
-            _objCharacter.Name = txtCharacterName.Text;
             _blnIsDirty = true;
             UpdateWindowTitle();
         }
@@ -14319,30 +14248,6 @@ namespace Chummer
             return Convert.ToInt32(tssBPRemain.Text);
         }
 
-		private void UpdateSkillRelatedInfo()
-		{
-			//Update Skill Labels
-			//Active skills
-			lblPBuildActiveSkills.Text = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}", _objCharacter.SkillsSection.SkillPoints, _objCharacter.SkillsSection.SkillPointsMaximum);
-		    if (_objCharacter.SkillsSection.Skills.TotalCostKarma() > 0)
-		    {
-		        lblPBuildActiveSkills.Text += string.Format(": {0} {1}", _objCharacter.SkillsSection.Skills.TotalCostKarma(), LanguageManager.Instance.GetString("String_Karma"));
-		    }
-
-			//Knowledge skills
-			lblPBuildKnowledgeSkills.Text = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}", _objCharacter.SkillsSection.KnowledgeSkillPointsRemain, _objCharacter.SkillsSection.KnowledgeSkillPoints);
-            if (_objCharacter.SkillsSection.KnowledgeSkills.TotalCostKarma() > 0)
-            {
-                lblPBuildKnowledgeSkills.Text += string.Format(": {0} {1}", _objCharacter.SkillsSection.KnowledgeSkills.TotalCostKarma(), LanguageManager.Instance.GetString("String_Karma"));
-            }
-            //Groups
-            lblPBuildSkillGroups.Text = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}", _objCharacter.SkillsSection.SkillGroupPoints, _objCharacter.SkillsSection.SkillGroupPointsMaximum);
-            if (_objCharacter.SkillsSection.SkillGroups.TotalCostKarma() > 0)
-            {
-                lblPBuildSkillGroups.Text += string.Format(": {0} {1}", _objCharacter.SkillsSection.SkillGroups.TotalCostKarma(), LanguageManager.Instance.GetString("String_Karma"));
-            }
-        }
-
         /// <summary>
         /// Update the Character information.
         /// </summary>
@@ -14361,33 +14266,9 @@ namespace Chummer
                 _blnSkipUpdate = true;
 
 				//Redliner/Cyber Singularity Seeker(hackish)
-	            RedlinerCheck(); 
-
-                // If the character is an A.I., set the Edge MetatypeMaximum to their Rating.
-                if (_objCharacter.DEPEnabled)
-                    _objCharacter.EDG.MetatypeMaximum = _objCharacter.DEP.Value;
-
-				// Calculate Free Contacts Points. Free points = (CHA) * 2.
-				int intCHA = _objCharacter.CHA.Value;
-				if (_objOptions.UseTotalValueForFreeKnowledge)
-				{
-					intCHA = _objCharacter.CHA.TotalValue;
-				}
-				_objCharacter.ContactPoints = intCHA * _objOptions.FreeContactsMultiplier;
-
-				UpdateSkillRelatedInfo();
-				
-                UpdateConditionMonitor(lblCMPhysical,lblCMStun,tipTooltip, _objImprovementManager);
-
-	            UpdateSpellDefence();
+	            RedlinerCheck();
 				
                 UpdateArmorRating(lblArmor, tipTooltip, _objImprovementManager);
-
-                // Nuyen can be affected by Qualities, so adjust the total amount available to the character.
-                //if (_objCharacter.IgnoreRules == true)
-                //    nudNuyen.Maximum = _objCharacter.NuyenMaximumBP;
-                //else
-                //    nudNuyen.Maximum = 100000;
 
                 int intNuyen = _objCharacter.StartingNuyen;
                 intNuyen += Convert.ToInt32(nudNuyen.Value) * _objOptions.NuyenPerBP;
@@ -14447,12 +14328,6 @@ namespace Chummer
 				UpdateCharacterAttribute(_objCharacter.DEP, lblDEPMetatype, lblDEPAug, tipTooltip, nudDEP, nudKDEP);
 				UpdateCharacterAttribute(_objCharacter.MAG, lblMAGMetatype, lblMAGAug, tipTooltip, nudMAG, nudKMAG);
 				UpdateCharacterAttribute(_objCharacter.RES, lblRESMetatype, lblRESAug, tipTooltip, nudRES, nudKRES);
-
-                // Update the MAG pseudo-Attributes if applicable.
-                if (_objCharacter.AdeptEnabled && _objCharacter.MagicianEnabled)
-                {
-                    _objCharacter.MysticAdeptPowerPoints = Convert.ToInt32(nudMysticAdeptMAGMagician.Value);
-                }
 
                 // If MAG is enabled, update the Force for Spirits (equal to Magician MAG Rating) and Adept Powers.
                 if (_objCharacter.MAGEnabled)
@@ -14591,29 +14466,6 @@ namespace Chummer
                     strInit += $"{strModifiers} ({_objCharacter.REA.AttributeModifiers + _objCharacter.INT.AttributeModifiers})";
                 tipTooltip.SetToolTip(lblRiggingINI, strInitText.Replace("{0}", strInit).Replace("{1}", _objCharacter.InitiativeDice.ToString()));
 
-                //// Matrix Initiative.
-                //int intCommlinkResponse = 0;
-
-                //// Retrieve the highest Response in case the Character has more than 1 Commlink.
-                //foreach (Commlink objCommlink in _objCharacter.Gear.OfType<Commlink>())
-                //{
-                //    if (objCommlink.TotalResponse > intCommlinkResponse)
-                //        intCommlinkResponse = objCommlink.TotalResponse;
-                //}
-
-                //lblMatrixINI.Text = _objCharacter.MatrixInitiative;
-                //if (!_objCharacter.TechnomancerEnabled)
-                //{
-                //    tipTooltip.SetToolTip(lblMatrixINI, "INT (" + _objCharacter.INT.TotalValue.ToString() + ") + " + LanguageManager.Instance.GetString("Tip_CommlinkResponse") + " (" + intCommlinkResponse.ToString() + ")");
-                //}
-                //else
-                //{
-                //    strInit = "INT x 2 (" + _objCharacter.INT.TotalValue.ToString() + ") + 1";
-                //    if (_objImprovementManager.ValueOf(Improvement.ImprovementType.LivingPersonaResponse) > 0)
-                //        strInit += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.LivingPersonaResponse).ToString() + ")";
-                //    tipTooltip.SetToolTip(lblMatrixINI, strInit);
-                //}
-
                 // Calculate the number of Build Points remaining.
                 CalculateBP();
                 CalculateNuyen();
@@ -14629,34 +14481,6 @@ namespace Chummer
                     lblCritterPowerPoints.Visible = true;
                     lblCritterPowerPoints.Text = _objController.CalculateFreeSpritePowerPoints();
                 }
-
-                // Movement.
-                lblMovement.Text = _objCharacter.Movement;
-                lblSwim.Text = _objCharacter.Swim;
-                lblFly.Text = _objCharacter.Fly;
-				//strTip = _objCharacter.CalculatedMovementSpeed;
-				//tipTooltip.SetToolTip(lblMovement, strTip);
-
-                // Special CharacterAttribute-Only Test.
-                lblComposure.Text = _objCharacter.Composure.ToString();
-                strTip = $"{_objCharacter.WIL.DisplayAbbrev} ({_objCharacter.WIL.TotalValue}) + {_objCharacter.CHA.DisplayAbbrev} ({_objCharacter.CHA.TotalValue})";
-                tipTooltip.SetToolTip(lblComposure, strTip);
-                lblJudgeIntentions.Text = _objCharacter.JudgeIntentions.ToString();
-                strTip = $"{_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.TotalValue}) + {_objCharacter.CHA.DisplayAbbrev} ({_objCharacter.CHA.TotalValue})";
-                if (_objImprovementManager.ValueOf(Improvement.ImprovementType.JudgeIntentions) != 0)
-                    strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.JudgeIntentions).ToString() + ")";
-                tipTooltip.SetToolTip(lblJudgeIntentions, strTip);
-                lblLiftCarry.Text = _objCharacter.LiftAndCarry.ToString();
-                strTip = $"{_objCharacter.STR.DisplayAbbrev} ({_objCharacter.STR.TotalValue}) + {_objCharacter.BOD.DisplayAbbrev} ({_objCharacter.BOD.TotalValue})";
-                if (_objImprovementManager.ValueOf(Improvement.ImprovementType.LiftAndCarry) != 0)
-                    strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.LiftAndCarry).ToString() + ")";
-                strTip += "\n" + LanguageManager.Instance.GetString("Tip_LiftAndCarry").Replace("{0}", (_objCharacter.STR.TotalValue * 15).ToString()).Replace("{1}", (_objCharacter.STR.TotalValue * 10).ToString());
-                tipTooltip.SetToolTip(lblLiftCarry, strTip);
-                lblMemory.Text = _objCharacter.Memory.ToString();
-                strTip = $"{_objCharacter.WIL.DisplayAbbrev} ({_objCharacter.WIL.TotalValue}) + {_objCharacter.LOG.DisplayAbbrev} ({_objCharacter.LOG.TotalValue})";
-                if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Memory) != 0)
-                    strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.Memory).ToString() + ")";
-                tipTooltip.SetToolTip(lblMemory, strTip);
 
                 _blnSkipUpdate = false;
 
@@ -15536,115 +15360,6 @@ namespace Chummer
                 nudArmorRating.Enabled = false;
             }
         }
-
-		private void UpdateSpellDefence()
-		{
-			// Update the Spell Defence labels.
-			string strSpellTooltip = string.Empty;
-		    string strModifiers = LanguageManager.Instance.GetString("Tip_Modifiers");
-            string strCounterSpelling = LanguageManager.Instance.GetString("Label_CounterspellingDice");
-            string strSpellResistance = LanguageManager.Instance.GetString("String_SpellResistanceDice");
-            //Indirect Dodge
-            lblSpellDefenceIndirectDodge.Text = (_objCharacter.AGI.TotalValue + _objCharacter.REA.TotalValue).ToString();
-		    strSpellTooltip = $"{strModifiers}: " +
-		                      $"{_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.TotalValue}) + {_objCharacter.REA.DisplayAbbrev} ({_objCharacter.REA.TotalValue})";
-			tipTooltip.SetToolTip(lblSpellDefenceIndirectDodge, strSpellTooltip);
-			//Indirect Soak
-			lblSpellDefenceIndirectSoak.Text = (_objCharacter.TotalArmorRating + _objCharacter.BOD.TotalValue).ToString();
-            strSpellTooltip = $"{strModifiers}: " +
-                              $"{LanguageManager.Instance.GetString("Tip_Armor")} ({_objCharacter.TotalArmorRating}) + {_objCharacter.BOD.DisplayAbbrev} ({_objCharacter.BOD.TotalValue})";
-			tipTooltip.SetToolTip(lblSpellDefenceIndirectSoak, strSpellTooltip);
-			//Direct Soak - Mana
-			lblSpellDefenceDirectSoakMana.Text = (_objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-			strSpellTooltip = $"{strModifiers}: " + 
-							  $"{_objCharacter.WIL.DisplayAbbrev} ({_objCharacter.WIL.TotalValue})" +
-			                  $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-			tipTooltip.SetToolTip(lblSpellDefenceDirectSoakMana, strSpellTooltip);
-			//Direct Soak - Physical
-			lblSpellDefenceDirectSoakPhysical.Text = (_objCharacter.BOD.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-			strSpellTooltip = $"{strModifiers}: {_objCharacter.BOD.DisplayAbbrev} ({_objCharacter.BOD.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceDirectSoakPhysical, strSpellTooltip);
-			//Detection Spells
-			lblSpellDefenceDetection.Text =
-				(_objCharacter.LOG.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-			strSpellTooltip = $"{strModifiers}: " +
-			                  $"{_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.TotalValue}) + {_objCharacter.REA.DisplayAbbrev} ({_objCharacter.REA.TotalValue}) " +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceDetection, strSpellTooltip);
-			//Decrease Attribute - BOD
-			lblSpellDefenceDecAttBOD.Text =
-				(_objCharacter.BOD.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-		    strSpellTooltip = $"{strModifiers}: {_objCharacter.BOD.DisplayAbbrev} ({_objCharacter.BOD.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-							  $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-			tipTooltip.SetToolTip(lblSpellDefenceDecAttBOD, strSpellTooltip);
-			//Decrease Attribute - AGI
-			lblSpellDefenceDecAttAGI.Text =
-				(_objCharacter.AGI.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.AGI.DisplayAbbrev} ({_objCharacter.AGI.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceDecAttAGI, strSpellTooltip);
-			//Decrease Attribute - REA
-			lblSpellDefenceDecAttREA.Text =
-				(_objCharacter.REA.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.REA.DisplayAbbrev} ({_objCharacter.REA.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceDecAttREA, strSpellTooltip);
-			//Decrease Attribute - STR
-			lblSpellDefenceDecAttSTR.Text =
-				(_objCharacter.STR.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.STR.DisplayAbbrev} ({_objCharacter.STR.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceDecAttSTR, strSpellTooltip);
-			//Decrease Attribute - CHA
-			lblSpellDefenceDecAttCHA.Text =
-				(_objCharacter.CHA.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.CHA.DisplayAbbrev} ({_objCharacter.CHA.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceDecAttCHA, strSpellTooltip);
-			//Decrease Attribute - INT
-			lblSpellDefenceDecAttINT.Text =
-				(_objCharacter.INT.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceDecAttINT, strSpellTooltip);
-			//Decrease Attribute - LOG
-			lblSpellDefenceDecAttLOG.Text =
-				(_objCharacter.LOG.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.LOG.DisplayAbbrev} ({_objCharacter.LOG.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceDecAttLOG, strSpellTooltip);
-			//Decrease Attribute - WIL
-			lblSpellDefenceDecAttWIL.Text =
-				(_objCharacter.WIL.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.WIL.DisplayAbbrev} ({_objCharacter.WIL.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceDecAttWIL, strSpellTooltip);
-			//Illusion - Mana
-			lblSpellDefenceIllusionMana.Text =
-				(_objCharacter.WIL.TotalValue + _objCharacter.LOG.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.LOG.DisplayAbbrev} ({_objCharacter.LOG.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceIllusionMana, strSpellTooltip);
-			//Illusion - Physical
-			lblSpellDefenceIllusionPhysical.Text =
-				(_objCharacter.WIL.TotalValue + _objCharacter.WIL.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceIllusionPhysical, strSpellTooltip);
-			//Manipulation - Mental
-			lblSpellDefenceManipMental.Text =
-				(_objCharacter.WIL.TotalValue + _objCharacter.LOG.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.LOG.DisplayAbbrev} ({_objCharacter.LOG.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lblSpellDefenceManipMental, strSpellTooltip);
-			//Manipulation - Physical
-			lbllSpellDefenceManipPhysical.Text =
-				(_objCharacter.STR.TotalValue + _objCharacter.BOD.TotalValue + nudCounterspellingDice.Value + _objCharacter.SpellResistance).ToString(GlobalOptions.CultureInfo);
-            strSpellTooltip = $"{strModifiers}: {_objCharacter.STR.DisplayAbbrev} ({_objCharacter.BOD.TotalValue}) +{_objCharacter.WIL.DisplayAbbrev} +({ _objCharacter.WIL.TotalValue})" +
-                              $" + {strCounterSpelling} ({nudCounterspellingDice.Value}) + {strSpellResistance} ({_objCharacter.SpellResistance})";
-            tipTooltip.SetToolTip(lbllSpellDefenceManipPhysical, strSpellTooltip);
-		}
 
         /// <summary>
         /// Refresh the information for the currently displayed Gear.
@@ -22701,11 +22416,6 @@ namespace Chummer
 		{
 			if (_objStoryBuilder == null) _objStoryBuilder = new StoryBuilder(_objCharacter);
 			txtBackground.Text = _objStoryBuilder.GetStory();
-		}
-
-		private void nudCounterspellingDice_Changed(object sender, EventArgs e)
-		{
-			UpdateSpellDefence();
 		}
 
 		private void chkInitiationSchooling_CheckedChanged(object sender, EventArgs e)

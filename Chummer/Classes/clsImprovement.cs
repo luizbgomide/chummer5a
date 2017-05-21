@@ -82,7 +82,7 @@ namespace Chummer
 			FreePositiveQualities,
 			FreeNegativeQualities,
 			FreeKnowledgeSkills, 
-			NuyenMaxBP,
+			NuyenMax,
 			CMOverflow,
 			FreeSpiritPowerPoints,
 			AdeptPowerPoints,
@@ -1229,10 +1229,6 @@ namespace Chummer
                     case Improvement.ImprovementType.Erased:
                         if (!blnHasDuplicate)
                         _objCharacter.Erased = false;
-                                break;
-                    case Improvement.ImprovementType.BornRich:
-                        if (!blnHasDuplicate)
-                        _objCharacter.BornRich = false;
                                 break;
                     case Improvement.ImprovementType.Fame:
                         if (!blnHasDuplicate)

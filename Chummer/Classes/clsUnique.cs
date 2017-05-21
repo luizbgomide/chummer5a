@@ -162,6 +162,10 @@ namespace Chummer
 			get
 			{
 				int intReturn = _intMetatypeMax;
+				if (Abbrev == "EDG" && _objCharacter.DEPEnabled)
+				{
+					intReturn = _objCharacter.DEP.Value;
+				}
 				foreach (Improvement objImprovement in _objCharacter.Improvements.Where(objImprovement => objImprovement.ImproveType == Improvement.ImprovementType.ReplaceAttribute).Where(objImprovement => objImprovement.ImprovedName == Abbrev))
 				{
 					intReturn = objImprovement.Maximum;

@@ -184,37 +184,6 @@ namespace Chummer
 		}
 
 		/// <summary>
-		/// Update the label and tooltip for the character's Condition Monitors.
-		/// </summary>
-		/// <param name="lblPhysical"></param>
-		/// <param name="lblStun"></param>
-		/// <param name="tipTooltip"></param>
-		/// <param name="_objImprovementManager"></param>
-		protected void UpdateConditionMonitor(Label lblPhysical, Label lblStun, HtmlToolTip tipTooltip,
-			ImprovementManager _objImprovementManager)
-		{
-			// Condition Monitor.
-			int intBOD = _objCharacter.BOD.TotalValue;
-			int intWIL = _objCharacter.WIL.TotalValue;
-			int intCMPhysical = _objCharacter.PhysicalCM;
-			int intCMStun = _objCharacter.StunCM;
-
-			// Update the Condition Monitor labels.
-			lblPhysical.Text = intCMPhysical.ToString();
-			lblStun.Text = intCMStun.ToString();
-			string strCM = $"8 + ({_objCharacter.BOD.DisplayAbbrev}/2)({(intBOD + 1)/2})";
-			if (_objImprovementManager.ValueOf(Improvement.ImprovementType.PhysicalCM) != 0)
-				strCM += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" +
-				         _objImprovementManager.ValueOf(Improvement.ImprovementType.PhysicalCM).ToString() + ")";
-			tipTooltip.SetToolTip(lblPhysical, strCM);
-			strCM = $"8 + ({_objCharacter.WIL.DisplayAbbrev}/2)({(intWIL + 1) / 2})";
-			if (_objImprovementManager.ValueOf(Improvement.ImprovementType.StunCM) != 0)
-				strCM += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" +
-				         _objImprovementManager.ValueOf(Improvement.ImprovementType.StunCM).ToString() + ")";
-			tipTooltip.SetToolTip(lblStun, strCM);
-		}
-
-		/// <summary>
 		/// Update the label and tooltip for the character's Armor Rating.
 		/// </summary>
 		/// <param name="lblArmor"></param>

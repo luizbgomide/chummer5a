@@ -721,5 +721,46 @@ namespace Chummer.Skills
 				skill.Print(objWriter);
 			}
 		}
+		#region Create Mode Strings
+		public string ActiveSkillsCost
+		{
+			get
+			{
+				string s = $"{SkillPoints} of {SkillPointsMaximum}";
+				if (Skills.TotalCostKarma() > 0)
+				{
+					s += $": {Skills.TotalCostKarma()} {LanguageManager.Instance.GetString("String_Karma")}";
+				}
+				return s;
+			}
+		}
+
+		public string SkillGroupsCost
+		{
+			get
+			{
+				
+				string s = $"{SkillGroupPoints} {LanguageManager.Instance.GetString("String_Of")} {SkillGroupPointsMaximum}";
+				if (SkillGroups.TotalCostKarma() > 0)
+				{
+					s += $": {SkillGroups.TotalCostKarma()} {LanguageManager.Instance.GetString("String_Karma")}";
+				}
+				return s;
+			}
+		}
+
+		public string KnowledgeSkillsCost
+		{
+			get
+			{
+				string s = $"{KnowledgeSkillPointsRemain} {LanguageManager.Instance.GetString("String_Of")} {KnowledgeSkillPoints}";
+				if (KnowledgeSkills.TotalCostKarma() > 0)
+				{
+					s += $": {KnowledgeSkills.TotalCostKarma()} {LanguageManager.Instance.GetString("String_Karma")}";
+				}
+				return s;
+			}
+		}
+		#endregion
 	}
 }

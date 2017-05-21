@@ -150,7 +150,6 @@ namespace Chummer
         private bool _blnMadeMan = false;
 	    private bool _blnLightningReflexes = false;
         private bool _blnFame = false;
-        private bool _blnBornRich = false;
         private bool _blnErased = false;
 		private int _intTrustFund = 0;
 		private decimal _decPrototypeTranshuman = 0m;
@@ -251,7 +250,6 @@ namespace Chummer
 		public Action<object> CritterTabEnabledChanged;
 		public Action<object> MAGEnabledChanged;
 		public Action<object> BlackMarketEnabledChanged;
-		public Action<object> BornRichChanged;
 		public Action<object> CharacterNameChanged;
 		public Action<object> ErasedChanged;
 		public Action<object> ExConChanged;
@@ -523,8 +521,6 @@ namespace Chummer
             objWriter.WriteElementString("lightningreflexes", _blnLightningReflexes.ToString());
 
             objWriter.WriteElementString("fame", _blnFame.ToString());
-
-            objWriter.WriteElementString("bornrich", _blnBornRich.ToString());
 
             objWriter.WriteElementString("erased", _blnErased.ToString());
 
@@ -1156,7 +1152,6 @@ namespace Chummer
 		    objXmlCharacter.TryGetBoolFieldQuickly("lightningreflexes", ref _blnLightningReflexes);
 		    objXmlCharacter.TryGetBoolFieldQuickly("fame", ref _blnFame);
             objXmlCharacter.TryGetBoolFieldQuickly("ambidextrous", ref _ambidextrous);
-            objXmlCharacter.TryGetBoolFieldQuickly("bornrich", ref _blnBornRich);
 		    objXmlCharacter.TryGetBoolFieldQuickly("erased", ref _blnErased);
             objXmlCharacter.TryGetBoolFieldQuickly("magenabled", ref _blnMAGEnabled);
 		    objXmlCharacter.TryGetInt32FieldQuickly("initiategrade", ref _intInitiateGrade);
@@ -1172,6 +1167,15 @@ namespace Chummer
             XmlNodeList objXmlNodeList = objXmlDocument.SelectNodes("/character/improvements/improvement");
             foreach (XmlNode objXmlImprovement in objXmlNodeList)
             {
+	            if (objXmlImprovement["improvementttype"]?.InnerText == "BornRich")
+	            {
+		            objXmlImprovement.InnerXml =
+			            objXmlImprovement.InnerXml.Replace("<improvementttype>BornRich</improvementttype>",
+					            "<improvementttype>NuyenMax</improvementttype>")
+				            .Replace("<val>0</val>",
+								"<val>30</val>");
+
+	            }
                 Improvement objImprovement = new Improvement();
                 objImprovement.Load(objXmlImprovement);
                 _lstImprovements.Add(objImprovement);
@@ -3562,20 +3566,9 @@ namespace Chummer
         /// <summary>
         /// Contact Points.
         /// </summary>
-        public int ContactPoints
-        {
-            get
-            {
-                return _intContactPoints;
-            }
-            set
-            {
-                _intContactPoints = value;
-            }
-        }
+        public int ContactPoints => (_objOptions.UseTotalValueForFreeKnowledge ? CHA.TotalValue : CHA.Value) * _objOptions.FreeContactsMultiplier;
 
-
-        /// <summary>
+	    /// <summary>
         /// Number of free Contact Points the character has used.
         /// </summary>
         public int ContactPointsUsed
@@ -5563,11 +5556,11 @@ namespace Chummer
         {
             get
             {
-                return _decNuyenBP;
+                return Math.Max(_decNuyenBP,_decNuyenMaximumBP);
             }
             set
             {
-                _decNuyenBP = value;
+				_decNuyenBP = value;
             }
         }
 
@@ -5587,30 +5580,28 @@ namespace Chummer
         }
 
         /// <summary>
-        /// Maximum number of Build Points that can be spent on Nuyen.
+        /// Maximum number of Karma that can be spent on Nuyen.
         /// </summary>
-        public decimal NuyenMaximumBP
+        public decimal NuyenMaximum
         {
             get
             {
-                decimal decImprovement = Convert.ToDecimal(_objImprovementManager.ValueOf(Improvement.ImprovementType.NuyenMaxBP), GlobalOptions.InvariantCultureInfo);
-                if (_objBuildMethod == CharacterBuildMethod.Karma)
-                    decImprovement *= 2.0m;
-
+                decimal decImprovement = Convert.ToDecimal(_objImprovementManager.ValueOf(Improvement.ImprovementType.NuyenMax), GlobalOptions.InvariantCultureInfo);
+	            if (IgnoreRules)
+	            {
+		            return decimal.MaxValue / 2000 - (75000 + decImprovement * 2000);
+				}
                 // If UnrestrictedNueyn is enabled, return the number of BP or Karma the character is being built with, otherwise use the standard value attached to the character.
                 if (_objOptions.UnrestrictedNuyen)
                 {
-                    if (_intBuildKarma > 0)
-                        return _intBuildKarma;
-                    else
-                        return 1000;
+                    return _intBuildKarma > 0 ? _intBuildKarma : 1000;
                 }
-                else
-                    return Math.Max(_decNuyenMaximumBP, decImprovement);
+                return _decNuyenMaximumBP + decImprovement;
             }
             set
             {
-                _decNuyenMaximumBP = value;
+				decimal decImprovement = Convert.ToDecimal(_objImprovementManager.ValueOf(Improvement.ImprovementType.NuyenMax), GlobalOptions.InvariantCultureInfo);
+				_decNuyenMaximumBP = value - decImprovement;
             }
         }
 
@@ -6133,6 +6124,11 @@ namespace Chummer
             }
         }
 
+		/// <summary>
+		/// Is the character a Mystic Adept (MagicianEnabled && AdeptEnabled)
+		/// </summary>
+	    public bool MysticAdeptEnabled => AdeptEnabled && MagicianEnabled;
+
         /// <summary>
         /// Whether or not Technomancer options are enabled.
         /// </summary>
@@ -6391,23 +6387,6 @@ namespace Chummer
                 _blnFame = value;
                 if (blnOldValue != value)
                     FameChanged?.Invoke(this);
-            }
-        }
-        /// <summary>
-        /// Whether or not BornRich is enabled.
-        /// </summary>
-        public bool BornRich
-        {
-            get
-            {
-                return _blnBornRich;
-            }
-            set
-            {
-                bool blnOldValue = _blnBornRich;
-                _blnBornRich = value;
-                if (blnOldValue != value)
-                    BornRichChanged?.Invoke(this);
             }
         }
         /// <summary>
@@ -6884,6 +6863,116 @@ namespace Chummer
 
 		#endregion
 
+		#region Tooltips
+		public string ComposureTooltip
+		{
+			get
+			{
+				string strTip = $"{WIL.DisplayAbbrev} ({WIL.TotalValue}) + {CHA.DisplayAbbrev} ({CHA.TotalValue})";
+				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Composure) != 0)
+					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers")
+					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.Composure) + ")";
+				return strTip;
+			}
+		}
+
+		public string JudgeIntentionsTooltip
+		{
+			get
+			{
+				string strTip = $"{INT.DisplayAbbrev} ({INT.TotalValue}) + {CHA.DisplayAbbrev} ({CHA.TotalValue})";
+				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.JudgeIntentions) != 0)
+					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
+					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.JudgeIntentions) + ")";
+				return strTip;
+			}
+		}
+		public string LiftAndCarryTooltip
+		{
+			get
+			{
+				string strTip = $"{STR.DisplayAbbrev} ({STR.TotalValue}) + {BOD.DisplayAbbrev} ({BOD.TotalValue})";
+				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.LiftAndCarry) != 0)
+					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
+					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.LiftAndCarry).ToString() + ")";
+				return strTip;
+			}
+		}
+		public string MemoryTooltip
+		{
+			get
+			{
+				string strTip = $"{WIL.DisplayAbbrev} ({WIL.TotalValue}) + {LOG.DisplayAbbrev} ({LOG.TotalValue})";
+				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Memory) != 0)
+					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
+					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.Memory).ToString() + ")";
+				return strTip;
+			}
+		}
+
+	    public string PhysicalCMTooltip
+	    {
+		    get
+		    {
+				string strTip = $"8 + ({BOD.DisplayAbbrev}/2)({(BOD.TotalValue + 1) / 2})";
+				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.PhysicalCM) != 0)
+					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
+					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.PhysicalCM) + ")";
+			    return strTip;
+		    }
+	    }
+
+	    public string StunCMTooltip
+	    {
+		    get
+		    {
+				string strTip = $"8 + ({WIL.DisplayAbbrev}/2)({(WIL.TotalValue + 1) / 2})";
+				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.StunCM) != 0)
+					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
+					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.StunCM) + ")";
+				return strTip;
+			}
+	    }
+		#endregion
+
+		//TODO: Move this into a MagicSection or something at some point, overkill at the moment. 
+		#region Spell Defence Strings
+		public string SpellDefenceIndirectDodge => (AGI.TotalValue + REA.TotalValue).ToString();
+		public string SpellDefenceIndirectDodgeTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: " + $"{INT.DisplayAbbrev} ({INT.TotalValue}) + {REA.DisplayAbbrev} ({REA.TotalValue})";
+		public string SpellDefenceIndirectSoak => (TotalArmorRating + BOD.TotalValue).ToString();
+		public string SpellDefenceIndirectSoakTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: " + $"{LanguageManager.Instance.GetString("Tip_Armor")} ({TotalArmorRating}) + {BOD.DisplayAbbrev} ({BOD.TotalValue})";
+		public string SpellDefenceDirectSoakMana => (WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDirectSoakManaTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: " + $"{WIL.DisplayAbbrev} ({WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDirectSoakPhysical => (BOD.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDirectSoakPhysicalTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {BOD.DisplayAbbrev} ({BOD.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDetection => (LOG.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDetectionTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: " + $"{INT.DisplayAbbrev} ({INT.TotalValue}) + {REA.DisplayAbbrev} ({REA.TotalValue}) " + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDecAttBOD => (BOD.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDecAttBODTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {BOD.DisplayAbbrev} ({BOD.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDecAttAGI => (AGI.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDecAttAGITooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {AGI.DisplayAbbrev} ({AGI.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDecAttREA => (REA.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDecAttREATooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {REA.DisplayAbbrev} ({REA.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDecAttSTR => (STR.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDecAttSTRTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {STR.DisplayAbbrev} ({STR.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDecAttCHA => (CHA.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDecAttCHATooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {CHA.DisplayAbbrev} ({CHA.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDecAttINT => (INT.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDecAttINTTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {INT.DisplayAbbrev} ({INT.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDecAttLOG => (LOG.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDecAttLOGTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {LOG.DisplayAbbrev} ({LOG.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceDecAttWIL => (WIL.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceDecAttWILTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {WIL.DisplayAbbrev} ({WIL.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceIllusionMana => (WIL.TotalValue + LOG.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceIllusionManaTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {LOG.DisplayAbbrev} ({LOG.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceIllusionPhysical => (WIL.TotalValue + WIL.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceIllusionPhysicalTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {INT.DisplayAbbrev} ({INT.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceManipMental => (WIL.TotalValue + LOG.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceManipMentalTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {LOG.DisplayAbbrev} ({LOG.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		public string SpellDefenceManipPhysical => (STR.TotalValue + BOD.TotalValue + CounterspellingDice + SpellResistance).ToString(GlobalOptions.CultureInfo);
+		public string SpellDefenceManipPhysicalTooltip => $"{LanguageManager.Instance.GetString("Tip_Modifiers")}: {STR.DisplayAbbrev} ({BOD.TotalValue}) +{WIL.DisplayAbbrev} +({ WIL.TotalValue})" + $" + {LanguageManager.Instance.GetString("Label_CounterspellingDice")} ({CounterspellingDice}) + {LanguageManager.Instance.GetString("String_SpellResistanceDice")} ({SpellResistance})";
+		#endregion
+
 		//Can't be at improvementmanager due reasons
 		private Lazy<Stack<string>> _pushtext = new Lazy<Stack<string>>();
 	    private bool _ambidextrous;
@@ -6988,6 +7077,11 @@ namespace Chummer
 				_blnHasHomeNode = value;
 			}
 		}
+
+		/// <summary>
+		/// How many dice the character currently has available for counterspelling. 
+		/// </summary>
+	    public int CounterspellingDice { get; set; }
 
 	    public SkillsSection SkillsSection { get; }
 

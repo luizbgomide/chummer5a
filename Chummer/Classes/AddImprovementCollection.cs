@@ -1540,13 +1540,13 @@ namespace Chummer.Classes
 			}
 		}
 
-		// Change the maximum number of BP that can be spent on Nuyen.
-		public void nuyenmaxbp(XmlNode bonusNode)
+		// Change the maximum number of Karma that can be spent on Nuyen.
+		public void nuyenmax(XmlNode bonusNode)
 		{
-			Log.Info("nuyenmaxbp");
-			Log.Info("nuyenmaxbp = " + bonusNode.OuterXml.ToString());
+			Log.Info("nuyenmax");
+			Log.Info("nuyenmax = " + bonusNode.OuterXml.ToString());
 			Log.Info("Calling CreateImprovement");
-			CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.NuyenMaxBP, string.Empty,
+			CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.NuyenMax, string.Empty,
 				ValueToInt(bonusNode.InnerText, _intRating));
 		}
 
@@ -2258,16 +2258,6 @@ namespace Chummer.Classes
 			Log.Info("Calling CreateImprovement");
 			CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.Fame, _strUnique);
 			_objCharacter.Fame = true;
-		}
-
-		// Check for BornRich modifiers.
-		public void bornrich(XmlNode bonusNode)
-		{
-			Log.Info("BornRich");
-			Log.Info("BornRich = " + bonusNode.OuterXml.ToString());
-			Log.Info("Calling CreateImprovement");
-			CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.BornRich, _strUnique);
-			_objCharacter.BornRich = true;
 		}
 
 		// Check for Erased modifiers.
