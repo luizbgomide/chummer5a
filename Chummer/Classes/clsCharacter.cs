@@ -6933,8 +6933,69 @@ namespace Chummer
 				return strTip;
 			}
 	    }
+
+
+		#endregion
+		#region Initiative
+		public string InitiativeTooltip
+		{
+			get
+			{
+				string strInit = $"{REA.DisplayAbbrev} ({REA.Value}) + {INT.DisplayAbbrev} ({INT.Value})";
+				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Initiative) > 0 || INT.AttributeModifiers > 0 || REA.AttributeModifiers > 0)
+					strInit += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" + (_objImprovementManager.ValueOf(Improvement.ImprovementType.Initiative) + INT.AttributeModifiers + REA.AttributeModifiers).ToString() + ")";
+				return LanguageManager.Instance.GetString("String_Initiative").Replace("{0}", strInit).Replace("{1}", InitiativeDice.ToString());
+			}
+		}
+
+		public string AstralInitiativeTooltip
+		{
+			get
+			{
+				string strInit = $"{INT.DisplayAbbrev} ({INT.Value}) x 2";
+				if (INT.AttributeModifiers > 0)
+					strInit += $"{LanguageManager.Instance.GetString("Tip_Modifiers")} ({INT.AttributeModifiers})";
+				return LanguageManager.Instance.GetString("String_Initiative").Replace("{0}", strInit).Replace("{1}", InitiativeDice.ToString());
+			}
+		}
+
+		public string MatrixInitiativeTooltip
+		{
+			get
+			{
+				string strInit = LanguageManager.Instance.GetString("String_MatrixInitiativeLong").Replace("{0}", INT.Value.ToString()).Replace("{1}", MatrixInitiativeColdDice.ToString());
+				if (INT.AttributeModifiers > 0)
+					strInit += $"{LanguageManager.Instance.GetString("Tip_Modifiers")} ({INT.AttributeModifiers})";
+				return strInit;
+			}
+		}
+
+		public string RiggerInitiativeTooltip
+		{
+			get
+			{
+				string strInit = $"{REA.DisplayAbbrev} ({REA.Value}) + {INT.DisplayAbbrev} ({INT.Value})";
+				if (INT.AttributeModifiers > 0 || REA.AttributeModifiers > 0)
+					strInit += $"{LanguageManager.Instance.GetString("Tip_Modifiers")} ({REA.AttributeModifiers + INT.AttributeModifiers})";
+				return LanguageManager.Instance.GetString("String_Initiative").Replace("{0}", strInit).Replace("{1}", InitiativeDice.ToString());
+			}
+		}
 		#endregion
 
+		#region Living Persona
+
+		public int LivingPersonaDeviceRating => DEPEnabled ? DEP.TotalValue : RES.TotalValue;
+		public string LivingPersonaDeviceRatingTooltip => DEPEnabled ? $"{DEP.DisplayAbbrev} ({DEP.TotalValue})" : $"{RES.DisplayAbbrev} ({RES.TotalValue})";
+		public int LivingPersonaAttack => CHA.TotalValue;
+		public string LivingPersonaAttackTooltip => $"{CHA.DisplayAbbrev} ({CHA.TotalValue})";
+		public int LivingPersonaSleaze => INT.TotalValue;
+		public string LivingPersonaSleazeTooltip => $"{INT.DisplayAbbrev} ({INT.TotalValue})";
+		public int LivingPersonaDataProcessing => LOG.TotalValue;
+		public string LivingPersonaDataProcessingTooltip => $"{LOG.DisplayAbbrev} ({LOG.TotalValue})";
+		public int LivingPersonaFirewall => WIL.TotalValue;
+		public string LivingPersonaFirewallTooltip => $"{WIL.DisplayAbbrev} ({WIL.TotalValue})";
+
+		#endregion
 		//TODO: Move this into a MagicSection or something at some point, overkill at the moment. 
 		#region Spell Defence Strings
 		public string SpellDefenceIndirectDodge => (AGI.TotalValue + REA.TotalValue).ToString();

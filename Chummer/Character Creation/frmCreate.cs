@@ -436,6 +436,67 @@ namespace Chummer
 			lblCMPhysical.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.PhysicalCMTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
 			lblCMStun.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.StunCM), false, DataSourceUpdateMode.OnPropertyChanged);
 			lblCMStun.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.StunCMTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			//Street Cred
+			lblStreetCredTotal.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.CalculatedStreetCred), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblStreetCredTotal.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.StreetCredTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			//Notoriety
+			lblNotorietyTotal.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.CalculatedNotoriety), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblNotorietyTotal.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.NotorietyTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			//Public Awareness
+			lblPublicAwareTotal.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.TotalPublicAwareness), false, DataSourceUpdateMode.OnPropertyChanged);
+			if (_objOptions.UseCalculatedPublicAwareness)
+			{
+				lblPublicAwareTotal.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.PublicAwarenessTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			}
+			
+			// Initiative.
+			lblINI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.InitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblINI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Initiative), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Astral Initiative.
+			lblAstralINI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.AstralInitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblAstralINI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.AstralInitiative), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblAstralINI.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// AR Matrix Initiative.
+			lblMatrixINI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.InitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMatrixINI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.MatrixInitiative), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Matrix Initiative (Cold).
+			lblMatrixINICold.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.MatrixInitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMatrixINICold.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.MatrixInitiativeCold), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Matrix Initiative (Cold).
+			lblMatrixINIHot.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.MatrixInitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMatrixINIHot.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.MatrixInitiativeHot), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Rigger Initiative.
+			lblRiggingINI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.RiggerInitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblRiggingINI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Initiative), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			#region Living Persona
+			// Living Persona - Device Rating.
+			lblLivingPersonaDeviceRating.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaDeviceRatingTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaDeviceRating.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaDeviceRating), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Living Persona - Attack.
+			lblLivingPersonaAttack.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaAttackTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaAttack.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaAttack), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Living Persona - Sleaze.
+			lblLivingPersonaSleaze.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaSleazeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaSleaze.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaSleaze), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Living Persona - Data Processing.
+			lblLivingPersonaDataProcessing.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaDataProcessingTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaDataProcessing.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaDataProcessing), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Living Persona - Firewall.
+			lblLivingPersonaFirewall.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaFirewallTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaFirewall.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaFirewall), false, DataSourceUpdateMode.OnPropertyChanged);
+			#endregion
+
 			#region Spell Defence
 			lblSpellDefenceIndirectDodge.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectDodge), false, DataSourceUpdateMode.OnPropertyChanged);
 			lblSpellDefenceIndirectDodge.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectDodgeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
@@ -14383,88 +14444,8 @@ namespace Chummer
                     CalculateTraditionDrain(_objCharacter.TechnomancerFading, _objImprovementManager, Improvement.ImprovementType.FadingResistance, lblFadingAttributes, lblFadingAttributesValue, tipTooltip);
                 }
 
-                // Update Living Persona values.
-                if (_objCharacter.RESEnabled || _objCharacter.DEPEnabled)
-                {
-                    int intMainAttribute = _objCharacter.RES.TotalValue;
-                    if (_objCharacter.DEPEnabled)
-                        intMainAttribute = _objCharacter.DEP.TotalValue;
-                    string strPersonaTip = string.Empty;
-
-                    lblLivingPersonaDeviceRating.Text = intMainAttribute.ToString();
-                    strPersonaTip = "RES (" + intMainAttribute.ToString() + ")";
-                    if (_objCharacter.DEPEnabled)
-                        strPersonaTip = "DEP (" + intMainAttribute.ToString() + ")";
-                    tipTooltip.SetToolTip(lblLivingPersonaDeviceRating, strPersonaTip);
-
-                    lblLivingPersonaAttack.Text = _objCharacter.CHA.TotalValue.ToString();
-                    strPersonaTip = "CHA (" + _objCharacter.CHA.TotalValue.ToString() + ")";
-                    tipTooltip.SetToolTip(lblLivingPersonaAttack, strPersonaTip);
-
-                    lblLivingPersonaSleaze.Text = _objCharacter.INT.TotalValue.ToString();
-                    strPersonaTip = "INT (" + _objCharacter.INT.TotalValue.ToString() + ")";
-                    tipTooltip.SetToolTip(lblLivingPersonaSleaze, strPersonaTip);
-
-                    lblLivingPersonaDataProcessing.Text = _objCharacter.LOG.TotalValue.ToString();
-                    strPersonaTip = "LOG (" + _objCharacter.LOG.TotalValue.ToString() + ")";
-                    tipTooltip.SetToolTip(lblLivingPersonaDataProcessing, strPersonaTip);
-
-                    lblLivingPersonaFirewall.Text = _objCharacter.WIL.TotalValue.ToString();
-                    strPersonaTip = "WIL (" + _objCharacter.WIL.TotalValue.ToString() + ")";
-                    tipTooltip.SetToolTip(lblLivingPersonaFirewall, strPersonaTip);
-                }
-
                 // Skill Limits
 				RefreshLimits(lblPhysical,lblMental,lblSocial,lblAstral,tipTooltip);
-
-                // Initiative.
-                lblINI.Text = _objCharacter.Initiative;
-                string strInitText = LanguageManager.Instance.GetString("String_Initiative");
-                string strMatrixInitText = LanguageManager.Instance.GetString("String_MatrixInitiativeLong");
-                string strModifiers = LanguageManager.Instance.GetString("Tip_Modifiers");
-                string strInit = $"{_objCharacter.REA.DisplayAbbrev} ({_objCharacter.REA.Value}) + {_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.Value})";
-                if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Initiative) > 0 || _objCharacter.INT.AttributeModifiers > 0 || _objCharacter.REA.AttributeModifiers > 0)
-                    strInit += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" + (_objImprovementManager.ValueOf(Improvement.ImprovementType.Initiative) + _objCharacter.INT.AttributeModifiers + _objCharacter.REA.AttributeModifiers).ToString() + ")";
-                tipTooltip.SetToolTip(lblINI, strInitText.Replace("{0}", strInit).Replace("{1}", _objCharacter.InitiativeDice.ToString()));
-
-				// Astral Initiative.
-	            lblAstralINI.Visible = _objCharacter.MAGEnabled;
-				if (_objCharacter.MAGEnabled)
-                {
-                    lblAstralINI.Text = _objCharacter.AstralInitiative;
-                    strInit = $"{_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.Value}) x 2";
-                    if (_objCharacter.INT.AttributeModifiers > 0)
-                        strInit += $"{strModifiers} ({_objCharacter.INT.AttributeModifiers})";
-                    tipTooltip.SetToolTip(lblAstralINI, strInitText.Replace("{0}", strInit).Replace("{1}", _objCharacter.AstralInitiativeDice.ToString()));
-                }
-
-                // Matrix Initiative (AR).
-                lblMatrixINI.Text = _objCharacter.MatrixInitiative;
-                strInit = $"{_objCharacter.REA.DisplayAbbrev} ({_objCharacter.REA.Value}) + {_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.Value})";
-                if (_objCharacter.INT.AttributeModifiers > 0 || _objCharacter.REA.AttributeModifiers > 0)
-                    strInit += $"{strModifiers} ({_objCharacter.REA.AttributeModifiers + _objCharacter.INT.AttributeModifiers})";
-                tipTooltip.SetToolTip(lblMatrixINI, strInitText.Replace("{0}",strInit).Replace("{1}",_objCharacter.InitiativeDice.ToString()));
-
-                // Matrix Initiative (Cold).
-                lblMatrixINICold.Text = _objCharacter.MatrixInitiativeCold;
-                strInit = strMatrixInitText.Replace("{0}", _objCharacter.INT.Value.ToString()).Replace("{1}", _objCharacter.MatrixInitiativeColdDice.ToString());
-                if (_objCharacter.INT.AttributeModifiers > 0)
-                    strInit += $"{strModifiers} ({_objCharacter.INT.AttributeModifiers})";
-                tipTooltip.SetToolTip(lblMatrixINICold, strInit);
-
-                // Matrix Initiative (Hot).
-                lblMatrixINIHot.Text = _objCharacter.MatrixInitiativeHot;
-                strInit = strMatrixInitText.Replace("{0}", _objCharacter.INT.Value.ToString()).Replace("{1}", _objCharacter.MatrixInitiativeHotDice.ToString());
-                if (_objCharacter.INT.AttributeModifiers > 0)
-                    strInit += $"{strModifiers} ({_objCharacter.INT.AttributeModifiers})";
-                tipTooltip.SetToolTip(lblMatrixINIHot, strInit);
-
-                // Rigger Initiative.
-                lblRiggingINI.Text = _objCharacter.Initiative;
-                strInit = $"{_objCharacter.REA.DisplayAbbrev} ({_objCharacter.REA.Value}) + {_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.Value})";
-                if (_objCharacter.INT.AttributeModifiers > 0 || _objCharacter.REA.AttributeModifiers > 0)
-                    strInit += $"{strModifiers} ({_objCharacter.REA.AttributeModifiers + _objCharacter.INT.AttributeModifiers})";
-                tipTooltip.SetToolTip(lblRiggingINI, strInitText.Replace("{0}", strInit).Replace("{1}", _objCharacter.InitiativeDice.ToString()));
 
                 // Calculate the number of Build Points remaining.
                 CalculateBP();
@@ -14492,7 +14473,6 @@ namespace Chummer
             }
             RefreshImprovements();
             RefreshLimitModifiers();
-            UpdateReputation();
 			UpdateInitiationCost();
 
             if (Autosave_StopWatch.Elapsed.Minutes >= 5 && _blnIsDirty)
@@ -20964,23 +20944,6 @@ namespace Chummer
                 TreeNode objNode = CommonFunctions.FindNode(objSensor.InternalId, treVehicles);
                 objNode.Text = objSensor.DisplayNameShort;
             }
-        }
-
-        /// <summary>
-        /// Update the Reputation fields.
-        /// </summary>
-        private void UpdateReputation()
-        {
-            lblStreetCredTotal.Text = _objCharacter.CalculatedStreetCred.ToString();
-            lblNotorietyTotal.Text = _objCharacter.CalculatedNotoriety.ToString();
-            lblPublicAwareTotal.Text = _objCharacter.CalculatedPublicAwareness.ToString();
-
-            tipTooltip.SetToolTip(lblStreetCredTotal, _objCharacter.StreetCredTooltip);
-            tipTooltip.SetToolTip(lblNotorietyTotal, _objCharacter.NotorietyTooltip);
-			if (_objOptions.UseCalculatedPublicAwareness)
-			{
-				tipTooltip.SetToolTip(lblPublicAwareTotal, _objCharacter.PublicAwarenessTooltip);
-			}
         }
 
         /// <summary>
