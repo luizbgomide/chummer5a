@@ -107,11 +107,6 @@ namespace Chummer
 
             tabPowerUc.ChildPropertyChanged += PowerPropertyChanged;
             tabSkillUc.ChildPropertyChanged += SkillPropertyChanged;
-			//TODO: Can't bind visibility to the IsMysticAdept property for some reason. 
-			nudMysticAdeptMAGMagician.DataBindings.Add("Maximum", this._objCharacter.MAG, nameof(_objCharacter.MAG.TotalValue), false,
-							DataSourceUpdateMode.OnPropertyChanged);
-			nudMysticAdeptMAGMagician.DataBindings.Add("Value", this._objCharacter, nameof(_objCharacter.MysticAdeptPowerPoints), false,
-							DataSourceUpdateMode.OnPropertyChanged);
 
 			Application.Idle += UpdateCharacterInfo;
             GlobalOptions.Instance.MRUChanged += PopulateMRU;

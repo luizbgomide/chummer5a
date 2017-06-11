@@ -19888,7 +19888,6 @@ namespace Chummer
 				}
 
 				// Condition Monitor.
-				UpdateConditionMonitor(lblCMPhysical, lblCMStun, tipTooltip, _objImprovementManager);
 				int intCMPhysical = _objCharacter.PhysicalCM;
 				int intCMStun = _objCharacter.StunCM;
 				int intCMOverflow = _objCharacter.CMOverflow;
