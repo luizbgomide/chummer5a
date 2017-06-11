@@ -137,6 +137,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend\Shared Methods\CharacterShared.cs" />
     <Compile Include="Backend\Datastructures\ReverseTree.cs" />
     <Compile Include="Backend\Datastructures\TranslatedField.cs" />
     <Compile Include="Backend\Debugging\CrashHandler.cs" />
@@ -210,10 +211,16 @@
     <Compile Include="frmCharacterRoster.Designer.cs">
       <DependentUpon>frmCharacterRoster.cs</DependentUpon>
     </Compile>
-    <Compile Include="helpers\Label.cs">
+    <Compile Include="helpers\Button.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="helpers\Guid.cs" />
+    <Compile Include="helpers\Label.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="helpers\NumericUpDownEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Interfaces\INamedItemWithGuid.cs" />
     <Compile Include="Properties\Contributors.cs">
       <AutoGen>True</AutoGen>
@@ -331,7 +338,12 @@
     <Compile Include="Selection Forms\frmSelectSkillSpec.Designer.cs">
       <DependentUpon>frmSelectSkillSpec.cs</DependentUpon>
     </Compile>
-    <Compile Include="Backend\Shared Methods\CharacterShared.cs" />
+    <Compile Include="UI\Attributes\AttributeControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Attributes\AttributeControl.Designer.cs">
+      <DependentUpon>AttributeControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Skills\KnowledgeSkillControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -892,6 +904,9 @@
     <EmbeddedResource Include="Selection Forms\frmSelectSkillSpec.resx">
       <DependentUpon>frmSelectSkillSpec.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\Attributes\AttributeControl.resx">
+      <DependentUpon>AttributeControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Skills\KnowledgeSkillControl.resx">
       <DependentUpon>KnowledgeSkillControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1149,6 +1164,8 @@
     <EmbeddedResource Include="Controls\SpiritControl.resx">
       <DependentUpon>SpiritControl.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.config" />
+    <Compile Include="Backend\Attributes\Attribute.Core.cs" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -1177,6 +1194,7 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="data\complexforms.xsd" />
     <None Include="data\critterpowers.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -1229,26 +1247,56 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="data\ranges.xsc">
+      <DependentUpon>ranges.xsd</DependentUpon>
+    </None>
     <None Include="data\ranges.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="data\conditions.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="data\ranges.xss">
+      <DependentUpon>ranges.xsd</DependentUpon>
+    </None>
+    <None Include="data\skills.xsc">
+      <DependentUpon>skills.xsd</DependentUpon>
+    </None>
     <None Include="data\skills.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\skills.xss">
+      <DependentUpon>skills.xsd</DependentUpon>
     </None>
     <None Include="data\spells.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="data\streams.xsc">
+      <DependentUpon>streams.xsd</DependentUpon>
+    </None>
     <None Include="data\streams.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\streams.xss">
+      <DependentUpon>streams.xsd</DependentUpon>
+    </None>
+    <None Include="data\traditions.xsc">
+      <DependentUpon>traditions.xsd</DependentUpon>
     </None>
     <None Include="data\traditions.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="data\traditions.xss">
+      <DependentUpon>traditions.xsd</DependentUpon>
+    </None>
+    <None Include="data\vehicles.xsc">
+      <DependentUpon>vehicles.xsd</DependentUpon>
+    </None>
     <None Include="data\vehicles.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\vehicles.xss">
+      <DependentUpon>vehicles.xsd</DependentUpon>
     </None>
     <None Include="data\vessels.xsd">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

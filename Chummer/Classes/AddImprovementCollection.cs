@@ -7,8 +7,10 @@ using System.Windows.Forms;
 using System.Xml;
 using Chummer.Annotations;
 using Chummer.Backend;
+using Chummer.Backend.Attributes;
 using Chummer.Backend.Equipment;
 using Chummer.Skills;
+// ReSharper disable InconsistentNaming
 
 namespace Chummer.Classes
 {
@@ -1044,6 +1046,52 @@ namespace Chummer.Classes
 			CreateImprovement(frmPickSpell.SelectedSpell, _objImprovementSource, SourceName, Improvement.ImprovementType.Text,
 				_strUnique);
 		}
+
+        // Add a specific Spell to the Character.
+        public void addspell(XmlNode bonusNode)
+        {
+            Log.Info("addspell");
+
+            Log.Info("addspell = " + bonusNode.OuterXml.ToString());
+            Log.Info("_strForcedValue = " + ForcedValue);
+            Log.Info("_strLimitSelection = " + LimitSelection);
+            if (_blnConcatSelectedValue)
+                SourceName += " (" + SelectedValue + ")";
+
+            Log.Info("_strSelectedValue = " + SelectedValue);
+            Log.Info("SourceName = " + SourceName);
+
+            Log.Info("Calling CreateImprovement");
+            XmlDocument objXmlSpellDocument = XmlManager.Instance.Load("spells.xml");
+
+            XmlNode node = objXmlSpellDocument.SelectSingleNode("/chummer/spells/spell[name = \"" + bonusNode.InnerText + "\"]");
+
+            if (node == null) return;
+            // Check for SelectText.
+            string strExtra = string.Empty;
+            if (node["bonus"]?["selecttext"] != null)
+            {
+                
+                frmSelectText frmPickText = new frmSelectText();
+                frmPickText.Description =
+                    LanguageManager.Instance.GetString("String_Improvement_SelectText")
+                        .Replace("{0}", node["translate"]?.InnerText ?? node["name"].InnerText);
+                frmPickText.ShowDialog();
+                strExtra = frmPickText.SelectedValue;
+            }
+
+            Spell spell = new Spell(_objCharacter);
+            spell.Create(node, _objCharacter, new TreeNode(), strExtra);
+            if (spell.InternalId == Guid.Empty.ToString())
+                return;
+
+            _objCharacter.Spells.Add(spell);
+
+            Log.Info("Calling CreateImprovement");
+            CreateImprovement(spell.InternalId, _objImprovementSource, SourceName,
+                Improvement.ImprovementType.Spell,
+                _strUnique);
+        }
 
         // Select an AI program.
         public void selectaiprogram(XmlNode bonusNode)
@@ -2449,7 +2497,9 @@ namespace Chummer.Classes
 				throw new AbortedException();
 			}
 
-			SelectedValue = frmPickMentorSpirit.SelectedMentor;
+			XmlDocument doc = XmlManager.Instance.Load("mentors.xml");
+			XmlNode mentorDoc = doc.SelectSingleNode("/chummer/mentors/mentor[id = \"" + frmPickMentorSpirit.SelectedMentor + "\"]");
+			SelectedValue = mentorDoc["name"].InnerText;
 
 			string strHoldValue = SelectedValue;
 			if (_blnConcatSelectedValue)
@@ -2505,6 +2555,22 @@ namespace Chummer.Classes
 				_objCharacter.Improvements.Last().Notes = frmPickMentorSpirit.Choice2;
 			}
 
+			CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.MentorSpirit, frmPickMentorSpirit.SelectedMentor);
+
+			if (frmPickMentorSpirit.MentorsMask)
+			{
+				Log.Info("frmPickMentorSpirit.MentorsMask = " + frmPickMentorSpirit.MentorsMask);
+				Log.Info("Calling CreateImprovement");
+				bool blnSuccess = CreateImprovements(_objImprovementSource, SourceName, frmPickMentorSpirit.Choice2BonusNode,
+					_blnConcatSelectedValue, _intRating, _strFriendlyName);
+				CreateImprovement(_strFriendlyName, _objImprovementSource, SourceName, Improvement.ImprovementType.AdeptPowerPoints, string.Empty, 1);
+				CreateImprovement(_strFriendlyName, _objImprovementSource, SourceName, Improvement.ImprovementType.DrainValue, string.Empty, -1);
+				if (!blnSuccess)
+				{
+					throw new AbortedException();
+				}
+			}
+
 			SelectedValue = strHoldValue;
 			Log.Info("_strSelectedValue = " + SelectedValue);
 			Log.Info("_strForcedValue = " + ForcedValue);
@@ -2524,11 +2590,16 @@ namespace Chummer.Classes
 			{
 				throw new AbortedException();
 			}
+			
+			XmlDocument doc = XmlManager.Instance.Load("paragons.xml");
+			XmlNode mentorDoc = doc.SelectSingleNode("/chummer/mentors/mentor[id = \"" + frmPickMentorSpirit.SelectedMentor + "\"]");
+			SelectedValue = mentorDoc["name"].InnerText;
 
-			SelectedValue = frmPickMentorSpirit.SelectedMentor;
 			string strHoldValue = SelectedValue;
 			if (_blnConcatSelectedValue)
 				SourceName += " (" + SelectedValue + ")";
+
+			CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.Paragon, frmPickMentorSpirit.SelectedMentor);
 
 			if (frmPickMentorSpirit.BonusNode != null)
 			{
@@ -3058,6 +3129,25 @@ namespace Chummer.Classes
 				ValueToInt(bonusNode.InnerText, _intRating));
 		}
 
+		// Check for Free Spells.
+		public void freespells(XmlNode bonusNode)
+		{
+			Log.Info("freespells");
+			Log.Info("freespells = " + bonusNode.OuterXml.ToString());
+			Log.Info("Calling CreateImprovement");
+			if (bonusNode.Attributes?["attribute"] != null)
+			{
+				CharacterAttrib att = _objCharacter.GetAttribute(bonusNode.Attributes?["attribute"].InnerText);
+				CreateImprovement(att.Abbrev, _objImprovementSource, SourceName, Improvement.ImprovementType.FreeSpellsATT, string.Empty,
+					att.TotalValue);
+			}
+			else
+			{
+				CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.FreeSpells, string.Empty,
+					ValueToInt(bonusNode.InnerText, _intRating));
+			}
+		}
+
 		// Check for Spell Category bonuses.
 		public void spellcategory(XmlNode bonusNode)
 		{
@@ -3137,6 +3227,16 @@ namespace Chummer.Classes
 			Log.Info("cyborgessence = " + bonusNode.OuterXml.ToString());
 			Log.Info("Calling CreateImprovement");
 			CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.CyborgEssence, string.Empty);
+		}
+
+		// Check for Maximum Essence which will permanently modify the character's Maximum Essence value.
+		public void essencepenalty(XmlNode bonusNode)
+		{
+			Log.Info("essencepenalty");
+			Log.Info("essencepenalty = " + bonusNode.OuterXml.ToString());
+			Log.Info("Calling CreateImprovement");
+			CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.EssencePenalty, string.Empty,
+				ValueToInt(bonusNode.InnerText, _intRating));
 		}
 
 		// Check for Maximum Essence which will permanently modify the character's Maximum Essence value.
@@ -3263,6 +3363,61 @@ namespace Chummer.Classes
 				Log.Info("SelectedValue = " + strSelectedValue);
 			}
 
+		}
+
+		// Select a specific piece of Cyberware.
+		public void selectcyberware(XmlNode bonusNode)
+		{
+			Log.Info("selectcyberware");
+			Log.Info("selectcyberware = " + bonusNode.OuterXml);
+			if (!string.IsNullOrEmpty(ForcedValue))
+				LimitSelection = ForcedValue;
+
+			// Display the Select Item window and record the value that was entered.
+			XmlDocument objXmlDocument = XmlManager.Instance.Load("cyberware.xml");
+			XmlNodeList objXmlNodeList = objXmlDocument.SelectNodes(bonusNode["category"] != null 
+			? $"/chummer/cyberwares/cyberware[(category = '{bonusNode["category"].InnerText}') and ({_objCharacter.Options.BookXPath()})]" 
+			: $"/chummer/cyberwares/cyberware[({_objCharacter.Options.BookXPath()})]");
+
+			List<ListItem> list = new List<ListItem>();
+			foreach (XmlNode objNode in objXmlNodeList)
+			{
+				ListItem objItem = new ListItem();
+				objItem.Value = objNode["name"]?.InnerText;
+				objItem.Name = objNode.Attributes?["translate"]?.InnerText ?? objNode["name"]?.InnerText;
+				list.Add(objItem);
+			}
+
+			if (list.Count <= 0) return;
+			frmSelectItem frmPickItem = new frmSelectItem();
+			frmPickItem.Description = LanguageManager.Instance.GetString("String_Improvement_SelectText")
+				.Replace("{0}", _strFriendlyName);
+			frmPickItem.GeneralItems = list;
+
+			Log.Info("_strLimitSelection = " + LimitSelection);
+			Log.Info("_strForcedValue = " + ForcedValue);
+
+			if (!string.IsNullOrEmpty(LimitSelection))
+			{
+				frmPickItem.ForceItem = LimitSelection;
+				frmPickItem.Opacity = 0;
+			}
+
+			frmPickItem.ShowDialog();
+
+			// Make sure the dialogue window was not canceled.
+			if (frmPickItem.DialogResult == DialogResult.Cancel)
+			{
+				throw new AbortedException();
+			}
+
+			SelectedValue = frmPickItem.SelectedItem;
+			if (_blnConcatSelectedValue)
+				SourceName += " (" + SelectedValue + ")";
+
+			string strSelectedValue = frmPickItem.SelectedItem;
+			Log.Info("_strSelectedValue = " + SelectedValue);
+			Log.Info("SelectedValue = " + strSelectedValue);
 		}
 
 		// Select Weapon (custom entry for things like Spare Clip).
@@ -3743,8 +3898,31 @@ namespace Chummer.Classes
 			CreateImprovement(frmSelect.SelectedItem, Improvement.ImprovementSource.Quality, SourceName,
 	Improvement.ImprovementType.LimitSpiritCategory,"");
 		}
-		#endregion
-	}
+        public void movementreplace(XmlNode bonusNode)
+        {
+            Log.Info("movementreplace");
+            Log.Info("movementreplace = " + bonusNode.OuterXml);
+            Log.Info("Calling CreateImprovement");
+
+            Improvement.ImprovementType imp = Improvement.ImprovementType.WalkSpeed;
+            switch (bonusNode["speed"].InnerText.ToLower())
+            {
+                case "walk":
+                    imp = Improvement.ImprovementType.WalkSpeed;
+                    break;
+                case "run":
+                    imp = Improvement.ImprovementType.RunSpeed;
+                    break;
+                case "sprint":
+                    imp = Improvement.ImprovementType.SprintSpeed;
+                    break;
+            }
+
+            CreateImprovement(bonusNode["category"].InnerText, _objImprovementSource, SourceName, imp, string.Empty,
+                ValueToInt(bonusNode["val"].InnerText, _intRating));
+        }
+        #endregion
+    }
 
 	internal class AbortedException : Exception
 	{

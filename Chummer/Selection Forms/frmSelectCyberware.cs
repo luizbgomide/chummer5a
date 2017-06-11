@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.XPath;
 using Chummer.Backend.Equipment;
+using Chummer.Backend.Attributes;
 
 namespace Chummer
 {
@@ -1030,6 +1031,7 @@ namespace Chummer
 						continue;
 					if (!Backend.Shared_Methods.SelectionShared.CheckAvailRestriction(objXmlCyberware, _objCharacter,
 						chkHideOverAvailLimit.Checked, Convert.ToInt32(nudRating.Value), _intAvailModifier)) continue;
+                    //if (!Backend.Shared_Methods.SelectionShared.RequirementsMet(objXmlCyberware, false, _objCharacter)) continue;
 					ListItem objItem = new ListItem
 					{
 						Value = objXmlCyberware["name"]?.InnerText,

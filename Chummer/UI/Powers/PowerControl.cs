@@ -32,7 +32,7 @@ namespace Chummer
 		#region Control Events
 		public PowerControl(Power objPower)
 		{
-			this.PowerObject = objPower;
+			PowerObject = objPower;
             InitializeComponent();
 			LanguageManager.Instance.Load(GlobalOptions.Instance.Language, this);
 			nudRating.DataBindings.Add("Enabled", PowerObject, nameof(PowerObject.LevelsEnabled), false, 
@@ -43,6 +43,8 @@ namespace Chummer
 				DataSourceUpdateMode.OnPropertyChanged);
 			nudRating.DataBindings.Add("Value", PowerObject, nameof(PowerObject.TotalRating), false,
 				DataSourceUpdateMode.OnPropertyChanged);
+			nudRating.DataBindings.Add("InterceptMouseWheel", PowerObject.CharacterObject.Options, 
+				nameof(CharacterOptions.InterceptMode), false, DataSourceUpdateMode.OnPropertyChanged);
 			lblPowerName.DataBindings.Add("Text", PowerObject, nameof(PowerObject.DisplayName), false, 
 				DataSourceUpdateMode.OnPropertyChanged);
 			lblPowerPoints.DataBindings.Add("Text", PowerObject, nameof(PowerObject.DisplayPoints), false, 
@@ -107,6 +109,8 @@ namespace Chummer
 					break;
 				}
 			}
+			PowerObject.Deleting = true;
+			PowerObject.CharacterObject.ObjImprovementManager.RemoveImprovements(Improvement.ImprovementSource.Power, PowerObject.InternalId);
 			PowerObject.CharacterObject.Powers.Remove(PowerObject);
 			
 			if (_objPower.CharacterObject.Created)

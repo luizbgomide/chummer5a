@@ -29,6 +29,7 @@ using Chummer.Backend;
 using Chummer.Backend.Equipment;
 using Chummer.Classes;
 using Chummer.Skills;
+using Chummer.Backend.Attributes;
 
 namespace Chummer
 {
@@ -186,7 +187,17 @@ namespace Chummer
             SpellResistance,
 	        SpellKarmaDiscount,
 	        LimitSpellCategory,
-	        LimitSpiritCategory
+	        LimitSpiritCategory,
+            WalkSpeed,
+            RunSpeed,
+            SprintSpeed,
+            EssencePenalty,
+			FreeSpellsATT,
+	        FreeSpells,
+			DrainValue,
+            Spell,
+	        MentorSpirit,
+			Paragon
         }
 
         public enum ImprovementSource
@@ -619,7 +630,7 @@ namespace Chummer
 			List<string> lstUniqueName = new List<string>();
 			List<Tuple<string, int>> lstUniquePair = new List<Tuple<string, int>>();
 			int intValue = 0;
-			foreach (Improvement objImprovement in _objCharacter.Improvements)
+			foreach (Improvement objImprovement in _objCharacter.Improvements.Where(objImprovement => objImprovement.ImproveType == objImprovementType))
 			{
 			    if (objImprovement.Enabled && !objImprovement.Custom)
 			    {
@@ -1032,20 +1043,9 @@ namespace Chummer
 				_objCharacter.Improvements.Remove(objImprovement);
 
                 // See if the character has anything else that is granting them the same bonus as this improvement
-			    bool blnHasDuplicate = false;
-                foreach (Improvement objLoopImprovement in _objCharacter.Improvements)
-				{
-			        if (objLoopImprovement.UniqueName == objImprovement.UniqueName &&
-			            objLoopImprovement.ImprovedName == objImprovement.ImprovedName &&
-                        objLoopImprovement.ImproveType == objImprovement.ImproveType &&
-                        objLoopImprovement.SourceName != objImprovement.SourceName)
-			        {
-                        blnHasDuplicate = true;
-			            break;
-			        }
-			    }
+			    bool blnHasDuplicate = _objCharacter.Improvements.Any(objLoopImprovement => objLoopImprovement.UniqueName == objImprovement.UniqueName && objLoopImprovement.ImprovedName == objImprovement.ImprovedName && objLoopImprovement.ImproveType == objImprovement.ImproveType && objLoopImprovement.SourceName != objImprovement.SourceName);
 
-                switch (objImprovement.ImproveType)
+				switch (objImprovement.ImproveType)
                 {
                     case Improvement.ImprovementType.SkillLevel:
 					//TODO: Come back here and figure out wtf this did? Think it removed nested lifemodule skills? //Didn't this handle the collapsing knowledge skills thing?
@@ -1085,14 +1085,14 @@ namespace Chummer
 	                _objCharacter.SkillsSection.KnowsoftSkills.RemoveAll(skill => skill.Id == guid);
                         break;
                     case Improvement.ImprovementType.Attribute:
-                            CharacterAttrib objChangedAttribute = _objCharacter.GetAttribute(objImprovement.ImprovedName);
+						/*    CharacterAttrib objChangedAttribute = _objCharacter.GetAttribute(objImprovement.ImprovedName);
                         if (objImprovement.Minimum > 0)
                         {
                             objChangedAttribute.Value -= objImprovement.Minimum;
-                        }
+                        }*/
 
-                // Determine if access to any Special Attributes have been lost.
-                        if (objImprovement.UniqueName == "enableattribute" && !blnHasDuplicate)
+						// Determine if access to any Special Attributes have been lost.
+						if (objImprovement.UniqueName == "enableattribute" && !blnHasDuplicate)
 				{
                             switch (objImprovement.ImprovedName)
 					{
@@ -1324,9 +1324,9 @@ namespace Chummer
                         break;
                     case Improvement.ImprovementType.AIProgram:
                         foreach (AIProgram objProgram in _objCharacter.AIPrograms)
-                        {
+				{
                             if (objImprovement.ImprovedName == objProgram.InternalId)
-                            {
+					{
                                 _objCharacter.AIPrograms.Remove(objProgram);
                                 break;
                             }
@@ -1340,6 +1340,7 @@ namespace Chummer
 
                         if (objImprovedPower.TotalRating == 0)
                         {
+	                        objImprovedPower.Deleting = true;
                             _objCharacter.Powers.Remove(objImprovedPower);
                         }
                         else

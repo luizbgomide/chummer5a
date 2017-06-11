@@ -17,7 +17,7 @@
     You can obtain the full source code for Chummer5a at
     https://github.com/chummer5a/chummer5a
 -->
-<chummer>
+<chummer xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema qualities.xsd">
 	<version>0</version>
 	<categories>
 		<category>Positive</category>
@@ -176,6 +176,7 @@
 			<limit>6</limit>
 			<required>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Apprentice</quality>
@@ -206,6 +207,7 @@
 			<limit>3</limit>
 			<required>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Apprentice</quality>
@@ -236,6 +238,7 @@
 			<limit>2</limit>
 			<required>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Apprentice</quality>
@@ -265,6 +268,7 @@
 			<category>Positive</category>
 			<required>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Apprentice</quality>
@@ -294,6 +298,7 @@
 			<category>Positive</category>
 			<required>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Apprentice</quality>
@@ -323,6 +328,7 @@
 			<category>Positive</category>
 			<required>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Apprentice</quality>
@@ -530,6 +536,7 @@
           <metatype>Sasquatch</metatype>
           <metatypecategory>Shapeshifter</metatypecategory>
 					<quality>Adept</quality>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Aspected Magician</quality>
@@ -564,6 +571,7 @@
 					<quality>Adept</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
+					<quality>Aware</quality>
 					<quality>Aspected Magician</quality>
 					<quality>Apprentice</quality>
 					<quality>Magic Resistance (Rating 3)</quality>
@@ -594,6 +602,7 @@
 					<quality>Adept</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
+					<quality>Aware</quality>
 					<quality>Aspected Magician</quality>
 					<quality>Apprentice</quality>
 					<quality>Magic Resistance (Rating 2)</quality>
@@ -623,6 +632,7 @@
           <metatypecategory>Shapeshifter</metatypecategory>
 					<quality>Adept</quality>
 					<quality>Magician</quality>
+					<quality>Aware</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Aspected Magician</quality>
 					<quality>Apprentice</quality>
@@ -793,6 +803,7 @@
 			</bonus>
 			<required>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Aspected Magician</quality>
@@ -1091,6 +1102,7 @@
 			</bonus>
 			<forbidden>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Aspected Magician</quality>
@@ -1119,6 +1131,7 @@
 			</bonus>
 			<forbidden>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Magician</quality>
 					<quality>Adept</quality>
 					<quality>Aspected Magician</quality>
@@ -1148,6 +1161,7 @@
 				<oneof>
           <metatypecategory>Metasapient</metatypecategory>
           <metatypecategory>Shapeshifter</metatypecategory>
+					<quality>Aware</quality>
           <quality>Magician</quality>
           <quality>Mystic Adept</quality>
           <quality>Aspected Magician</quality>
@@ -1175,7 +1189,33 @@
 			</bonus>
 			<forbidden>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Apprentice</quality>
+					<quality>Magician</quality>
+					<quality>Mystic Adept</quality>
+					<quality>Adept</quality>
+					<quality>Technomancer</quality>
+				</oneof>
+			</forbidden>
+			<source>SR5</source>
+			<page>69</page>
+		</quality>
+		<quality>
+			<id>dea0e693-05c5-422d-bd1b-f1d1eac9cd30</id>
+			<name>Aware</name>
+			<contributetolimit>no</contributetolimit>
+			<hide>yes</hide>
+			<karma>15</karma>
+			<category>Positive</category>
+			<bonus>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
+			</bonus>
+			<forbidden>
+				<oneof>
+					<quality>Apprentice</quality>
+					<quality>ASpected Magician</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Adept</quality>
@@ -1345,6 +1385,7 @@
           <metatype>Pixie</metatype>
           <metatype>Sasquatch</metatype>
           <quality>Adept</quality>
+					<quality>Aware</quality>
           <quality>Aspected Magician</quality>
 					<quality>Apprentice</quality>
           <quality>Magician</quality>
@@ -1828,6 +1869,8 @@
 				<oneof>
 					<quality>Aspected Magician</quality>
 					<quality>Apprentice</quality>
+					<quality>Aware</quality>
+					<quality>Adept</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Infected: Mutaqua</quality>
@@ -3064,6 +3107,7 @@
 					<quality>Aspected Magician</quality>
 					<quality>Apprentice</quality>
 					<quality>Magician</quality>
+					<quality>Adept</quality>
 					<quality>Mystic Adept</quality>
 					<quality>Infected: Mutaqua</quality>
 					<quality>Infected: Nosferatu</quality>
@@ -3364,10 +3408,7 @@
 			<bonus />
 			<forbidden>
 				<oneof>
-					<cyberwares>
-						<cyberwarecontains>Cybereyes</cyberwarecontains>
-						<count>1</count>
-					</cyberwares>
+					<cyberwarecontains>Cybereyes</cyberwarecontains>
 					<quality>Albinism I</quality>
 				</oneof>
 			</forbidden>
@@ -3441,6 +3482,7 @@
         <required>
           <oneof>
             <power>Astral Perception</power>
+						<quality>Aware</quality>
             <quality>Magician</quality>
             <quality>Aspected Magician</quality>
 						<quality>Apprentice</quality>
@@ -4836,7 +4878,9 @@
 			<required>
 				<oneof>
 					<quality>Magician</quality>
+					<quality>Aware</quality>
 					<quality>Aspected Magician</quality>
+					<quality>Mystic Adept</quality>
 					<quality>Apprentice</quality>
 					<quality>Infected: Mutaqua</quality>
 					<quality>Infected: Nosferatu</quality>
@@ -5236,7 +5280,7 @@
 				</oneof>
 			</required>
 			<source>RF</source>
-			<page>111</page>
+			<page>112</page>
 			<metagenetic>yes</metagenetic>
 		</quality>
 		<quality>
@@ -6620,7 +6664,16 @@
 			<karma>10</karma>
 			<category>Positive</category>
 			<bonus>
-				<movementpercent>50</movementpercent>
+				<movementreplace>
+          <category>ground</category>
+          <type>run</type>
+          <val>6</val>
+        </movementreplace>
+        <movementreplace>
+          <category>ground</category>
+          <type>sprint</type>
+          <val>2</val>
+        </movementreplace>
 			</bonus>
 			<required>
 				<oneof>
@@ -6842,6 +6895,7 @@
 						<quality>Aspected Magician</quality>
 						<quality>Apprentice</quality>
 						<quality>Magician</quality>
+						<quality>Aware</quality>
 						<quality>Mystic Adept</quality>
 						<quality>Adept</quality>
 						<quality>Infected: Mutaqua</quality>
@@ -7198,9 +7252,13 @@
           <power select="Sunlight, Mild">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<reach>1</reach>
 				<replaceattributes>
 					<replaceattribute>
@@ -7588,9 +7646,13 @@
           <power select="Sunlight, Moderate">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<optionalpowers>
 					<optionalpower>Armor</optionalpower>
 				</optionalpowers>
@@ -7716,9 +7778,13 @@
           <power select="Sunlight, Moderate">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<replaceattributes>
 					<replaceattribute>
 						<name>BOD</name>
@@ -7848,9 +7914,13 @@
           <power select="Sunlight, Moderate">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<replaceattributes>
 					<replaceattribute>
 						<name>BOD</name>
@@ -7980,9 +8050,13 @@
           <power select="Sunlight, Moderate">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<replaceattributes>
 					<replaceattribute>
 						<name>BOD</name>
@@ -8112,9 +8186,13 @@
           <power select="Sunlight, Moderate">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<replaceattributes>
 					<replaceattribute>
 						<name>BOD</name>
@@ -8244,9 +8322,13 @@
           <power select="Sunlight, Moderate">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<replaceattributes>
 					<replaceattribute>
 						<name>BOD</name>
@@ -8376,9 +8458,13 @@
           <power select="Sunlight, Moderate">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<replaceattributes>
 					<replaceattribute>
 						<name>BOD</name>
@@ -8510,9 +8596,13 @@
           <power select="Sunlight, Moderate">Allergy</power>
           <power select="Metahuman Bone">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<replaceattributes>
 					<replaceattribute>
 						<name>BOD</name>
@@ -8773,9 +8863,13 @@
           <power select="Metahuman Flesh">Dietary Requirement</power>
           <power select="Iron">Vulnerability</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<initiative>1</initiative>
 				<optionalpowers>
 					<optionalpower select="Hearing">Enhanced Senses</optionalpower>
@@ -8913,9 +9007,13 @@
           <power select="Sunlight, Moderate">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<initiative>1</initiative>
         <initiativepass precedence="-1">1</initiativepass>
 				<movementmultiplier>1</movementmultiplier>
@@ -9052,9 +9150,13 @@
           <power select="Sunlight, Severe">Allergy</power>
           <power select="Metahuman Flesh">Dietary Requirement</power>
         </critterpowers>
+				<enableattribute>
+					<name>MAG</name>
+				</enableattribute>
 				<enabletab>
 					<name>critter</name>
 				</enabletab>
+				<essencepenalty>-1</essencepenalty>
 				<initiative>1</initiative>
         <initiativepass precedence="-1">1</initiativepass>
         <movementmultiplier>1</movementmultiplier>
@@ -12047,6 +12149,23 @@
 			<category>Positive</category>
 			<bonus />
       <required>
+				<oneof>
+					<skill>
+						<name>Magical Theory (Academic)</name>
+						<val>4</val>
+						<type>Knowledge</type>
+					</skill>
+					<skill>
+						<name>Magical Theory (Street)</name>
+						<val>4</val>
+						<type>Knowledge</type>
+					</skill>
+					<skill>
+						<name>Magical Theory</name>
+						<val>4</val>
+						<type>Knowledge</type>
+					</skill>
+				</oneof>
         <allof>
           <skill>
             <name>Magical Theory</name>
@@ -12555,6 +12674,7 @@
       </costdiscount>
       <bonus>
         <spellkarmadiscount>-1</spellkarmadiscount>
+				<freespells attribute="MAG" />
       </bonus>
       <required>
         <oneof>
@@ -13358,6 +13478,28 @@
 					<group>
 						<skill>
 							<name>Assensing</name>
+							<val>4</val>
+						</skill>
+						<skill>
+							<name>Magical Theory (Street)</name>
+							<val>3</val>
+							<type>Knowledge</type>
+						</skill>
+					</group>
+					<group>
+						<skill>
+							<name>Assensing</name>
+							<val>4</val>
+						</skill>
+						<skill>
+							<name>Magical Theory (Academic)</name>
+							<val>3</val>
+							<type>Knowledge</type>
+						</skill>
+					</group>
+					<group>
+						<skill>
+							<name>Assensing</name>
 							<val>2</val>
 						</skill>
 						<skill>
@@ -13366,6 +13508,30 @@
 							<type>Knowledge</type>
 						</skill>
             <tradition>Buddhism</tradition>
+					</group>
+					<group>
+						<skill>
+							<name>Assensing</name>
+							<val>2</val>
+						</skill>
+						<skill>
+							<name>Magical Theory (Academic)</name>
+							<val>1</val>
+							<type>Knowledge</type>
+						</skill>
+						<tradition>Buddhism</tradition>
+					</group>
+					<group>
+						<skill>
+							<name>Assensing</name>
+							<val>2</val>
+						</skill>
+						<skill>
+							<name>Magical Theory (Street)</name>
+							<val>1</val>
+							<type>Knowledge</type>
+						</skill>
+						<tradition>Buddhism</tradition>
 					</group>
 				</oneof>
 			</required>
@@ -13828,6 +13994,7 @@
 			</bonus>
 			<forbidden>
 				<oneof>
+					<quality>Aware</quality>
 					<quality>Aspected Magician</quality>
 					<quality>Magician</quality>
 					<quality>Mystic Adept</quality>
@@ -13839,6 +14006,50 @@
 			<page>47</page>
 		</quality>
 		<!-- End Region -->
+		<!-- End Region -->
+		<!-- Region SotA ADL Negative Qualities-->
+		<quality>
+			<id>2c1fece2-e950-41c0-a020-2671334e1610</id>
+			<name>Arcology Tantrum</name>			
+			<karma>-10</karma>
+			<category>Negative</category>
+			<source>SAG</source>
+			<page>147</page>
+		</quality>
+		<quality>
+			<id>97615a7e-33aa-4013-b146-98175ac0f6c9</id>
+			<name>People's SIN</name>			
+			<karma>-3</karma>
+			<category>Negative</category>
+			<forbidden>
+				<oneof>
+					<quality>SINner (Corporate)</quality>
+					<quality>SINner (Criminal)</quality>
+					<quality>SINner (National)</quality>
+					<quality>SINner (Corporate Limited)</quality>
+					<quality>People's SIN (Criminal)</quality>
+				</oneof>
+			</forbidden>
+			<source>SAG</source>
+			<page>148</page>
+		</quality>
+		<quality>
+			<id>3e2eac9a-e256-4755-a66a-ffbaac751cfa</id>
+			<name>People's SIN (Criminal)</name>			
+			<karma>-10</karma>
+			<category>Negative</category>
+			<forbidden>
+				<oneof>
+					<quality>SINner (Corporate)</quality>
+					<quality>SINner (Criminal)</quality>
+					<quality>SINner (National)</quality>
+					<quality>SINner (Corporate Limited)</quality>
+					<quality>People's SIN</quality>
+				</oneof>
+			</forbidden>
+			<source>SAG</source>
+			<page>148</page>
+		</quality>
 		<!-- End Region -->
 	</qualities>
 </chummer>

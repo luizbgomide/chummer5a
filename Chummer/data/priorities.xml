@@ -17,7 +17,7 @@
     You can obtain the full source code for Chummer5a at
     https://github.com/chummer5a/chummer5a
 -->
-<chummer>
+<chummer xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/XMLSchema priorities.xsd">
 	<version>0</version>
 	<categories>
 		<category>Heritage</category>
@@ -1091,7 +1091,7 @@
 					<name>Aware - 3 Magic</name>
 					<value>Aware</value>
 					<qualities>
-						<quality>Aspected Magician</quality>
+						<quality>Aware</quality>
 					</qualities>
 					<magic>3</magic>
 					<skillqty>1</skillqty>
