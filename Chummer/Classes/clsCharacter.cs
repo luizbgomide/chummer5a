@@ -5781,7 +5781,7 @@ namespace Chummer
         {
             get
             {
-                return Math.Max(_decNuyenBP,_decNuyenMaximumBP);
+                return Math.Min(_decNuyenBP,_decNuyenMaximumBP);
             }
             set
             {
@@ -7105,7 +7105,115 @@ namespace Chummer
 			return strReturn;
 		}
 
-#endregion
+		public string KnowledgeSkillBP
+		{
+			get
+			{
+				int knowledgeKarmaUsed = SkillsSection.KnowledgeSkills.Sum(x => x.CurrentKarmaCost());
+				string s = string.Empty;
+
+				s = $"{SkillsSection.KnowledgeSkillPointsRemain} {LanguageManager.Instance.GetString("String_Of")}  {SkillsSection.KnowledgeSkillPoints}";
+				s += string.Format("{0} " + LanguageManager.Instance.GetString("Label_Karma"), knowledgeKarmaUsed);
+
+				return s;
+			}
+		}
+
+		public string ActiveSkillCost => $"{SkillsSection.Skills.TotalCostKarma()} {LanguageManager.Instance.GetString("Label_Karma")}";
+
+		public string MetatypeCost
+		{
+			get
+			{
+				string s = _objOptions.MetatypeCostsKarma
+					? $"{(MetatypeBP * _objOptions.MetatypeCostsKarmaMultiplier)} {LanguageManager.Instance.GetString("String_Karma")}"
+					: $"0 {LanguageManager.Instance.GetString("String_Karma")}";
+				return s;
+			}
+		}
+
+		public string ComplexFormCost
+		{
+			get
+			{
+				string s = string.Empty;
+				int i = CFPLimit - ComplexForms.Count;
+				if (BuildMethod == CharacterBuildMethod.Priority ||
+					BuildMethod == CharacterBuildMethod.SumtoTen)
+				{
+					s = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}",
+						Math.Min(i, 0), CFPLimit);
+				}
+				if (i < 0)
+				{
+					i = i *= -1 * _objOptions.KarmaNewComplexForm;
+					s += $" {i} {LanguageManager.Instance.GetString("String_Karma")}";
+				}
+				return s;
+			}
+		}
+
+		/// <summary>
+		/// Calculate the BP used by Primary Attributes.
+		/// </summary>
+		public int CalculateAttributeBP(List<CharacterAttrib> attribs, List<CharacterAttrib> extraAttribs = null)
+		{
+			int intBP = attribs.Sum(att => att.TotalKarmaCost());
+			// Primary and Special Attributes are calculated separately since you can only spend a maximum of 1/2 your BP allotment on Primary Attributes.
+			// Special Attributes are not subject to the 1/2 of max BP rule.
+			if (extraAttribs == null) return intBP;
+			intBP += extraAttribs.Sum(att => att.TotalKarmaCost());
+			return intBP;
+		}
+
+		public int CalculteAttributePriorityPoints(List<CharacterAttrib> attribs, List<CharacterAttrib> extraAttribs = null)
+		{
+			int intAtt = 0;
+			if (BuildMethod != CharacterBuildMethod.Priority && BuildMethod != CharacterBuildMethod.SumtoTen) return intAtt;
+			// Get the total of "free points" spent
+			intAtt += attribs.Sum(att => att.SpentPriorityPoints);
+			if (extraAttribs == null) return intAtt;
+			{
+				// Get the total of "free points" spent
+				intAtt += extraAttribs.Sum(att => att.SpentPriorityPoints);
+			}
+			return intAtt;
+		}
+
+		public string BuildAttributes(List<CharacterAttrib> attribs, List<CharacterAttrib> extraAttribs = null, bool special = false)
+		{
+			string s = string.Empty;
+			int bp = CalculateAttributeBP(attribs, extraAttribs);
+			int att = CalculteAttributePriorityPoints(attribs, extraAttribs);
+			int total = special ? TotalSpecial : TotalAttributes;
+			s = $"{bp} {LanguageManager.Instance.GetString("String_Karma")}";
+			if (BuildMethod != CharacterBuildMethod.Priority && BuildMethod != CharacterBuildMethod.SumtoTen) return s;
+			if (bp > 0)
+			{
+				s = string.Format(LanguageManager.Instance.GetString("String_OverPriorityPoints"),
+					total - att, total, bp);
+			}
+			else
+			{
+				s = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}",
+					total - att, total);
+			}
+			return s;
+		}
+
+		public string PrimaryAttributeBP => BuildAttributes(AttributeList);
+		public string SpecialAttributeBP => BuildAttributes(SpecialAttributeList, null, true);
+
+		public int EnemyBPValue
+		{
+			get
+			{
+				return Contacts.Where(c => !c.Free && c.EntityType == ContactType.Enemy).Aggregate(0, (current, c) => current - (c.Connection + c.Loyalty) * _objOptions.KarmaEnemy);
+			}
+		}
+
+		public string EnemyBP => $"{EnemyBPValue} {LanguageManager.Instance.GetString("String_Karma")}";
+		#endregion
 
 		#region Tooltips
 		public string ComposureTooltip

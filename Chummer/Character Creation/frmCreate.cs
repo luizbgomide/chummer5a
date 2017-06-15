@@ -206,15 +206,6 @@ namespace Chummer
                 }
 				_objCharacter.GameplayOptionQualityLimit = _objCharacter.MaxKarma = Convert.ToInt32(strKarma);
 				_objCharacter.MaxNuyen = Convert.ToInt32(strNuyen);
-				
-                lblPBuildAttributes.Text = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}", (_objCharacter.Attributes).ToString(), _objCharacter.TotalAttributes.ToString());
-                lblPBuildSpells.Text = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}", (_objCharacter.SpellLimit - _objCharacter.Spells.Count).ToString(), _objCharacter.SpellLimit.ToString());
-                lblPBuildComplexForms.Text = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}", (_objCharacter.CFPLimit - _objCharacter.ComplexForms.Count).ToString(), _objCharacter.CFPLimit.ToString());
-                tabInfo.TabPages.RemoveAt(0);
-            }
-            else
-            {
-                tabInfo.TabPages.RemoveAt(1);
             }
 
             int count = 0;
@@ -501,6 +492,20 @@ namespace Chummer
 			lblSkillGroupsBP.DataBindings.Add("Text", _objCharacter.SkillsSection, nameof(_objCharacter.SkillsSection.SkillGroupsCost), false, DataSourceUpdateMode.OnPropertyChanged);
 			lblKnowledgeSkillsBP.DataBindings.Add("Text", _objCharacter.SkillsSection, nameof(_objCharacter.SkillsSection.KnowledgeSkillsCost), false, DataSourceUpdateMode.OnPropertyChanged);
 			#endregion
+
+			#region Build Summary
+			lblComplexFormsBP.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.ComplexFormCost), false,
+				DataSourceUpdateMode.OnPropertyChanged);
+			lblKarmaMetatypeBP.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.MetatypeCost), false,
+				DataSourceUpdateMode.OnPropertyChanged);
+			lblPrimaryAttributesBP.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.PrimaryAttributeBP), false,
+		        DataSourceUpdateMode.OnPropertyChanged);
+			lblSpecialAttributesBP.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpecialAttributeBP), false,
+				DataSourceUpdateMode.OnPropertyChanged);
+			lblEnemiesBP.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.EnemyBP), false,
+				DataSourceUpdateMode.OnPropertyChanged);
+			#endregion
+
 			// Define the XML objects that will be used.
 			XmlDocument objXmlDocument = new XmlDocument();
 
@@ -4567,21 +4572,12 @@ namespace Chummer
             UpdateWindowTitle();
 
             int intComplexForms = 0;
-            foreach (ComplexForm tp in _objCharacter.ComplexForms)
-            {
-                intComplexForms++;
-            }
 
-            //if (_objCharacter.CFPLimit - intComplexForms < 0)
-            //    lblPBuildComplexForms.Text = String.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}", (0).ToString(), _objCharacter.CFPLimit.ToString());
-            //else
-            lblPBuildComplexForms.Text = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}", (_objCharacter.CFPLimit - intComplexForms).ToString(), _objCharacter.CFPLimit.ToString());
-
-            if (frmPickProgram.AddAgain)
+			if (frmPickProgram.AddAgain)
                 cmdAddComplexForm_Click(sender, e);
         }
 
-        private void cmdAddAIProgram_Click(object sender, EventArgs e)
+		private void cmdAddAIProgram_Click(object sender, EventArgs e)
         {
             // Let the user select a Program.
             frmSelectAIProgram frmPickProgram = new frmSelectAIProgram(_objCharacter);
@@ -6139,8 +6135,6 @@ namespace Chummer
 
                 _objCharacter.ComplexForms.Remove(objProgram);
                 treComplexForms.SelectedNode.Remove();
-
-                lblPBuildComplexForms.Text = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}", (_objCharacter.CFPLimit - _objCharacter.ComplexForms.Count).ToString(), _objCharacter.CFPLimit.ToString());
 
                 ScheduleCharacterUpdate();
 
@@ -12814,18 +12808,6 @@ namespace Chummer
             // Also update the Maximum and Augmented Maximum values displayed.
             _blnSkipUpdate = true;
 
-            // Metatypes cost Karma.
-            if (_objOptions.MetatypeCostsKarma)
-            {
-                lblKarmaMetatypeBP.Text = (_objCharacter.MetatypeBP * _objOptions.MetatypeCostsKarmaMultiplier).ToString() + " " +
-                                          LanguageManager.Instance.GetString("String_Karma");
-            }
-            else
-            {
-                lblKarmaMetatypeBP.Text = "0 " + LanguageManager.Instance.GetString("String_Karma");
-            }
-            lblMetatypeBP.Text = lblKarmaMetatypeBP.Text;
-
             string strToolTip = _objCharacter.Metatype;
             if (!string.IsNullOrEmpty(_objCharacter.Metavariant))
             {
@@ -12839,74 +12821,6 @@ namespace Chummer
             ScheduleCharacterUpdate();
         }
 
-        /// <summary>
-        /// Calculate the BP used by Primary Attributes.
-        /// </summary>
-        private int CalculateAttributeBP(List<CharacterAttrib> attribs, List<CharacterAttrib> extraAttribs = null)
-        {
-            int intBP = 0;
-            // Primary and Special Attributes are calculated separately since you can only spend a maximum of 1/2 your BP allotment on Primary Attributes.
-            // Special Attributes are not subject to the 1/2 of max BP rule.
-            foreach (CharacterAttrib att in attribs)
-            {
-                intBP += att.TotalKarmaCost();
-            }
-	        if (extraAttribs != null)
-	        {
-		        foreach (CharacterAttrib att in extraAttribs)
-		        {
-			        intBP += att.TotalKarmaCost();
-		        }
-	        }
-	        return intBP;
-        }
-
-		private int CalculteAttributePriorityPoints(List<CharacterAttrib> attribs, List<CharacterAttrib> extraAttribs = null)
-		{
-			int intAtt = 0;
-			if (_objCharacter.BuildMethod == CharacterBuildMethod.Priority ||
-				_objCharacter.BuildMethod == CharacterBuildMethod.SumtoTen)
-			{
-				// Get the total of "free points" spent
-				foreach (CharacterAttrib att in attribs)
-				{
-					intAtt += att.SpentPriorityPoints;
-				}
-				if (extraAttribs != null)
-				{
-					// Get the total of "free points" spent
-					foreach (CharacterAttrib att in extraAttribs)
-					{
-						intAtt += att.SpentPriorityPoints;
-					}
-				}
-			}
-			return intAtt;
-		}
-
-		private string BuildAttributes(List<CharacterAttrib> attribs, List<CharacterAttrib> extraAttribs = null, bool special = false)
-		{
-			string s = string.Empty;
-			int bp = CalculateAttributeBP(attribs, extraAttribs);
-			int att = CalculteAttributePriorityPoints(attribs, extraAttribs);
-			int total = special ? _objCharacter.TotalSpecial : _objCharacter.TotalAttributes;
-			if ((_objCharacter.BuildMethod == CharacterBuildMethod.Priority) ||
-				(_objCharacter.BuildMethod == CharacterBuildMethod.SumtoTen))
-			{
-				if (bp > 0)
-				{
-					s = string.Format(LanguageManager.Instance.GetString("String_OverPriorityPoints"),
-						(total - att).ToString(), total.ToString(), bp.ToString());
-				}
-				else
-				{
-					s = string.Format("{0} " + LanguageManager.Instance.GetString("String_Of") + " {1}",
-						(total - att).ToString(), total.ToString());
-				}
-			}
-			return s;
-		}
-		
 		/// <summary>
 		/// Calculate the number of Build Points the character has remaining.
 		/// </summary>
@@ -13019,31 +12933,14 @@ namespace Chummer
 			
 			lblContactsBP.Text = sb.ToString();
 			lblContactPoints.Text = sb.ToString();
-			lblPBuildContacts.Text = sb.ToString();
 
             intKarmaPointsRemain -= intPointsInContacts;
-
-            // ------------------------------------------------------------------------------
-            // Calculate the BP used by Enemies. These are added to the BP since they are technically
-		    // a Negative Quality.
-            int intEnemyPoints = 0;
-            foreach (ContactControl objContactControl in panEnemies.Controls)
-            {
-                if (!objContactControl.Free)
-                {
-                    // The Enemy's Karma cost = their (Connection + Loyalty Rating) x Karma multiplier.
-                    intEnemyPoints -= (objContactControl.ConnectionRating + objContactControl.LoyaltyRating) * _objOptions.KarmaEnemy;
-                }
-            }
-            lblEnemiesBP.Text = string.Format("{0} " + strPoints, intEnemyPoints.ToString());
-
-                // dont add in enemy costs here, carry it over later under qualities
 
             // ------------------------------------------------------------------------------
             // Calculate the BP used by Qualities.
             int intQualityPointsUsed = 0;
 			int intPositiveQualities = intGroupContacts; // group contacts are positive qualities
-            int intNegativeQualities = intEnemyPoints;   // enemies are negative qualities
+            int intNegativeQualities = _objCharacter.EnemyBPValue;   // enemies are negative qualities
 			int intLifeModuleQualities = 0;
 	
             foreach (Quality objQuality in _objCharacter.Qualities)
@@ -13087,22 +12984,17 @@ namespace Chummer
             intQualityPointsUsed = intLifeModuleQualities + intNegativeQualities + intPositiveQualities;
 
             lblPositiveQualitiesBP.Text = string.Format("{0} " + strPoints, intPositiveQualities);
-            lblPBuildPositiveQualities.Text = string.Format("{0} " + strPoints, intPositiveQualities);
 
             lblNegativeQualitiesBP.Text = string.Format("{0} " + strPoints, intNegativeQualities);
-            lblPBuildNegativeQualities.Text = string.Format("{0} " + strPoints, intNegativeQualities);
 
             intKarmaPointsRemain -= intQualityPointsUsed;
             intFreestyleBP += intQualityPointsUsed;
 
             // ------------------------------------------------------------------------------
             // Update Primary Attributes and Special Attributes values.
-            int intAttributePointsUsed = CalculateAttributeBP(_objCharacter.AttributeList);
-	        lblPBuildAttributes.Text = BuildAttributes(_objCharacter.AttributeList);
-			intAttributePointsUsed += CalculateAttributeBP(_objCharacter.SpecialAttributeList);
-			lblAttributesBP.Text = string.Format("{0} " + strPoints, intAttributePointsUsed.ToString());
+			int intAttributePointsUsed = _objCharacter.CalculateAttributeBP(_objCharacter.AttributeList);
+			intAttributePointsUsed += _objCharacter.CalculateAttributeBP(_objCharacter.SpecialAttributeList);
 			intKarmaPointsRemain -= intAttributePointsUsed;
-			lblPBuildSpecial.Text = BuildAttributes(_objCharacter.SpecialAttributeList,null,true);
 			// ------------------------------------------------------------------------------
 			// Include the BP used by Martial Arts.
 			int intMartialArtsPoints = 0;
@@ -13127,21 +13019,11 @@ namespace Chummer
             // Calculate the BP used by Active Skills.
 			int skillPointsKarma = _objCharacter.SkillsSection.Skills.TotalCostKarma();
 			intKarmaPointsRemain -= skillPointsKarma;
-			lblActiveSkillsBP.Text = $"{skillPointsKarma} {strPoints}";
 
             // ------------------------------------------------------------------------------
             // Calculate the points used by Knowledge Skills.
             int knowledgeKarmaUsed = _objCharacter.SkillsSection.KnowledgeSkills.Sum(x => x.CurrentKarmaCost());
-			//TODO: Remaining is named USED?
-            intKarmaPointsRemain -= knowledgeKarmaUsed;
-
-            // Update the label that displays the number of free Knowledge Skill points remaining.
-            lblPBuildKnowledgeSkills.Text =
-		        $"{(_objCharacter.SkillsSection.KnowledgeSkillPointsRemain)} {LanguageManager.Instance.GetString("String_Of")}  {_objCharacter.SkillsSection.KnowledgeSkillPoints}";
-
-			tabSkillUc.MissingDatabindingsWorkaround();
-
-			lblKnowledgeSkillsBP.Text = string.Format("{0} " + strPoints, knowledgeKarmaUsed);
+			
             intFreestyleBP += knowledgeKarmaUsed;
 
             // ------------------------------------------------------------------------------
@@ -13210,15 +13092,15 @@ namespace Chummer
 				intRitualPointsUsed += Math.Max(Math.Max(0, rituals) * _objOptions.KarmaSpell + _objImprovementManager.ValueOf(Improvement.ImprovementType.SpellKarmaDiscount), 0);
 				intPrepPointsUsed += Math.Max(Math.Max(0, preps) * _objOptions.KarmaSpell + _objImprovementManager.ValueOf(Improvement.ImprovementType.SpellKarmaDiscount), 0);
 				tipTooltip.SetToolTip(lblSpellsBP, $"{spells} x {_objOptions.KarmaSpell + _objImprovementManager.ValueOf(Improvement.ImprovementType.SpellKarmaDiscount)} + {LanguageManager.Instance.GetString("String_Karma")} = {intSpellPointsUsed} {LanguageManager.Instance.GetString("String_Karma")}");
-				tipTooltip.SetToolTip(lblRitualsBP, $"{rituals} x {_objOptions.KarmaSpell + _objImprovementManager.ValueOf(Improvement.ImprovementType.SpellKarmaDiscount)} + {LanguageManager.Instance.GetString("String_Karma")} = {intSpellPointsUsed} {LanguageManager.Instance.GetString("String_Karma")}");
-				tipTooltip.SetToolTip(lblPreparationsBP, $"{preps} x {_objOptions.KarmaSpell + _objImprovementManager.ValueOf(Improvement.ImprovementType.SpellKarmaDiscount)} + {LanguageManager.Instance.GetString("String_Karma")} = {intSpellPointsUsed} {LanguageManager.Instance.GetString("String_Karma")}");
+				tipTooltip.SetToolTip(lblBuildRitualsBP, $"{rituals} x {_objOptions.KarmaSpell + _objImprovementManager.ValueOf(Improvement.ImprovementType.SpellKarmaDiscount)} + {LanguageManager.Instance.GetString("String_Karma")} = {intSpellPointsUsed} {LanguageManager.Instance.GetString("String_Karma")}");
+				tipTooltip.SetToolTip(lblBuildPrepsBP, $"{preps} x {_objOptions.KarmaSpell + _objImprovementManager.ValueOf(Improvement.ImprovementType.SpellKarmaDiscount)} + {LanguageManager.Instance.GetString("String_Karma")} = {intSpellPointsUsed} {LanguageManager.Instance.GetString("String_Karma")}");
 			}
 	        lblBuildPrepsBP.Text = $"{intPrepPointsUsed} {strPoints}";
 			lblSpellsBP.Text = $"{intSpellPointsUsed} {strPoints}";
 			lblBuildRitualsBP.Text = $"{intRitualPointsUsed} {strPoints}";
-			lblPBuildSpells.Text = string.Format($"{spellPoints} {LanguageManager.Instance.GetString("String_Of")} {_objCharacter.MAG.Value * 2}: {intSpellPointsUsed} {strPoints}");
-			lblRitualsBP.Text = string.Format($"{ritualPoints} {LanguageManager.Instance.GetString("String_Of")} {_objCharacter.MAG.Value * 2}: {intRitualPointsUsed} {strPoints}");
-			lblPreparationsBP.Text = string.Format($"{prepPoints} {LanguageManager.Instance.GetString("String_Of")} {_objCharacter.MAG.Value * 2}: {intPrepPointsUsed} {strPoints}");
+			lblSpellsBP.Text = string.Format($"{spellPoints} {LanguageManager.Instance.GetString("String_Of")} {_objCharacter.MAG.Value * 2}: {intSpellPointsUsed} {strPoints}");
+			lblBuildRitualsBP.Text = string.Format($"{ritualPoints} {LanguageManager.Instance.GetString("String_Of")} {_objCharacter.MAG.Value * 2}: {intRitualPointsUsed} {strPoints}");
+			lblBuildPrepsBP.Text = string.Format($"{prepPoints} {LanguageManager.Instance.GetString("String_Of")} {_objCharacter.MAG.Value * 2}: {intPrepPointsUsed} {strPoints}");
 			intFreestyleBP += intSpellPointsUsed + intRitualPointsUsed + intPrepPointsUsed;
 
             // ------------------------------------------------------------------------------
@@ -13481,9 +13363,11 @@ namespace Chummer
             {
                 string strTip = string.Empty;
                 _blnSkipUpdate = true;
+				
+				tabSkillUc.MissingDatabindingsWorkaround();
 
 				//Redliner/Cyber Singularity Seeker(hackish)
-	            RedlinerCheck();
+				RedlinerCheck();
 				
                 UpdateArmorRating(lblArmor, tipTooltip, _objImprovementManager);
 
@@ -13497,7 +13381,6 @@ namespace Chummer
                 decimal decESS = Math.Round(_objCharacter.Essence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero);
                 lblESSMax.Text = decESS.ToString(GlobalOptions.CultureInfo);
                 tssEssence.Text = lblESSMax.Text;
-                lblPBuildEssence.Text = lblESSMax.Text;
 
                 lblCyberwareESS.Text = Math.Round(_objCharacter.CyberwareEssence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
                 lblBiowareESS.Text = Math.Round(_objCharacter.BiowareEssence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
@@ -13668,7 +13551,6 @@ namespace Chummer
             _objCharacter.Nuyen = intNuyen - intDeductions;
             lblRemainingNuyen.Text = $"{intNuyen - intDeductions:###,###,##0¥}";
             tssNuyenRemaining.Text = $"{intNuyen - intDeductions:###,###,##0¥}";
-            lblPBuildNuyen.Text = $"{intNuyen - intDeductions:###,###,##0¥}";
 
             return intNuyen - intDeductions;
         }
@@ -19131,7 +19013,6 @@ namespace Chummer
             {
                 lblKarmaMetatypeBP.Text = "0 " + LanguageManager.Instance.GetString("String_Karma");
             }
-            lblMetatypeBP.Text = lblKarmaMetatypeBP.Text;
 
             string strToolTip = _objCharacter.Metatype;
             if (!string.IsNullOrEmpty(_objCharacter.Metavariant))
@@ -19251,7 +19132,7 @@ namespace Chummer
             // Character Info Tab.
             tipTooltip.SetToolTip(chkCharacterCreated, LanguageManager.Instance.GetString("Tip_CharacterCreated"));
             // Build Point Summary Tab.
-            tipTooltip.SetToolTip(lblBuildPrimaryAttributes, LanguageManager.Instance.GetString("Tip_CommonAttributes"));
+            tipTooltip.SetToolTip(lblPrimaryAttributes, LanguageManager.Instance.GetString("Tip_CommonAttributes"));
             tipTooltip.SetToolTip(lblBuildPositiveQualities, LanguageManager.Instance.GetString("Tip_BuildPositiveQualities"));
             tipTooltip.SetToolTip(lblBuildNegativeQualities, LanguageManager.Instance.GetString("Tip_BuildNegativeQualities"));
             tipTooltip.SetToolTip(lblBuildContacts, LanguageManager.Instance.GetString("Tip_CommonContacts").Replace("{0}", _objOptions.BPContact.ToString()));
