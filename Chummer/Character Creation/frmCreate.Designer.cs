@@ -99,7 +99,6 @@ namespace Chummer
 			this.lblBuildActiveSkills = new Chummer.helpers.Label();
 			this.lblBuildSkillGroups = new Chummer.helpers.Label();
 			this.lblBuildContacts = new Chummer.helpers.Label();
-			this.lblPrimaryAttributes = new Chummer.helpers.Label();
 			this.lblBuildNegativeQualities = new Chummer.helpers.Label();
 			this.lblBuildPositiveQualities = new Chummer.helpers.Label();
 			this.lblRiggingINILabel = new Chummer.helpers.Label();
@@ -142,7 +141,8 @@ namespace Chummer
 			this.lblBuildAIAdvancedPrograms = new Chummer.helpers.Label();
 			this.lblBuildRitualsBPLabel = new Chummer.helpers.Label();
 			this.lblBuildPrepsBPLabel = new Chummer.helpers.Label();
-			this.lblSpecialAttributes = new Chummer.helpers.Label();
+			this.lblSpecialAttributesBP = new Chummer.helpers.Label();
+			this.lblPrimaryAttributes = new Chummer.helpers.Label();
 			this.lblAIProgramsAdvancedPrograms = new Chummer.helpers.Label();
 			this.lblPublicAware = new Chummer.helpers.Label();
 			this.lblSocialLabel = new Chummer.helpers.Label();
@@ -776,7 +776,6 @@ namespace Chummer
 			this.panImprovements = new System.Windows.Forms.FlowLayoutPanel();
 			this.tabInfo = new System.Windows.Forms.TabControl();
 			this.tabBPSummary = new System.Windows.Forms.TabPage();
-			this.lblPBuildSpecial = new Chummer.helpers.Label();
 			this.lblPBuildSpecialLabel = new Chummer.helpers.Label();
 			this.lblBuildRitualsBP = new Chummer.helpers.Label();
 			this.lblBuildPrepsBP = new Chummer.helpers.Label();
@@ -800,7 +799,7 @@ namespace Chummer
 			this.lblSkillGroupsBP = new Chummer.helpers.Label();
 			this.lblPositiveQualitiesBP = new Chummer.helpers.Label();
 			this.lblNegativeQualitiesBP = new Chummer.helpers.Label();
-			this.lblAttributesBP = new Chummer.helpers.Label();
+			this.lblPrimaryAttributesBP = new Chummer.helpers.Label();
 			this.lblContactsBP = new Chummer.helpers.Label();
 			this.tabOtherInfo = new System.Windows.Forms.TabPage();
 			this.lblRiggingINI = new Chummer.helpers.Label();
@@ -862,6 +861,7 @@ namespace Chummer
 			this.cmsAdvancedProgram = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.tsAddAdvancedProgramOption = new System.Windows.Forms.ToolStripMenuItem();
 			this.tsAIProgramNotes = new System.Windows.Forms.ToolStripMenuItem();
+			this.label2 = new Chummer.helpers.Label();
 			this.StatusStrip.SuspendLayout();
 			this.cmsMartialArts.SuspendLayout();
 			this.cmsSpellButton.SuspendLayout();
@@ -1377,20 +1377,6 @@ namespace Chummer
 			this.tipTooltip.SetToolTip(this.lblBuildContacts, "Each point of Connection or Loyalty costs 1 BP.");
 			this.lblBuildContacts.TooltipText = null;
 			// 
-			// lblPrimaryAttributes
-			// 
-			this.lblBuildPrimaryAttributes.AutoSize = true;
-			this.lblBuildPrimaryAttributes.Location = new System.Drawing.Point(10, 30);
-			this.lblBuildPrimaryAttributes.Name = "lblBuildPrimaryAttributes";
-			this.lblBuildPrimaryAttributes.Size = new System.Drawing.Size(51, 13);
-			this.lblBuildPrimaryAttributes.TabIndex = 57;
-			this.lblBuildPrimaryAttributes.Tag = "Label_Attributes";
-			this.lblBuildPrimaryAttributes.Text = "Attributes";
-			this.tipTooltip.SetToolTip(this.lblBuildPrimaryAttributes, "Characters cannot spend more than 50% of their BP on Primary Attributes (not incl" +
-        "uding EDG, MAG, and RES).\r\nOnly one attribute may be at its Maximum value during" +
-        " character creation.");
-			this.lblPrimaryAttributes.TooltipText = null;
-			// 
 			// lblBuildNegativeQualities
 			// 
 			this.lblBuildNegativeQualities.AutoSize = true;
@@ -1415,6 +1401,7 @@ namespace Chummer
 			this.lblBuildPositiveQualities.Text = "Positive Qualities";
 			this.tipTooltip.SetToolTip(this.lblBuildPositiveQualities, "Characters may select up to 35 BP worth of Positive Qualities. Qualities in dark " +
         "red do not count towards the 35 BP limit.");
+			this.lblBuildPositiveQualities.TooltipText = null;
 			// 
 			// lblRiggingINILabel
 			// 
@@ -1872,6 +1859,7 @@ namespace Chummer
 			this.lblBuildAIAdvancedPrograms.Tag = "Label_SummaryAIAdvancedPrograms";
 			this.lblBuildAIAdvancedPrograms.Text = "Advanced Programs";
 			this.tipTooltip.SetToolTip(this.lblBuildAIAdvancedPrograms, "Each Martial Art Maneuver costs 2 BP.");
+			this.lblBuildAIAdvancedPrograms.TooltipText = null;
 			// 
 			// lblBuildRitualsBPLabel
 			// 
@@ -1897,19 +1885,27 @@ namespace Chummer
 			this.tipTooltip.SetToolTip(this.lblBuildPrepsBPLabel, "Each Spell costs 3 BP.");
 			this.lblBuildPrepsBPLabel.TooltipText = null;
 			// 
-			// lblSpecialAttributes
+			// lblSpecialAttributesBP
 			// 
-			this.lblSpecialAttributes.AutoSize = true;
-			this.lblSpecialAttributes.Location = new System.Drawing.Point(6, 53);
-			this.lblSpecialAttributes.Name = "lblSpecialAttributes";
-			this.lblSpecialAttributes.Size = new System.Drawing.Size(89, 13);
-			this.lblSpecialAttributes.TabIndex = 135;
-			this.lblSpecialAttributes.Tag = "String_Special";
-			this.lblSpecialAttributes.Text = "Special Attributes";
-			this.tipTooltip.SetToolTip(this.lblSpecialAttributes, "Characters cannot spend more than 50% of their BP on Primary Attributes (not incl" +
+			this.lblSpecialAttributesBP.AutoSize = true;
+			this.lblSpecialAttributesBP.Location = new System.Drawing.Point(126, 51);
+			this.lblSpecialAttributesBP.Name = "lblSpecialAttributesBP";
+			this.lblSpecialAttributesBP.Size = new System.Drawing.Size(34, 13);
+			this.lblSpecialAttributesBP.TabIndex = 135;
+			this.lblSpecialAttributesBP.Tag = "String_Special";
+			this.lblSpecialAttributesBP.Text = "0 of 0";
+			this.tipTooltip.SetToolTip(this.lblSpecialAttributesBP, "Characters cannot spend more than 50% of their BP on Primary Attributes (not incl" +
         "uding EDG, MAG, and RES).\r\nOnly one attribute may be at its Maximum value during" +
         " character creation.");
-			this.lblSpecialAttributes.TooltipText = null;
+			this.lblSpecialAttributesBP.TooltipText = null;
+			// 
+			// lblPrimaryAttributes
+			// 
+			this.lblPrimaryAttributes.Location = new System.Drawing.Point(0, 0);
+			this.lblPrimaryAttributes.Name = "lblPrimaryAttributes";
+			this.lblPrimaryAttributes.Size = new System.Drawing.Size(100, 23);
+			this.lblPrimaryAttributes.TabIndex = 136;
+			this.lblPrimaryAttributes.TooltipText = null;
 			// 
 			// lblAIProgramsAdvancedPrograms
 			// 
@@ -9345,7 +9341,8 @@ namespace Chummer
 			// tabBPSummary
 			// 
 			this.tabBPSummary.BackColor = System.Drawing.SystemColors.ButtonFace;
-			this.tabBPSummary.Controls.Add(this.lblPBuildSpecial);
+			this.tabBPSummary.Controls.Add(this.label2);
+			this.tabBPSummary.Controls.Add(this.lblSpecialAttributesBP);
 			this.tabBPSummary.Controls.Add(this.lblPBuildSpecialLabel);
 			this.tabBPSummary.Controls.Add(this.lblBuildRitualsBPLabel);
 			this.tabBPSummary.Controls.Add(this.lblBuildRitualsBP);
@@ -9397,15 +9394,6 @@ namespace Chummer
 			this.tabBPSummary.Tag = "Tab_BPSummary";
 			this.tabBPSummary.Text = "Karma Summary";
 			// 
-			// lblPBuildSpecial
-			// 
-			this.lblPBuildSpecial.AutoSize = true;
-			this.lblPBuildSpecial.Location = new System.Drawing.Point(126, 51);
-			this.lblPBuildSpecial.Name = "lblPBuildSpecial";
-			this.lblPBuildSpecial.Size = new System.Drawing.Size(34, 13);
-			this.lblPBuildSpecial.TabIndex = 135;
-			this.lblPBuildSpecial.Text = "0 of 0";
-			// 
 			// lblPBuildSpecialLabel
 			// 
 			this.lblPBuildSpecialLabel.AutoSize = true;
@@ -9413,8 +9401,9 @@ namespace Chummer
 			this.lblPBuildSpecialLabel.Name = "lblPBuildSpecialLabel";
 			this.lblPBuildSpecialLabel.Size = new System.Drawing.Size(89, 13);
 			this.lblPBuildSpecialLabel.TabIndex = 134;
-			this.lblPBuildSpecialLabel.Tag = "String_Special";
+			this.lblPBuildSpecialLabel.Tag = "Label_SummarySpecialAttributes";
 			this.lblPBuildSpecialLabel.Text = "Special Attributes";
+			this.lblPBuildSpecialLabel.TooltipText = null;
 			// 
 			// lblBuildRitualsBP
 			// 
@@ -9641,12 +9630,14 @@ namespace Chummer
 			// 
 			// lblPrimaryAttributesBP
 			// 
-			this.lblAttributesBP.AutoSize = true;
-			this.lblAttributesBP.Location = new System.Drawing.Point(126, 30);
-			this.lblAttributesBP.Name = "lblAttributesBP";
-			this.lblAttributesBP.Size = new System.Drawing.Size(30, 13);
-			this.lblAttributesBP.TabIndex = 56;
-			this.lblAttributesBP.Text = "0 BP";
+			this.lblPrimaryAttributesBP.AutoSize = true;
+			this.lblPrimaryAttributesBP.Location = new System.Drawing.Point(126, 30);
+			this.lblPrimaryAttributesBP.Name = "lblPrimaryAttributesBP";
+			this.lblPrimaryAttributesBP.Size = new System.Drawing.Size(30, 13);
+			this.lblPrimaryAttributesBP.TabIndex = 56;
+			this.lblPrimaryAttributesBP.Tag = "Label_Attributes";
+			this.lblPrimaryAttributesBP.Text = "0 BP";
+			this.lblPrimaryAttributesBP.TooltipText = null;
 			// 
 			// lblContactsBP
 			// 
@@ -10295,6 +10286,17 @@ namespace Chummer
 			this.tsAIProgramNotes.Tag = "Menu_Notes";
 			this.tsAIProgramNotes.Text = "&Notes";
 			this.tsAIProgramNotes.Click += new System.EventHandler(this.tsAIProgramNotes_Click);
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(10, 30);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(88, 13);
+			this.label2.TabIndex = 137;
+			this.label2.Tag = "Label_SummaryPrimaryAttributes";
+			this.label2.Text = "Primary Attributes";
+			this.label2.TooltipText = null;
 			// 
 			// frmCreate
 			// 
@@ -11232,8 +11234,9 @@ namespace Chummer
 		private Chummer.helpers.Label lblBuildPrepsBPLabel;
 		private Chummer.helpers.Label lblBuildPrepsBP;
 		private System.Windows.Forms.FlowLayoutPanel pnlAttributes;
-		private System.Windows.Forms.Label lblPBuildSpecial;
-		private System.Windows.Forms.Label lblPBuildSpecialLabel;
+		private Chummer.helpers.Label lblSpecialAttributesBP;
 		private System.Windows.Forms.CheckBox chkPrototypeTranshuman;
+		private Label label2;
+		private Label lblPBuildSpecialLabel;
 	}
 }
