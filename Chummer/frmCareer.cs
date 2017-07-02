@@ -921,28 +921,18 @@ namespace Chummer
 				objXmlDocument = XmlManager.Instance.Load("traditions.xml");
 				XmlNode objXmlTradition = objXmlDocument.SelectSingleNode("/chummer/traditions/tradition[name = \"" + _objCharacter.MagicTradition + "\"]");
 				lblDrainAttributes.Text = objXmlTradition["drain"].InnerText;
+			    string strDrainAtt = string.Empty;
 
-				// Update the Drain CharacterAttribute Value.
-					XPathNavigator nav = objXmlDocument.CreateNavigator();
-					string strDrain = lblDrainAttributes.Text.Replace(LanguageManager.Instance.GetString("String_AttributeBODShort"), _objCharacter.BOD.Value.ToString());
-					strDrain = strDrain.Replace(LanguageManager.Instance.GetString("String_AttributeAGIShort"), _objCharacter.AGI.Value.ToString());
-					strDrain = strDrain.Replace(LanguageManager.Instance.GetString("String_AttributeREAShort"), _objCharacter.REA.Value.ToString());
-                strDrain = strDrain.Replace(LanguageManager.Instance.GetString("String_AttributeSTRShort"), _objCharacter.STR.Value.ToString());
-					strDrain = strDrain.Replace(LanguageManager.Instance.GetString("String_AttributeCHAShort"), _objCharacter.CHA.Value.ToString());
-					strDrain = strDrain.Replace(LanguageManager.Instance.GetString("String_AttributeINTShort"), _objCharacter.INT.Value.ToString());
-					strDrain = strDrain.Replace(LanguageManager.Instance.GetString("String_AttributeLOGShort"), _objCharacter.LOG.Value.ToString());
-					strDrain = strDrain.Replace(LanguageManager.Instance.GetString("String_AttributeWILShort"), _objCharacter.WIL.Value.ToString());
-					strDrain = strDrain.Replace(LanguageManager.Instance.GetString("String_AttributeMAGShort"), _objCharacter.MAG.TotalValue.ToString());
-                int intDrain = 0;
-                try
-				{
-					XPathExpression xprDrain = nav.Compile(strDrain);
-					intDrain = Convert.ToInt32(nav.Evaluate(xprDrain).ToString());
-				}
-				catch (XPathException)
-				{
-				}
-                intDrain += _objImprovementManager.ValueOf(Improvement.ImprovementType.DrainResistance);
+                XPathNavigator nav = objXmlDocument.CreateNavigator();
+                string strDrain = Character.AttributeStrings.Select(_objCharacter.GetAttribute).Aggregate(strDrainAtt, (current, objAttrib) => current.Replace(objAttrib.Abbrev, objAttrib.TotalValue.ToString()));
+                if (string.IsNullOrEmpty(strDrain))
+                {
+                    strDrain = "0";
+                }
+                XPathExpression xprDrain = nav.Compile(strDrain);
+
+                // Add any Improvements for Drain Resistance.
+                int intDrain = Convert.ToInt32(nav.Evaluate(xprDrain)) + _objImprovementManager.ValueOf(Improvement.ImprovementType.DrainResistance);
                 lblDrainAttributesValue.Text = intDrain.ToString();
 			}
 
@@ -952,17 +942,16 @@ namespace Chummer
 				XmlNode objXmlTradition = objXmlDocument.SelectSingleNode("/chummer/traditions/tradition[name = \"" + _objCharacter.TechnomancerStream + "\"]");
 				lblFadingAttributes.Text = objXmlTradition["drain"].InnerText;
 
-				// Update the Fading CharacterAttribute Value.
+                // Update the Fading CharacterAttribute Value.
+                string strDrainAtt = string.Empty;
+
                 XPathNavigator nav = objXmlDocument.CreateNavigator();
-                string strFading = lblFadingAttributes.Text.Replace(_objCharacter.BOD.Abbrev, _objCharacter.BOD.Value.ToString());
-                strFading = strFading.Replace(_objCharacter.AGI.Abbrev, _objCharacter.AGI.Value.ToString());
-                strFading = strFading.Replace(_objCharacter.REA.Abbrev, _objCharacter.REA.Value.ToString());
-                strFading = strFading.Replace(_objCharacter.STR.Abbrev, _objCharacter.STR.Value.ToString());
-                strFading = strFading.Replace(_objCharacter.CHA.Abbrev, _objCharacter.CHA.Value.ToString());
-                strFading = strFading.Replace(_objCharacter.INT.Abbrev, _objCharacter.INT.Value.ToString());
-                strFading = strFading.Replace(_objCharacter.LOG.Abbrev, _objCharacter.LOG.Value.ToString());
-                strFading = strFading.Replace(_objCharacter.WIL.Abbrev, _objCharacter.WIL.Value.ToString());
-                strFading = strFading.Replace(_objCharacter.RES.Abbrev, _objCharacter.RES.TotalValue.ToString());
+                string strFading = Character.AttributeStrings.Select(_objCharacter.GetAttribute).Aggregate(strDrainAtt, (current, objAttrib) => current.Replace(objAttrib.Abbrev, objAttrib.TotalValue.ToString()));
+                if (string.IsNullOrEmpty(strFading))
+                {
+                    strFading = "0";
+                }
+                XPathExpression xprDrain = nav.Compile(strFading);
                 int intFading = 0;
 				try
 				{
@@ -4320,7 +4309,7 @@ namespace Chummer
 					    if (objCyberware.Parent == null)
 					    {
 					        //Add essence hole.
-					        IncreaseEssenceHole((int) (objCyberware.CalculatedESS * 100m));
+					        IncreaseEssenceHole((int) (objCyberware.CalculatedESS() * 100m));
 					    }
 
 					    // Open the Cyberware XML file and locate the selected piece.
@@ -4360,6 +4349,7 @@ namespace Chummer
 				}
 
 				RefreshSelectedCyberware();
+				_objCharacter.ForceAttributePropertyChangedNotificationAll(nameof(CharacterAttrib.AttributeModifiers));
 				_objCharacter.SkillsSection.ForceProperyChangedNotificationAll(nameof(Skill.AttributeModifiers));
 
 				_blnIsDirty = true;
@@ -5022,6 +5012,7 @@ namespace Chummer
 				_objController.PopulateFocusList(treFoci);
 				ScheduleCharacterUpdate();
 				RefreshSelectedGear();
+				_objCharacter.ForceAttributePropertyChangedNotificationAll(nameof(CharacterAttrib.AttributeModifiers));
 				_objCharacter.SkillsSection.ForceProperyChangedNotificationAll(nameof(Skill.PoolToolTip));
 
 				_blnIsDirty = true;
@@ -7435,14 +7426,6 @@ namespace Chummer
 					treWeapons.Nodes[0].Expand();
 				}
 
-				// If the new Quality is linked to a Latent source, see if the Quality that is being swapped out is the same as the one the new Quality is linked to.
-				// If so, set the character's OverrideSpecialAttributeEssenceLoss to true so that they always start with a Special CharacterAttribute value of 1.
-				if (objXmlQuality["latentsource"] != null)
-				{
-					if (objXmlQuality["latentsource"].InnerText == objQuality.Name)
-						_objCharacter.OverrideSpecialAttributeEssenceLoss = true;
-				}
-
 				// Remove any Improvements for the old Quality.
 				_objImprovementManager.RemoveImprovements(Improvement.ImprovementSource.Quality, objQuality.InternalId);
 				_objCharacter.Qualities.Remove(objQuality);
@@ -8014,8 +7997,8 @@ namespace Chummer
                 //OBSOLETE: Review once ImprovementManager gets outbound events
                 //TODO: Pare this down to only fire against the skill that's changed? Review performance impact?
                 _objCharacter.SkillsSection.ForceProperyChangedNotificationAll(nameof(Skill.Pool));
-
-                UpdateWindowTitle();
+				_objCharacter.ForceAttributePropertyChangedNotificationAll(nameof(CharacterAttrib.TotalMinimum));
+				UpdateWindowTitle();
             }
 		}
 
@@ -8037,8 +8020,9 @@ namespace Chummer
                 //OBSOLETE: Review once ImprovementManager gets outbound events
                 //TODO: Pare this down to only fire against the skill that's changed? Review performance impact?
                 _objCharacter.SkillsSection.ForceProperyChangedNotificationAll(nameof(Skill.Pool));
+				_objCharacter.ForceAttributePropertyChangedNotificationAll(nameof(CharacterAttrib.TotalMinimum));
 
-                UpdateWindowTitle();
+				UpdateWindowTitle();
             }
 		}
 
@@ -8590,18 +8574,17 @@ namespace Chummer
 
 		private void tsVehicleAddMod_Click(object sender, EventArgs e)
 		{
+			while (treVehicles.SelectedNode != null && treVehicles.SelectedNode.Level > 1)
+				treVehicles.SelectedNode = treVehicles.SelectedNode.Parent;
+
 			// Make sure a parent items is selected, then open the Select Vehicle Mod window.
-            if (treVehicles.SelectedNode == null || treVehicles.SelectedNode.Level == 0)
+			if (treVehicles.SelectedNode == null || treVehicles.SelectedNode.Level <= 0)
 			{
 				MessageBox.Show(LanguageManager.Instance.GetString("Message_SelectVehicle"), LanguageManager.Instance.GetString("MessageTitle_SelectVehicle"), MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
-			if (treVehicles.SelectedNode.Level > 1)
-				treVehicles.SelectedNode = treVehicles.SelectedNode.Parent;
-
 			Vehicle objSelectedVehicle = CommonFunctions.FindByIdWithNameCheck(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
-
 			frmSelectVehicleMod frmPickVehicleMod = new frmSelectVehicleMod(_objCharacter, true);
 			// Pass the selected vehicle on to the form.
 			frmPickVehicleMod.SelectedVehicle = objSelectedVehicle;
@@ -10179,7 +10162,7 @@ namespace Chummer
 						_objImprovementManager.RemoveImprovements(objCyberware.SourceType, objCyberware.InternalId);
 						_objCharacter.Cyberware.Remove(objCyberware);
 
-						IncreaseEssenceHole((int)(objCyberware.CalculatedESS * 100));
+						IncreaseEssenceHole((int)(objCyberware.CalculatedESS() * 100));
 
 						// Remove the item from the TreeView.
 						treCyberware.Nodes.Remove(treCyberware.SelectedNode);
@@ -18003,10 +17986,7 @@ namespace Chummer
                     _objCharacter.MagicTradition = cboTradition.SelectedValue.ToString();
                 else
                     _objCharacter.MagicTradition = txtTraditionName.Text;
-
-                if (cboDrain.SelectedIndex != 0)
-                    lblDrainAttributes.Text = cboDrain.Text;
-            }
+			}
             else
             {
                 cboDrain.Visible = false;
@@ -18025,23 +18005,15 @@ namespace Chummer
                 cboSpiritIllusion.Visible = false;
                 cboSpiritManipulation.Visible = false;
 
-                string strDrain = objXmlTradition["drain"].InnerText;
-                strDrain = strDrain.Replace("BOD", _objCharacter.BOD.DisplayAbbrev);
-                strDrain = strDrain.Replace("AGI", _objCharacter.AGI.DisplayAbbrev);
-                strDrain = strDrain.Replace("REA", _objCharacter.REA.DisplayAbbrev);
-                strDrain = strDrain.Replace("STR", _objCharacter.STR.DisplayAbbrev);
-                strDrain = strDrain.Replace("CHA", _objCharacter.CHA.DisplayAbbrev);
-                strDrain = strDrain.Replace("INT", _objCharacter.INT.DisplayAbbrev);
-                strDrain = strDrain.Replace("LOG", _objCharacter.LOG.DisplayAbbrev);
-                strDrain = strDrain.Replace("WIL", _objCharacter.WIL.DisplayAbbrev);
-                strDrain = strDrain.Replace("MAG", _objCharacter.MAG.DisplayAbbrev);
-                lblDrainAttributes.Text = strDrain;
                 lblTraditionSource.Text = objXmlTradition["source"].InnerText + " " + objXmlTradition["page"].InnerText;
                 _objCharacter.MagicTradition = cboTradition.SelectedValue.ToString();
+	            _objCharacter.TraditionDrain = objXmlTradition["drain"].InnerText;
                 foreach (SpiritControl objSpiritControl in panSpirits.Controls)
                     objSpiritControl.RebuildSpiritList(cboTradition.SelectedValue.ToString());
 
-            }
+			}
+
+			CalculateTraditionDrain(_objCharacter.TraditionDrain, _objImprovementManager, Improvement.ImprovementType.DrainResistance, lblDrainAttributes, lblDrainAttributesValue, tipTooltip);
 
 			ScheduleCharacterUpdate();
 
@@ -18666,8 +18638,9 @@ namespace Chummer
                     //OBSOLETE: Review once ImprovementManager gets outbound events
                     //TODO: Pare this down to only fire against the skill that's changed? Review performance impact?
                     _objCharacter.SkillsSection.ForceProperyChangedNotificationAll(nameof(Skill.Pool));
+					_objCharacter.ForceAttributePropertyChangedNotificationAll(nameof(CharacterAttrib.TotalMinimum));
 
-                    _blnIsDirty = true;
+					_blnIsDirty = true;
 					UpdateWindowTitle();
 				}
 			}
@@ -19609,7 +19582,7 @@ namespace Chummer
 			_blnSkipUpdate = true;
 
 			int intEssenceLoss = 0;
-			if (!_objOptions.ESSLossReducesMaximumOnly && !_objCharacter.OverrideSpecialAttributeEssenceLoss)
+			if (!_objOptions.ESSLossReducesMaximumOnly)
 				intEssenceLoss = _objCharacter.EssencePenalty;
 			else
 			{
@@ -19751,7 +19724,7 @@ namespace Chummer
 			}
 
 			int intEssenceLoss = 0;
-			if (!_objOptions.ESSLossReducesMaximumOnly && !_objCharacter.OverrideSpecialAttributeEssenceLoss)
+			if (!_objOptions.ESSLossReducesMaximumOnly)
 				intEssenceLoss = _objCharacter.EssencePenalty;
 			else
 			{
@@ -20449,7 +20422,7 @@ namespace Chummer
 	            lblCyberwareCapacity.Text = objCyberware.CalculatedCapacity + " (" +
 	                                        objCyberware.CapacityRemaining.ToString() + " " +
 	                                        LanguageManager.Instance.GetString("String_Remaining") + ")";
-				lblCyberwareEssence.Text = objCyberware.CalculatedESS.ToString(GlobalOptions.CultureInfo);
+				lblCyberwareEssence.Text = objCyberware.CalculatedESS().ToString(GlobalOptions.CultureInfo);
 				ScheduleCharacterUpdate();
 			}
 			else
@@ -20865,11 +20838,11 @@ namespace Chummer
 					tipTooltip.SetToolTip(lblWeaponDicePool, objWeapon.DicePoolTooltip);
 					ScheduleCharacterUpdate();
 
-					cmsAmmoSingleShot.Enabled = objWeapon.AllowMode("SS") || objWeapon.AllowMode("SA");
-					cmsAmmoShortBurst.Enabled = objWeapon.AllowMode("BF") || objWeapon.AllowMode("FA");
-					cmsAmmoLongBurst.Enabled = objWeapon.AllowMode("FA");
-					cmsAmmoFullBurst.Enabled = objWeapon.AllowMode("FA");
-					cmsAmmoSuppressiveFire.Enabled = objWeapon.AllowMode("FA");
+					cmsAmmoSingleShot.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeSingleShot")) || objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeSemiAutomatic"));
+					cmsAmmoShortBurst.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeBurstFire")) || objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+					cmsAmmoLongBurst.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+					cmsAmmoFullBurst.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+					cmsAmmoSuppressiveFire.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
 
 					// Melee Weapons with Ammo are considered to be Single Shot.
 					if (objWeapon.WeaponType == "Melee" && objWeapon.Ammo != "0")
@@ -21800,7 +21773,7 @@ namespace Chummer
 				}
 			}
 
-			DecreaseEssenceHole((int)(objCyberware.CalculatedESS * 100));
+			DecreaseEssenceHole((int)(objCyberware.CalculatedESS() * 100));
 
 			if (treCyberware.SelectedNode != null && treCyberware.SelectedNode.Level > 0)
 				{
@@ -21845,6 +21818,7 @@ namespace Chummer
 			PopulateGearList();
 
 			_objCharacter.SkillsSection.ForceProperyChangedNotificationAll(nameof(Skill.PoolToolTip));
+			_objCharacter.ForceAttributePropertyChangedNotificationAll(nameof(CharacterAttrib.AttributeModifiers));
 
 			if (frmPickCyberware.DialogResult != DialogResult.Cancel)
 			{
@@ -22169,6 +22143,7 @@ namespace Chummer
 			}
 
 			_objCharacter.SkillsSection.ForceProperyChangedNotificationAll(nameof(Skill.PoolModifiers));
+			_objCharacter.ForceAttributePropertyChangedNotificationAll(nameof(CharacterAttrib.AttributeValueModifiers));
 
 			ScheduleCharacterUpdate();
 			RefreshSelectedGear();
@@ -22960,11 +22935,11 @@ namespace Chummer
 							cmdReloadVehicleWeapon.Enabled = true;
 							lblVehicleWeaponAmmoRemaining.Text = objWeapon.AmmoRemaining.ToString();
 
-							cmsVehicleAmmoSingleShot.Enabled = objWeapon.AllowMode("SS") || objWeapon.AllowMode("SA");
-							cmsVehicleAmmoShortBurst.Enabled = objWeapon.AllowMode("BF");
-							cmsVehicleAmmoLongBurst.Enabled = objWeapon.AllowMode("FA");
-							cmsVehicleAmmoFullBurst.Enabled = objWeapon.AllowMode("FA");
-							cmsVehicleAmmoSuppressiveFire.Enabled = objWeapon.AllowMode("FA");
+							cmsVehicleAmmoSingleShot.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeSingleShot")) || objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeSemiAutomatic"));
+							cmsVehicleAmmoShortBurst.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeBurstFire")) || objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+							cmsVehicleAmmoLongBurst.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+							cmsVehicleAmmoFullBurst.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+							cmsVehicleAmmoSuppressiveFire.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
 
 							// Melee Weapons with Ammo are considered to be Single Shot.
 							if (objWeapon.WeaponType == "Melee" && objWeapon.Ammo != "0")
@@ -23471,12 +23446,13 @@ namespace Chummer
 								cmdReloadVehicleWeapon.Enabled = true;
 								lblVehicleWeaponAmmoRemaining.Text = objWeapon.AmmoRemaining.ToString();
 
-								cmsVehicleAmmoSingleShot.Enabled = objWeapon.AllowMode("SS") || objWeapon.AllowMode("SA");
-								cmsVehicleAmmoShortBurst.Enabled = objWeapon.AllowMode("BF");
-								cmsVehicleAmmoLongBurst.Enabled = objWeapon.AllowMode("FA");
-								cmsVehicleAmmoFullBurst.Enabled = objWeapon.AllowMode("FA");
-								cmsVehicleAmmoSuppressiveFire.Enabled = objWeapon.AllowMode("FA");
-								if (cmsVehicleAmmoFullBurst.Enabled)
+							cmsVehicleAmmoSingleShot.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeSingleShot")) || objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeSemiAutomatic"));
+							cmsVehicleAmmoShortBurst.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeBurstFire")) || objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+							cmsVehicleAmmoLongBurst.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+							cmsVehicleAmmoFullBurst.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+							cmsVehicleAmmoSuppressiveFire.Enabled = objWeapon.AllowMode(LanguageManager.Instance.GetString("String_ModeFullAutomatic"));
+
+							if (cmsVehicleAmmoFullBurst.Enabled)
 									cmsVehicleAmmoFullBurst.Text = LanguageManager.Instance.GetString("String_FullBurst").Replace("{0}", objWeapon.FullBurst.ToString());
 								if (cmsVehicleAmmoSuppressiveFire.Enabled)
 									cmsVehicleAmmoSuppressiveFire.Text = LanguageManager.Instance.GetString("String_SuppressiveFire").Replace("{0}", objWeapon.Suppressive.ToString());
@@ -26288,16 +26264,11 @@ namespace Chummer
             if (_blnLoading || string.IsNullOrEmpty(cboDrain.SelectedValue.ToString()))
                 return;
 
-            _objCharacter.TraditionDrain = cboDrain.Text;
-            string strDrain = cboDrain.Text;
-            foreach (string strAttribute in Character.AttributeStrings)
-            {
-                CharacterAttrib objAttrib = _objCharacter.GetAttribute(strAttribute);
-                strDrain = strDrain.Replace(objAttrib.Abbrev, objAttrib.DisplayAbbrev);
-            }
-            lblDrainAttributes.Text = strDrain;
+            _objCharacter.TraditionDrain = cboDrain.SelectedValue.ToString();
 
-            ScheduleCharacterUpdate();
+			CalculateTraditionDrain(_objCharacter.TraditionDrain, _objImprovementManager, Improvement.ImprovementType.DrainResistance, lblDrainAttributes, lblDrainAttributesValue, tipTooltip);
+
+			ScheduleCharacterUpdate();
 
             _blnIsDirty = true;
             UpdateWindowTitle();

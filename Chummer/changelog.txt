@@ -2,6 +2,7 @@ Build 194
 
 Application Changes: 
 
+- Implemented the Prototype Transhuman quality in a manner that's closer to RAW. Existing characters in career mode will need to be ported manually. Please contact me via chummer5isalive@gmail.com for assistance with this. 
 - Fixed behaviour of the Group condition to properly report when one or more groups qualifies for a forbidden/required restriction. 
 - Fixed behaviour of the condition monitors to properly be checked and unchecked.
 - Fixed behaviour of basic lifestyles to properly manage base-only multipliers.
@@ -28,6 +29,26 @@ Application Changes:
 - Fixed behaviour of contact control to properly manage Family and Blackmail settings between Save/Load. 
 - Fixed support for AIs adding cyberware to vehicles. 
 - Added the ability to add the Underbarrel weapons from Hard Targets to other weapons via the Add Underbarrel Weapon menu option. 
+- Fixed an issue with vehicle fire modes not being enabled when using languages other than English. 
+- Fixed a crash when attempting to add mods to a vehicle in carer mode.
+- Hid the option to create spells, as it's not supported in 5e.
+- Fixed ordering behaviour that prevented qualities that don't contribute to your limit from being taken if the quality's karma would go over the quality limit. 
+- Fixed an issue in which French language clients would crash while loading their magic tradition. 
+- Improved create method for qualities to properly use the ContributeToLimit field.
+- Fixed an issue with loading characters that would cause all equipment to become unequipped. 
+- Removed Omae character sheets if Omae is not enabled in the Options menu.
+- Fixed a version check issue that caused non-release builds to think characters were created in 0.0.
+- Fixed behaviour of the house rule to have Essence Loss only reduce your Maximum attribute value. 
+- Removed the character property OverrideSpecialAttributeEssenceLoss as it's redundant in 5E.
+- Fixed behaviour of update method to not mangle filenames with non-English accent characters. 
+- Fixed cost discount for Dedicated Spellslinger when using the Aspected Magician quality.
+- Fixed cost calculation of Dedicated Spellslinger to apply to all spells. 
+- Dedicates Spellslinger now properly provides free spells based on your Spellcasting skill.
+- Fixed implementations of FreeSpellsATT and FreeSpellsSkill improvements to not require updating the improvements manually. 
+- Adept powers created before the powers refresh will now properly add the relevant bonus node for the adept way discount. 
+- Adept powers now store the source id for use in searching and such. 
+- Fixed rounding behaviour when using cyberlimbs to use Ceiling instead of Floor.
+- Implemented support for knowledge skills in the selectskill improvement. Supports the Death Mentor Spirit.
 
 Data Changes:
 
@@ -50,6 +71,9 @@ Data Changes:
 - Added Translations for the Improved Reflexes Power after the Power Update.
 - Added Underbarrel Weapons from Hard Targets as weapons. Set the Underbarrel Weapon accessories to Hidden. 
 - Hard Nanohives can now add Hard Nanoware as a gear item to themselves. 
+- Removed the Latent Source property from qualities, as it's redundant in 5E.
+- Qualities now add notoriety, per SR5 368. 
+- Implemented the Death Mentor Spirit. 
 
 New Strings:
 
