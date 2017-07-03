@@ -67,7 +67,7 @@ namespace Chummer
 			this.tssBPRemainLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssBPRemain = new System.Windows.Forms.ToolStripStatusLabel();
 			this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
-			this.tssEssence = new System.Windows.Forms.ToolStripStatusLabel();
+			this.tssEssence = new Chummer.helpers.ToolStripStatusLabel();
 			this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
 			this.tssNuyenRemaining = new System.Windows.Forms.ToolStripStatusLabel();
 			this.pgbProgress = new System.Windows.Forms.ToolStripProgressBar();
@@ -10662,7 +10662,7 @@ namespace Chummer
         private System.Windows.Forms.TextBox txtSex;
         private Chummer.helpers.Label lblSex;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
-        private System.Windows.Forms.ToolStripStatusLabel tssEssence;
+        private Chummer.helpers.ToolStripStatusLabel tssEssence;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
         private System.Windows.Forms.ToolStripStatusLabel tssNuyenRemaining;
         private Chummer.helpers.Label lblGearDeviceRating;

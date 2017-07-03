@@ -4507,19 +4507,13 @@ namespace Chummer
                 _strGroupNotes = value;
             }
         }
-
+		#region Essence
         /// <summary>
         /// Essence the character had when the first gained access to MAG/RES.
         /// </summary>
-        public decimal EssenceAtSpecialStart
-        {
-            get
-            {
-                return _decEssenceAtSpecialStart;
-            }
-        }
+        public decimal EssenceAtSpecialStart => _decEssenceAtSpecialStart;
 
-        /// <summary>
+	    /// <summary>
         /// Character's Essence.
         /// </summary>
         public decimal Essence
@@ -4559,66 +4553,51 @@ namespace Chummer
             }
         }
 
-        /// <summary>
-        /// Essence consumed by Cyberware.
-        /// </summary>
-        public decimal CyberwareEssence
-        {
-            get
-            {
-                // Run through all of the pieces of Cyberware and include their Essence cost. Cyberware and Bioware costs are calculated separately. 
-                return _lstCyberware.Where(objCyberware => objCyberware.Name != "Essence Hole" && objCyberware.SourceType == Improvement.ImprovementSource.Cyberware).Sum(objCyberware => objCyberware.CalculatedESS());
-            }
-        }
+		/// <summary>
+		/// Total Essence remaining. Preformatted string for use in databinding. 
+		/// </summary>
+		public string DisplayEssence => Math.Round(Essence, Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
+		/// <summary>
+		/// Essence consumed by Cyberware.
+		/// </summary>
+		public decimal CyberwareEssence => _lstCyberware.Where(objCyberware => objCyberware.Name != "Essence Hole" && objCyberware.SourceType == Improvement.ImprovementSource.Cyberware).Sum(objCyberware => objCyberware.CalculatedESS());
 
-        /// <summary>
-        /// Essence consumed by Bioware.
-        /// </summary>
-        public decimal BiowareEssence
-        {
-            get
-            {
-                // Run through all of the pieces of Cyberware and include their Essence cost. Cyberware and Bioware costs are calculated separately. 
-                return _lstCyberware.Where(objCyberware => objCyberware.Name != "Essence Hole" && objCyberware.SourceType == Improvement.ImprovementSource.Bioware).Sum(objCyberware => objCyberware.CalculatedESS());
-            }
-        }
+	    /// <summary>
+		/// Essence consumed by Cyberware. Preformatted string for use in databinding. 
+		/// </summary>
+		public string DisplayCyberwareEssence => Math.Round(CyberwareEssence, Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
 
-        /// <summary>
-        /// Essence consumed by Essence Holes.
-        /// </summary>
-        public decimal EssenceHole
-        {
-            get
-            {
-                // Find the total Essence Cost of all Essence Hole objects. 
-                return _lstCyberware.Where(objCyberware => objCyberware.Name == "Essence Hole").Sum(objCyberware => objCyberware.CalculatedESS());
-            }
-        }
+		/// <summary>
+		/// Essence consumed by Bioware.
+		/// </summary>
+		public decimal BiowareEssence => _lstCyberware.Where(objCyberware => objCyberware.Name != "Essence Hole" && objCyberware.SourceType == Improvement.ImprovementSource.Bioware).Sum(objCyberware => objCyberware.CalculatedESS());
 
-        /// <summary>
-        /// Character's maximum Essence.
-        /// </summary>
-        public decimal EssenceMaximum
-        {
-            get
-            {
-                return Convert.ToDecimal(ESS.MetatypeMaximum + _objImprovementManager.ValueOf(Improvement.ImprovementType.EssenceMax), GlobalOptions.InvariantCultureInfo);
-            }
-        }
+	    /// <summary>
+		/// Essence consumed by Bioware. Preformatted string for use in databinding. 
+		/// </summary>
+		public string DisplayBiowareEssence => Math.Round(BiowareEssence, Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
 
-        /// <summary>
+		/// <summary>
+		/// Essence consumed by Essence Holes.
+		/// </summary>
+		public decimal EssenceHole => _lstCyberware.Where(objCyberware => objCyberware.Name == "Essence Hole").Sum(objCyberware => objCyberware.CalculatedESS());
+
+		/// <summary>
+		/// Essence consumed by Essence Holes. Preformatted string for use in databinding. 
+		/// </summary>
+		public string DisplayEssenceHole => Math.Round(EssenceHole, Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
+
+		/// <summary>
+		/// Character's maximum Essence.
+		/// </summary>
+		public decimal EssenceMaximum => Convert.ToDecimal(ESS.MetatypeMaximum + _objImprovementManager.ValueOf(Improvement.ImprovementType.EssenceMax), GlobalOptions.InvariantCultureInfo);
+
+	    /// <summary>
         /// Character's total Essence Loss penalty.
         /// </summary>
-        public int EssencePenalty
-        {
-            get
-            {
-                // Subtract the character's current Essence from its maximum. Round the remaining amount up to get the total penalty to MAG and RES.
-                return Convert.ToInt32(Math.Ceiling(EssenceAtSpecialStart + Convert.ToDecimal(_objImprovementManager.ValueOf(Improvement.ImprovementType.EssenceMax), GlobalOptions.InvariantCultureInfo) - Essence));
-            }
-        }
-
-#region Initiative
+        public int EssencePenalty => Convert.ToInt32(Math.Ceiling(EssenceAtSpecialStart + Convert.ToDecimal(_objImprovementManager.ValueOf(Improvement.ImprovementType.EssenceMax), GlobalOptions.InvariantCultureInfo) - Essence));
+		#endregion
+	    #region Initiative
 #region Physical
         /// <summary>
         /// Physical Initiative.
@@ -5549,6 +5528,19 @@ namespace Chummer
             }
         }
 
+		/// <summary>
+		/// Tooltip to separate ArmorRating from TotalArmorRating
+		/// </summary>
+	    public string ArmorTooltip
+	    {
+		    get
+		    {
+				string strArmorToolTip = $"{LanguageManager.Instance.GetString("Tip_Armor")} ({ArmorRating})";
+				if (ArmorRating != TotalArmorRating)
+					strArmorToolTip += $" + {LanguageManager.Instance.GetString("Tip_Modifiers")} + ({TotalArmorRating - ArmorRating})";
+			    return strArmorToolTip;
+		    }
+	    }
 #endregion
 
 #region Condition Monitors
@@ -7083,7 +7075,7 @@ namespace Chummer
 				int knowledgeKarmaUsed = SkillsSection.KnowledgeSkills.Sum(x => x.CurrentKarmaCost());
 				string s = string.Empty;
 
-				s = $"{SkillsSection.KnowledgeSkillPointsRemain} {LanguageManager.Instance.GetString("String_Of")}  {SkillsSection.KnowledgeSkillPoints}";
+				s = $"{SkillsSection.KnowledgeSkillPointsRemain} {LanguageManager.Instance.GetString("String_Of")}  {SkillsSection.KnowledgeSkillPointsMaximum}";
 				s += string.Format("{0} " + LanguageManager.Instance.GetString("Label_Karma"), knowledgeKarmaUsed);
 
 				return s;

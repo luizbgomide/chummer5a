@@ -1052,9 +1052,15 @@ namespace Chummer
 			}
 			mnuSpecialPossess.Visible = blnAllowPossession;
 
+			#region Armor
+			lblArmor.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.TotalArmorRating), false);
+			lblArmor.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.ArmorTooltip), false);
+			lblCMArmor.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.TotalArmorRating), false);
+			lblCMArmor.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.ArmorTooltip), false);
+			#endregion
 
-            // Set the visibility of the Armor Degradation buttons.
-            cmdArmorDecrease.Visible = _objOptions.ArmorDegradation;
+			// Set the visibility of the Armor Degradation buttons.
+			cmdArmorDecrease.Visible = _objOptions.ArmorDegradation;
 			cmdArmorIncrease.Visible = _objOptions.ArmorDegradation;
 
 			treCyberware.SortCustom();
@@ -19968,53 +19974,21 @@ namespace Chummer
 				_objImprovementManager.CreateImprovement(string.Empty, Improvement.ImprovementSource.ConditionMonitor, string.Empty,
 					Improvement.ImprovementType.ConditionMonitor, string.Empty, intCMPenalty);
 
-			UpdateArmorRating(lblArmor, tipTooltip, _objImprovementManager, lblCMArmor);
+			// Remove any Improvements from Armor Encumbrance.
+			_objImprovementManager.RemoveImprovements(Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance");
+			// Create the Armor Encumbrance Improvements.
+			if (_objCharacter.ArmorEncumbrance < 0)
+			{
+				_objImprovementManager.CreateImprovement("AGI", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
+					Improvement.ImprovementType.Attribute, "precedence-1", 0, 1, 0, 0, _objCharacter.ArmorEncumbrance);
+				_objImprovementManager.CreateImprovement("REA", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
+					Improvement.ImprovementType.Attribute, "precedence-1", 0, 1, 0, 0, _objCharacter.ArmorEncumbrance);
+			}
 
 			//Update the Spell Defence tab.
 			UpdateSpellDefence();
 
             RefreshSpells(treSpells, cmsSpell, _objCharacter);
-
-            // Update the CharacterAttribute information.
-
-				/*// Character Attribute: BOD
-				UpdateCharacterAttribute(_objCharacter.BOD, lblBODMetatype, lblBODAug, tipTooltip);
-
-				// Character Attribute: AGI
-				UpdateCharacterAttribute(_objCharacter.AGI,lblAGIMetatype,lblAGIAug,tipTooltip);
-
-				// Character Attribute: REA
-				UpdateCharacterAttribute(_objCharacter.REA, lblREAMetatype, lblREAAug, tipTooltip);
-
-				// Character Attribute: STR
-				UpdateCharacterAttribute(_objCharacter.STR, lblSTRMetatype, lblSTRAug, tipTooltip);
-
-				// Character Attribute: CHA
-				UpdateCharacterAttribute(_objCharacter.CHA, lblCHAMetatype, lblCHAAug, tipTooltip);
-
-				// Character Attribute: INT
-				UpdateCharacterAttribute(_objCharacter.INT, lblINTMetatype, lblINTAug, tipTooltip);
-
-				// Character Attribute: AGI
-				UpdateCharacterAttribute(_objCharacter.AGI, lblAGIMetatype, lblAGIAug, tipTooltip);
-
-				// Character Attribute: LOG
-				UpdateCharacterAttribute(_objCharacter.LOG, lblLOGMetatype, lblLOGAug, tipTooltip);
-
-				// Character Attribute: WIL
-				UpdateCharacterAttribute(_objCharacter.WIL, lblWILMetatype, lblWILAug, tipTooltip);
-
-				// Character Attribute: EDG
-				UpdateCharacterAttribute(_objCharacter.EDG, lblEDGMetatype, lblEDGAug, tipTooltip);
-
-				// Character Attribute: MAG
-				UpdateCharacterAttribute(_objCharacter.MAG, lblMAGMetatype, lblMAGAug, tipTooltip);
-
-				// Character Attribute: RES
-				UpdateCharacterAttribute(_objCharacter.RES, lblRESMetatype, lblRESAug, tipTooltip);
-
-				// Character Attribute: DEP
-				UpdateCharacterAttribute(_objCharacter.DEP, lblDEPMetatype, lblDEPAug, tipTooltip);*/
 
 			// Update the MAG pseudo-Attributes if applicable.
 			int intCharacterMAG = _objCharacter.MAG.Value;

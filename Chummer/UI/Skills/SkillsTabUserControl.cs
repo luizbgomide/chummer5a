@@ -461,7 +461,7 @@ namespace Chummer.UI.Skills
 
 		private void UpdateKnoSkillRemaining()
 		{
-			lblKnowledgeSkillPoints.Text = $"{ObjCharacter.SkillsSection.KnowledgeSkillPointsRemain} {LanguageManager.Instance.GetString("String_Of")} {ObjCharacter.SkillsSection.KnowledgeSkillPoints}";
+			lblKnowledgeSkillPoints.Text = $"{ObjCharacter.SkillsSection.KnowledgeSkillPointsRemain} {LanguageManager.Instance.GetString("String_Of")} {ObjCharacter.SkillsSection.KnowledgeSkillPointsMaximum}";
 		}
 
 		private void btnKnowledge_Click(object sender, EventArgs e)

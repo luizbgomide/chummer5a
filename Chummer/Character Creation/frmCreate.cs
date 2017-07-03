@@ -358,6 +358,11 @@ namespace Chummer
 			txtNotes.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Notes), false, DataSourceUpdateMode.OnPropertyChanged);
 			txtAlias.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Alias), false, DataSourceUpdateMode.OnPropertyChanged);
 			txtPlayerName.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Name), false, DataSourceUpdateMode.OnPropertyChanged);
+			tssEssence.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssence), false);
+			lblESSMax.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssence), false);
+			lblCyberwareESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayCyberwareEssence), false);
+			lblBiowareESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayBiowareEssence), false);
+			lblEssenceHoleESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssenceHole), false);
 			objCharacter_AmbidextrousChanged(null);
 
 			// Check for Special Attributes.
@@ -491,6 +496,11 @@ namespace Chummer
 			lblActiveSkillsBP.DataBindings.Add("Text", _objCharacter.SkillsSection, nameof(_objCharacter.SkillsSection.ActiveSkillsCost), false, DataSourceUpdateMode.OnPropertyChanged);
 			lblSkillGroupsBP.DataBindings.Add("Text", _objCharacter.SkillsSection, nameof(_objCharacter.SkillsSection.SkillGroupsCost), false, DataSourceUpdateMode.OnPropertyChanged);
 			lblKnowledgeSkillsBP.DataBindings.Add("Text", _objCharacter.SkillsSection, nameof(_objCharacter.SkillsSection.KnowledgeSkillsCost), false, DataSourceUpdateMode.OnPropertyChanged);
+			#endregion
+
+			#region Armor
+			lblArmor.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.TotalArmorRating), false);
+			lblArmor.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.ArmorTooltip), false);
 			#endregion
 
 			#region Build Summary
@@ -13262,7 +13272,7 @@ namespace Chummer
 			string s = $"0 {LanguageManager.Instance.GetString("String_Karma")}";
 			if (_objCharacter.CFPLimit > 0)
 			{
-				s = $"{_objCharacter.SkillsSection.SkillGroupPoints} {LanguageManager.Instance.GetString("String_Of")} {_objCharacter.SkillsSection.SkillGroupPointsMaximum}";
+				s = $"{_objCharacter.SkillsSection.SkillGroupPointsRemain} {LanguageManager.Instance.GetString("String_Of")} {_objCharacter.SkillsSection.SkillGroupPointsMaximum}";
 			}
 			if (intFormsPointsUsed > 0)
 			{
@@ -13407,8 +13417,6 @@ namespace Chummer
 
 				//Redliner/Cyber Singularity Seeker(hackish)
 				RedlinerCheck();
-				
-                UpdateArmorRating(lblArmor, tipTooltip, _objImprovementManager);
 
                 int intNuyen = _objCharacter.StartingNuyen;
                 intNuyen += Convert.ToInt32(nudNuyen.Value) * _objOptions.NuyenPerBP;
@@ -13417,16 +13425,9 @@ namespace Chummer
 
                 lblNuyenTotal.Text = $"= {intNuyen:###,###,##0¥}";
 
-                decimal decESS = Math.Round(_objCharacter.Essence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero);
-                lblESSMax.Text = decESS.ToString(GlobalOptions.CultureInfo);
-                tssEssence.Text = lblESSMax.Text;
-
-                lblCyberwareESS.Text = Math.Round(_objCharacter.CyberwareEssence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
-                lblBiowareESS.Text = Math.Round(_objCharacter.BiowareEssence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
-                lblEssenceHoleESS.Text = Math.Round(_objCharacter.EssenceHole, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
-
-                // Reduce a character's MAG and RES from Essence Loss.
-                int intReduction = _objCharacter.ESS.MetatypeMaximum - Convert.ToInt32(Math.Floor(decESS));
+				// Reduce a character's MAG and RES from Essence Loss.
+				decimal decESS = Math.Round(_objCharacter.Essence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero);
+				int intReduction = _objCharacter.ESS.MetatypeMaximum - Convert.ToInt32(Math.Floor(decESS));
 
                 // Remove any Improvements from MAG and RES from Essence Loss.
                 _objImprovementManager.RemoveImprovements(Improvement.ImprovementSource.EssenceLoss, "Essence Loss");
@@ -13453,8 +13454,19 @@ namespace Chummer
                     _objImprovementManager.CreateImprovement("WIL", Improvement.ImprovementSource.Cyberzombie, "Cyberzombie Attributes", Improvement.ImprovementType.Attribute, string.Empty, 0, 1, 0, intESSModifier);
                 }
 				
-                // If MAG is enabled, update the Force for Spirits (equal to Magician MAG Rating) and Adept Powers.
-                if (_objCharacter.MAGEnabled)
+				// Remove any Improvements from Armor Encumbrance.
+				_objImprovementManager.RemoveImprovements(Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance");
+				// Create the Armor Encumbrance Improvements.
+				if (_objCharacter.ArmorEncumbrance < 0)
+				{
+					_objImprovementManager.CreateImprovement("AGI", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
+						Improvement.ImprovementType.Attribute, "precedence-1", 0, 1, 0, 0, _objCharacter.ArmorEncumbrance);
+					_objImprovementManager.CreateImprovement("REA", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
+						Improvement.ImprovementType.Attribute, "precedence-1", 0, 1, 0, 0, _objCharacter.ArmorEncumbrance);
+				}
+
+				// If MAG is enabled, update the Force for Spirits (equal to Magician MAG Rating) and Adept Powers.
+				if (_objCharacter.MAGEnabled)
                 {
                     foreach (SpiritControl objSpiritControl in panSpirits.Controls)
                     {
@@ -16912,17 +16924,17 @@ namespace Chummer
 			}
 
 			// Check if the character has gone over on Skill Groups
-			if (_objCharacter.SkillsSection.SkillGroupPoints < 0)
+			if (_objCharacter.SkillsSection.SkillGroupPointsRemain < 0)
 			{
 				blnValid = false;
-				strMessage += "\n\t" + LanguageManager.Instance.GetString("Message_InvalidSkillGroupExcess").Replace("{0}", ((_objCharacter.SkillsSection.SkillGroupPoints) * -1).ToString());
+				strMessage += "\n\t" + LanguageManager.Instance.GetString("Message_InvalidSkillGroupExcess").Replace("{0}", ((_objCharacter.SkillsSection.SkillGroupPointsRemain) * -1).ToString());
 			}
 
 			// Check if the character has gone over on Active Skills
-			if (_objCharacter.SkillsSection.SkillPoints < 0)
+			if (_objCharacter.SkillsSection.SkillPointsRemain < 0)
 			{
 				blnValid = false;
-				strMessage += "\n\t" + LanguageManager.Instance.GetString("Message_InvalidActiveSkillExcess").Replace("{0}", ((_objCharacter.SkillsSection.SkillPoints) * -1).ToString());
+				strMessage += "\n\t" + LanguageManager.Instance.GetString("Message_InvalidActiveSkillExcess").Replace("{0}", ((_objCharacter.SkillsSection.SkillPointsRemain) * -1).ToString());
 			}
 
 			// Check if the character has gone over on Knowledge Skills
@@ -17447,12 +17459,12 @@ namespace Chummer
 			}
 
 			// Check if the character has gone over on Skill Groups
-			if (blnValid && _objCharacter.SkillsSection.SkillGroupPoints > 0)
+			if (blnValid && _objCharacter.SkillsSection.SkillGroupPointsRemain > 0)
 			{
 				if (
 					MessageBox.Show(
 						LanguageManager.Instance.GetString("Message_ExtraPoints")
-							.Replace("{0}", _objCharacter.SkillsSection.SkillGroupPoints.ToString())
+							.Replace("{0}", _objCharacter.SkillsSection.SkillGroupPointsRemain.ToString())
 							.Replace("{1}", LanguageManager.Instance.GetString("Label_SummarySpecialAttributes")),
 						LanguageManager.Instance.GetString("MessageTitle_ExtraPoints"), MessageBoxButtons.YesNo,
 						MessageBoxIcon.Warning) == DialogResult.No)
@@ -17460,12 +17472,12 @@ namespace Chummer
 			}
 
 			// Check if the character has gone over on Active Skills
-			if (blnValid && _objCharacter.SkillsSection.SkillPoints > 0)
+			if (blnValid && _objCharacter.SkillsSection.SkillPointsRemain > 0)
 			{
 				if (
 					MessageBox.Show(
 						LanguageManager.Instance.GetString("Message_ExtraPoints")
-							.Replace("{0}", _objCharacter.SkillsSection.SkillPoints.ToString())
+							.Replace("{0}", _objCharacter.SkillsSection.SkillPointsRemain.ToString())
 							.Replace("{1}", LanguageManager.Instance.GetString("Label_SummaryActiveSkills")),
 						LanguageManager.Instance.GetString("MessageTitle_ExtraPoints"), MessageBoxButtons.YesNo,
 						MessageBoxIcon.Warning) == DialogResult.No)

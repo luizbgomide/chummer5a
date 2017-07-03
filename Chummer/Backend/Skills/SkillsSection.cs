@@ -44,7 +44,7 @@ namespace Chummer.Skills
 			if (PropertyChanged != null && improvements.Any(x => x.ImproveType == Improvement.ImprovementType.FreeKnowledgeSkills))
 			{
 				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(HasKnowledgePoints)));
-				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(KnowledgeSkillPoints)));
+				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(KnowledgeSkillPointsMaximum)));
 				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(KnowledgeSkillPointsRemain)));
 			}
 		}
@@ -120,7 +120,8 @@ namespace Chummer.Skills
                 foreach (SkillGroup skillgroup in loadingSkillGroups)
                 {
                     SkillGroups.Add(skillgroup);
-                }
+					skillgroup.PropertyChanged += SkillOnPropertyChanged;
+				}
                 Timekeeper.Finish("load_char_skills_groups");
 
 				Timekeeper.Start("load_char_skills_normal");
@@ -138,6 +139,7 @@ namespace Chummer.Skills
 				foreach (Skill skill in loadingSkills)
 				{
 					_skills.Add(skill);
+					skill.PropertyChanged += SkillOnPropertyChanged;
 				}
 				Timekeeper.Finish("load_char_skills_normal");
 
@@ -147,7 +149,8 @@ namespace Chummer.Skills
                     KnowledgeSkill skill = Skill.Load(_character, node) as KnowledgeSkill;
                     if (skill != null)
                         KnowledgeSkills.Add(skill);
-                }
+					skill.PropertyChanged += SkillOnPropertyChanged;
+				}
 				Timekeeper.Finish("load_char_skills_kno");
 
 				Timekeeper.Start("load_char_knowsoft_buffer");
@@ -247,6 +250,34 @@ namespace Chummer.Skills
 			skillNode.TryGetBoolFieldQuickly("linguist", ref _blnLinguist);
 
 			Timekeeper.Finish("load_char_skills");
+		}
+
+		//TODO: Merge with ActiveSkillOnPropertyChanged, use GetType.Name to switch the called property?
+		private void SkillOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+		{
+			string s = string.Empty;
+			switch (sender.GetType().Name)
+			{
+				case "Skill":
+					s = nameof(ActiveSkillsCost);
+					break;
+				case "Skillgroup":
+					s = nameof(SkillGroupsCost);
+					break;
+				case "KnowledgeSkill":
+					s = nameof(KnowledgeSkillsCost);
+					break;
+			}
+			switch (propertyChangedEventArgs.PropertyName)
+			{
+				case nameof(Skill.Base):
+				case nameof(Skill.Karma):
+					{
+						var v = new PropertyChangedEventArgs(s);
+						PropertyChanged?.Invoke(this, v);
+					}
+					break;
+			}
 		}
 
 		private void UpdateUndoList(XmlNode skillNode)
@@ -397,12 +428,12 @@ namespace Chummer.Skills
 		/// </summary>
 		public BindingList<SkillGroup> SkillGroups { get; } = new BindingList<SkillGroup>();
 
-		public bool HasKnowledgePoints => KnowledgeSkillPoints > 0;
+		public bool HasKnowledgePoints => KnowledgeSkillPointsMaximum > 0;
 
 	    /// <summary>
 		/// Number of free Knowledge Skill Points the character has.
 		/// </summary>
-		public int KnowledgeSkillPoints
+		public int KnowledgeSkillPointsMaximum
 		{
 			get
 			{
@@ -419,7 +450,7 @@ namespace Chummer.Skills
 		/// </summary>
 		public int KnowledgeSkillPointsRemain
 		{
-			get { return KnowledgeSkillPoints - KnowledgeSkillPointsUsed; }
+			get { return KnowledgeSkillPointsMaximum - KnowledgeSkillPointsUsed; }
 		}
 
 		/// <summary>
@@ -433,7 +464,7 @@ namespace Chummer.Skills
 		/// <summary>
 		/// Number of free Skill Points the character has left.
 		/// </summary>
-		public int SkillPoints
+		public int SkillPointsRemain
 		{
 			get
 			{
@@ -443,10 +474,22 @@ namespace Chummer.Skills
 					return 0;
 				}
 				int work = 0;
-				if (KnowledgeSkillPointsUsed > KnowledgeSkillPoints)
-					work -= KnowledgeSkillPoints - KnowledgeSkillPointsUsed;
+				if (KnowledgeSkillPointsUsed > KnowledgeSkillPointsMaximum)
+					work -= KnowledgeSkillPointsMaximum - KnowledgeSkillPointsUsed;
 
 				return SkillPointsMaximum - Skills.TotalCostSp() - work;
+			}
+		}
+
+		public int SkillPointsUsed
+		{
+			get
+			{
+				int i = 0;
+				if (KnowledgeSkillPointsUsed > KnowledgeSkillPointsMaximum)
+					i += KnowledgeSkillPointsMaximum - KnowledgeSkillPointsUsed;
+
+				return Skills.TotalCostSp() + i;
 			}
 		}
 
@@ -458,7 +501,7 @@ namespace Chummer.Skills
 		/// <summary>
 		/// Number of free Skill Points the character has.
 		/// </summary>
-		public int SkillGroupPoints
+		public int SkillGroupPointsRemain
 		{
 			get { return SkillGroupPointsMaximum - SkillGroups.Sum(x => x.Base - x.FreeBase()); }
 		}
@@ -701,9 +744,10 @@ namespace Chummer.Skills
 		{
 		    if (PropertyChanged != null)
 		    {
-		        PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(KnowledgeSkillPoints)));
+		        PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(KnowledgeSkillPointsMaximum)));
 		        PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(HasKnowledgePoints)));
-		    }
+				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(KnowledgeSkillsCost)));
+			}
 		}
 
 
@@ -727,7 +771,7 @@ namespace Chummer.Skills
 		{
 			get
 			{
-				string s = $"{SkillPoints} of {SkillPointsMaximum}";
+				string s = $"{SkillPointsUsed} {LanguageManager.Instance.GetString("String_Of")} {SkillPointsMaximum}";
 				if (Skills.TotalCostKarma() > 0)
 				{
 					s += $": {Skills.TotalCostKarma()} {LanguageManager.Instance.GetString("String_Karma")}";
@@ -741,7 +785,7 @@ namespace Chummer.Skills
 			get
 			{
 				
-				string s = $"{SkillGroupPoints} {LanguageManager.Instance.GetString("String_Of")} {SkillGroupPointsMaximum}";
+				string s = $"{SkillGroupPointsRemain} {LanguageManager.Instance.GetString("String_Of")} {SkillGroupPointsMaximum}";
 				if (SkillGroups.TotalCostKarma() > 0)
 				{
 					s += $": {SkillGroups.TotalCostKarma()} {LanguageManager.Instance.GetString("String_Karma")}";
@@ -754,7 +798,7 @@ namespace Chummer.Skills
 		{
 			get
 			{
-				string s = $"{KnowledgeSkillPointsRemain} {LanguageManager.Instance.GetString("String_Of")} {KnowledgeSkillPoints}";
+				string s = $"{KnowledgeSkillPointsUsed} {LanguageManager.Instance.GetString("String_Of")} {KnowledgeSkillPointsMaximum}";
 				if (KnowledgeSkills.TotalCostKarma() > 0)
 				{
 					s += $": {KnowledgeSkills.TotalCostKarma()} {LanguageManager.Instance.GetString("String_Karma")}";
