@@ -228,9 +228,6 @@
     <Compile Include="helpers\NumericUpDownEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="helpers\ToolStripStatusLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Interfaces\INamedItemWithGuid.cs" />
     <Compile Include="Properties\Contributors.cs">
       <AutoGen>True</AutoGen>

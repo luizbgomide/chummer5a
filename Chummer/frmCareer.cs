@@ -289,29 +289,155 @@ namespace Chummer
 				lblPossessed.Visible = false;
 			tipTooltip.SetToolTip(lblMetatypeSource, _objOptions.LanguageBookLong(objMetatypeNode["source"].InnerText) + " " + LanguageManager.Instance.GetString("String_Page") + " " + strPage);
 
-			txtCharacterName.Text = _objCharacter.Name;
-			txtSex.Text = _objCharacter.Sex;
-			txtAge.Text = _objCharacter.Age;
-			txtEyes.Text = _objCharacter.Eyes;
-			txtHeight.Text = _objCharacter.Height;
-			txtWeight.Text = _objCharacter.Weight;
-			txtSkin.Text = _objCharacter.Skin;
-			txtHair.Text = _objCharacter.Hair;
-			txtDescription.Text = _objCharacter.Description;
-			txtBackground.Text = _objCharacter.Background;
-			txtConcept.Text = _objCharacter.Concept;
-			txtNotes.Text = _objCharacter.Notes;
-			txtAlias.Text = _objCharacter.Alias;
-			txtPlayerName.Text = _objCharacter.PlayerName;
-			txtGameNotes.Text = _objCharacter.GameNotes;
-			nudStreetCred.Value = _objCharacter.StreetCred;
-			nudNotoriety.Value = _objCharacter.Notoriety;
-			nudPublicAware.Value = _objCharacter.PublicAwareness;
+			txtCharacterName.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Name), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtSex.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Sex), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtAge.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Age), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtEyes.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Eyes), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtHeight.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Height), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtWeight.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Weight), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtSkin.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Skin), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtHair.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Hair), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtDescription.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Description), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtBackground.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Background), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtConcept.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Concept), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtNotes.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Notes), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtAlias.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Alias), false, DataSourceUpdateMode.OnPropertyChanged);
+			txtPlayerName.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Name), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblESSMax.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssence), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCyberwareESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayCyberwareEssence), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblBiowareESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayBiowareEssence), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblEssenceHoleESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssenceHole), false, DataSourceUpdateMode.OnPropertyChanged);
+			objCharacter_AmbidextrousChanged(null);
+			tssEssence.Text = _objCharacter.DisplayEssence;
 
 			// Check for Special Attributes.
-			lblFoci.Visible = _objCharacter.MAGEnabled;
-			treFoci.Visible = _objCharacter.MAGEnabled;
-			cmdCreateStackedFocus.Visible = _objCharacter.MAGEnabled;
+
+			lblFoci.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			treFoci.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			cmdCreateStackedFocus.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMysticAdeptMAGAdept.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MysticAdeptEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMysticAdeptMAGAdept.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.MysticAdeptPowerPoints), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMysticAdeptAssignment.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MysticAdeptEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+			cmdIncreasePowerPoints.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MysticAdeptEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			lblComposure.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.ComposureTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblComposure.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Composure), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblJudgeIntentions.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.JudgeIntentionsTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblJudgeIntentions.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.JudgeIntentions), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLiftCarry.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LiftAndCarryTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLiftCarry.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LiftAndCarry), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMemory.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.MemoryTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMemory.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Memory), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMovement.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Movement), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSwim.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Swim), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblFly.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Fly), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCMPhysical.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.PhysicalCM), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCMPhysical.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.PhysicalCMTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCMStun.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.StunCM), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCMStun.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.StunCMTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			//Street Cred
+			lblStreetCredTotal.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.CalculatedStreetCred), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblStreetCredTotal.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.StreetCredTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			//Notoriety
+			lblNotorietyTotal.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.CalculatedNotoriety), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblNotorietyTotal.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.NotorietyTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			//Public Awareness
+			lblPublicAwareTotal.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.TotalPublicAwareness), false, DataSourceUpdateMode.OnPropertyChanged);
+			if (_objOptions.UseCalculatedPublicAwareness)
+			{
+				lblPublicAwareTotal.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.PublicAwarenessTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			}
+
+			// Initiative.
+			lblINI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.InitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblINI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Initiative), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Astral Initiative.
+			lblAstralINI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.AstralInitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblAstralINI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.AstralInitiative), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblAstralINI.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// AR Matrix Initiative.
+			lblMatrixINI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.InitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMatrixINI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.MatrixInitiative), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Matrix Initiative (Cold).
+			lblMatrixINICold.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.MatrixInitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMatrixINICold.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.MatrixInitiativeCold), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Matrix Initiative (Cold).
+			lblMatrixINIHot.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.MatrixInitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblMatrixINIHot.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.MatrixInitiativeHot), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Rigger Initiative.
+			lblRiggingINI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.RiggerInitiativeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblRiggingINI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Initiative), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			#region Living Persona
+			// Living Persona - Device Rating.
+			lblLivingPersonaDeviceRating.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaDeviceRatingTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaDeviceRating.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaDeviceRating), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Living Persona - Attack.
+			lblLivingPersonaAttack.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaAttackTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaAttack.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaAttack), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Living Persona - Sleaze.
+			lblLivingPersonaSleaze.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaSleazeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaSleaze.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaSleaze), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Living Persona - Data Processing.
+			lblLivingPersonaDataProcessing.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaDataProcessingTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaDataProcessing.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaDataProcessing), false, DataSourceUpdateMode.OnPropertyChanged);
+
+			// Living Persona - Firewall.
+			lblLivingPersonaFirewall.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.LivingPersonaFirewallTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblLivingPersonaFirewall.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.LivingPersonaFirewall), false, DataSourceUpdateMode.OnPropertyChanged);
+			#endregion
+
+			#region Spell Defence
+			lblSpellDefenceIndirectDodge.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectDodge), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIndirectDodge.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectDodgeTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIndirectSoak.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectSoak), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIndirectSoak.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceIndirectSoakTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDirectSoakMana.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDirectSoakMana), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDirectSoakMana.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDirectSoakManaTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDirectSoakPhysical.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDirectSoakPhysical), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDirectSoakPhysical.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDirectSoakPhysicalTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDetection.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDetection), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDetection.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDetectionTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttBOD.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttBOD), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttBOD.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttBODTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttAGI.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttAGI), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttAGI.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttAGITooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttREA.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttREA), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttREA.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttREATooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttSTR.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttSTR), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttSTR.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttSTRTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttCHA.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttCHA), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttCHA.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttCHATooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttINT.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttINT), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttINT.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttINTTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttLOG.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttLOG), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttLOG.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttLOGTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttWIL.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttWIL), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceDecAttWIL.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceDecAttWILTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIllusionMana.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceIllusionMana), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIllusionMana.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceIllusionManaTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIllusionPhysical.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceIllusionPhysical), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceIllusionPhysical.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceIllusionPhysicalTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceManipMental.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceManipMental), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblSpellDefenceManipMental.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceManipMentalTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			lbllSpellDefenceManipPhysical.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpellDefenceManipPhysical), false, DataSourceUpdateMode.OnPropertyChanged);
+			lbllSpellDefenceManipPhysical.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.SpellDefenceManipPhysicalTooltip), false, DataSourceUpdateMode.OnPropertyChanged);
+			nudCounterspellingDice.DataBindings.Add("Value", _objCharacter, nameof(_objCharacter.CounterspellingDice), false, DataSourceUpdateMode.OnPropertyChanged);
+			#endregion
+
+			#region Armor
+			lblArmor.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.TotalArmorRating), false);
+			lblArmor.DataBindings.Add("TooltipText", _objCharacter, nameof(_objCharacter.ArmorTooltip), false);
+			#endregion
 
 			// Define the XML objects that will be used.
 			XmlDocument objXmlDocument = new XmlDocument();
@@ -547,16 +673,11 @@ namespace Chummer
 			// to UpdateCharacterInformation();
 			MetatypeSelected();
 
-			// If the character is a Mystic Adept, set the values for the Mystic Adept NUD.
-			if (_objCharacter.AdeptEnabled && _objCharacter.MagicianEnabled)
+			if (_objCharacter.MysticAdeptEnabled)
 			{
-				lblMysticAdeptMAGAdept.Text = _objCharacter.MysticAdeptPowerPoints.ToString();
-
-				lblMysticAdeptAssignment.Visible = true;
-				lblMysticAdeptMAGAdept.Visible = true;
                 cmdIncreasePowerPoints.Visible = _objOptions.MysaddPPCareer;
 			}
-
+			
 			if (_objCharacter.AdeptEnabled)
 			{
 				tabPowerUc.MissingDatabindingsWorkaround();
@@ -19699,18 +19820,7 @@ namespace Chummer
 
 			decimal decESS = Math.Round(_objCharacter.Essence, _objCharacter.Options.EssenceDecimals,
 				MidpointRounding.AwayFromZero);
-			lblESSMax.Text = decESS.ToString(GlobalOptions.CultureInfo);
-			tssEssence.Text = lblESSMax.Text;
-
-			lblCyberwareESS.Text =
-				Math.Round(_objCharacter.CyberwareEssence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero)
-					.ToString(GlobalOptions.CultureInfo);
-			lblBiowareESS.Text =
-				Math.Round(_objCharacter.BiowareEssence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero)
-					.ToString(GlobalOptions.CultureInfo);
-			lblEssenceHoleESS.Text =
-				Math.Round(_objCharacter.EssenceHole, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero)
-					.ToString(GlobalOptions.CultureInfo);
+			tssEssence.Text = decESS.ToString(GlobalOptions.CultureInfo);
 
 			// Reduce a character's MAG and RES from Essence Loss.
 			int intReduction = _objCharacter.ESS.MetatypeMaximum - Convert.ToInt32(Math.Floor(decESS));
@@ -19985,9 +20095,6 @@ namespace Chummer
 					Improvement.ImprovementType.Attribute, "precedence-1", 0, 1, 0, 0, _objCharacter.ArmorEncumbrance);
 			}
 
-			//Update the Spell Defence tab.
-			UpdateSpellDefence();
-
             RefreshSpells(treSpells, cmsSpell, _objCharacter);
 
 			// Update the MAG pseudo-Attributes if applicable.
@@ -20080,100 +20187,8 @@ namespace Chummer
 				tipTooltip.SetToolTip(lblFadingAttributesValue, strTip);
 			}
 
-			// Update Living Persona values.
-			if (_objCharacter.RESEnabled || _objCharacter.DEPEnabled)
-			{
-				int intMainAttribute = _objCharacter.RES.TotalValue;
-				if (_objCharacter.DEPEnabled)
-					intMainAttribute = _objCharacter.DEP.TotalValue;
-				string strPersonaTip = string.Empty;
-
-				lblLivingPersonaDeviceRating.Text = intMainAttribute.ToString();
-				strPersonaTip = "RES (" + intMainAttribute.ToString() + ")";
-				if (_objCharacter.DEPEnabled)
-					strPersonaTip = "DEP (" + intMainAttribute.ToString() + ")";
-				tipTooltip.SetToolTip(lblLivingPersonaDeviceRating, strPersonaTip);
-
-				lblLivingPersonaAttack.Text = _objCharacter.CHA.TotalValue.ToString();
-				strPersonaTip = "CHA (" + _objCharacter.CHA.TotalValue.ToString() + ")";
-				tipTooltip.SetToolTip(lblLivingPersonaAttack, strPersonaTip);
-
-				lblLivingPersonaSleaze.Text = _objCharacter.INT.TotalValue.ToString();
-				strPersonaTip = "INT (" + _objCharacter.INT.TotalValue.ToString() + ")";
-				tipTooltip.SetToolTip(lblLivingPersonaSleaze, strPersonaTip);
-
-				lblLivingPersonaDataProcessing.Text = _objCharacter.LOG.TotalValue.ToString();
-				strPersonaTip = "LOG (" + _objCharacter.LOG.TotalValue.ToString() + ")";
-				tipTooltip.SetToolTip(lblLivingPersonaDataProcessing, strPersonaTip);
-
-				lblLivingPersonaFirewall.Text = _objCharacter.WIL.TotalValue.ToString();
-				strPersonaTip = "WIL (" + _objCharacter.WIL.TotalValue.ToString() + ")";
-				tipTooltip.SetToolTip(lblLivingPersonaFirewall, strPersonaTip);
-			}
-
 			// Skill Limits
 			RefreshLimits(lblPhysical, lblMental, lblSocial, lblAstral, tipTooltip);
-
-			// Initiative.
-			lblINI.Text = _objCharacter.Initiative;
-			string strInitText = LanguageManager.Instance.GetString("String_Initiative");
-			string strMatrixInitText = LanguageManager.Instance.GetString("String_MatrixInitiativeLong");
-			string strModifiers = LanguageManager.Instance.GetString("Tip_Modifiers");
-			string strInit =
-				$"{_objCharacter.REA.DisplayAbbrev} ({_objCharacter.REA.Value}) + {_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.Value})";
-			if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Initiative) > 0 ||
-			    _objCharacter.INT.AttributeModifiers > 0 || _objCharacter.REA.AttributeModifiers > 0)
-				strInit += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" +
-				           (_objImprovementManager.ValueOf(Improvement.ImprovementType.Initiative) +
-				            _objCharacter.INT.AttributeModifiers + _objCharacter.REA.AttributeModifiers).ToString() + ")";
-			tipTooltip.SetToolTip(lblINI,
-				strInitText.Replace("{0}", strInit).Replace("{1}", _objCharacter.InitiativeDice.ToString()));
-
-			// Astral Initiative.
-			lblAstralINI.Visible = _objCharacter.MAGEnabled;
-			if (_objCharacter.MAGEnabled)
-			{
-				lblAstralINI.Text = _objCharacter.AstralInitiative;
-				strInit = $"{_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.Value}) x 2";
-				if (_objCharacter.INT.AttributeModifiers > 0)
-					strInit += $"{strModifiers} ({_objCharacter.INT.AttributeModifiers})";
-				tipTooltip.SetToolTip(lblAstralINI,
-					strInitText.Replace("{0}", strInit).Replace("{1}", _objCharacter.AstralInitiativeDice.ToString()));
-			}
-
-			// Matrix Initiative (AR).
-			lblMatrixINI.Text = _objCharacter.MatrixInitiative;
-			strInit =
-				$"{_objCharacter.REA.DisplayAbbrev} ({_objCharacter.REA.Value}) + {_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.Value})";
-			if (_objCharacter.INT.AttributeModifiers > 0 || _objCharacter.REA.AttributeModifiers > 0)
-				strInit += $"{strModifiers} ({_objCharacter.REA.AttributeModifiers + _objCharacter.INT.AttributeModifiers})";
-			tipTooltip.SetToolTip(lblMatrixINI,
-				strInitText.Replace("{0}", strInit).Replace("{1}", _objCharacter.InitiativeDice.ToString()));
-
-			// Matrix Initiative (Cold).
-			lblMatrixINICold.Text = _objCharacter.MatrixInitiativeCold;
-			strInit = strMatrixInitText.Replace("{0}", _objCharacter.INT.Value.ToString())
-				.Replace("{1}", _objCharacter.MatrixInitiativeColdDice.ToString());
-			if (_objCharacter.INT.AttributeModifiers > 0)
-				strInit += $"{strModifiers} ({_objCharacter.INT.AttributeModifiers})";
-			tipTooltip.SetToolTip(lblMatrixINICold, strInit);
-
-			// Matrix Initiative (Hot).
-			lblMatrixINIHot.Text = _objCharacter.MatrixInitiativeHot;
-			strInit = strMatrixInitText.Replace("{0}", _objCharacter.INT.Value.ToString())
-				.Replace("{1}", _objCharacter.MatrixInitiativeHotDice.ToString());
-			if (_objCharacter.INT.AttributeModifiers > 0)
-				strInit += $"{strModifiers} ({_objCharacter.INT.AttributeModifiers})";
-			tipTooltip.SetToolTip(lblMatrixINIHot, strInit);
-
-			// Rigger Initiative.
-			lblRiggingINI.Text = _objCharacter.Initiative;
-			strInit =
-				$"{_objCharacter.REA.DisplayAbbrev} ({_objCharacter.REA.Value}) + {_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.Value})";
-			if (_objCharacter.INT.AttributeModifiers > 0 || _objCharacter.REA.AttributeModifiers > 0)
-				strInit += $"{strModifiers} ({_objCharacter.REA.AttributeModifiers + _objCharacter.INT.AttributeModifiers})";
-			tipTooltip.SetToolTip(lblRiggingINI,
-				strInitText.Replace("{0}", strInit).Replace("{1}", _objCharacter.InitiativeDice.ToString()));
 
 			if ((_objCharacter.Metatype == "Free Spirit" && !_objCharacter.IsCritter) ||
 			    _objCharacter.MetatypeCategory.EndsWith("Spirits"))
@@ -20194,44 +20209,6 @@ namespace Chummer
 			lblRemainingNuyen.Text = $"{_objCharacter.Nuyen:###,###,##0¥}";
 
 			PopulateExpenseList();
-
-			// Movement.
-			lblMovement.Text = _objCharacter.Movement;
-			//strTip = _objCharacter.CalculatedMovementSpeed;
-			//tipTooltip.SetToolTip(lblMovement, strTip);
-			lblSwim.Text = _objCharacter.Swim;
-			lblFly.Text = _objCharacter.Fly;
-
-			// Special CharacterAttribute-Only Test.
-			lblComposure.Text = _objCharacter.Composure.ToString();
-			strTip =
-				$"{_objCharacter.WIL.DisplayAbbrev} ({_objCharacter.WIL.TotalValue}) + {_objCharacter.CHA.DisplayAbbrev} ({_objCharacter.CHA.TotalValue})";
-			tipTooltip.SetToolTip(lblComposure, strTip);
-			lblJudgeIntentions.Text = _objCharacter.JudgeIntentions.ToString();
-			strTip =
-				$"{_objCharacter.INT.DisplayAbbrev} ({_objCharacter.INT.TotalValue}) + {_objCharacter.CHA.DisplayAbbrev} ({_objCharacter.CHA.TotalValue})";
-			if (_objImprovementManager.ValueOf(Improvement.ImprovementType.JudgeIntentions) != 0)
-				strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" +
-				          _objImprovementManager.ValueOf(Improvement.ImprovementType.JudgeIntentions).ToString() + ")";
-			tipTooltip.SetToolTip(lblJudgeIntentions, strTip);
-			lblLiftCarry.Text = _objCharacter.LiftAndCarry.ToString();
-			strTip =
-				$"{_objCharacter.STR.DisplayAbbrev} ({_objCharacter.STR.TotalValue}) + {_objCharacter.BOD.DisplayAbbrev} ({_objCharacter.BOD.TotalValue})";
-			if (_objImprovementManager.ValueOf(Improvement.ImprovementType.LiftAndCarry) != 0)
-				strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" +
-				          _objImprovementManager.ValueOf(Improvement.ImprovementType.LiftAndCarry).ToString() + ")";
-			strTip += "\n" +
-			          LanguageManager.Instance.GetString("Tip_LiftAndCarry")
-				          .Replace("{0}", (_objCharacter.STR.TotalValue * 15).ToString())
-				          .Replace("{1}", (_objCharacter.STR.TotalValue * 10).ToString());
-			tipTooltip.SetToolTip(lblLiftCarry, strTip);
-			lblMemory.Text = _objCharacter.Memory.ToString();
-			strTip =
-				$"{_objCharacter.WIL.DisplayAbbrev} ({_objCharacter.WIL.TotalValue}) + {_objCharacter.LOG.DisplayAbbrev} ({_objCharacter.LOG.TotalValue})";
-			if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Memory) != 0)
-				strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" +
-				          _objImprovementManager.ValueOf(Improvement.ImprovementType.Memory).ToString() + ")";
-			tipTooltip.SetToolTip(lblMemory, strTip);
 
 			// Career Karma.
 			lblCareerKarma.Text = $"{_objCharacter.CareerKarma:###,###,##0}";

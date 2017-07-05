@@ -358,15 +358,15 @@ namespace Chummer
 			txtNotes.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Notes), false, DataSourceUpdateMode.OnPropertyChanged);
 			txtAlias.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Alias), false, DataSourceUpdateMode.OnPropertyChanged);
 			txtPlayerName.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.Name), false, DataSourceUpdateMode.OnPropertyChanged);
-			tssEssence.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssence), false);
-			lblESSMax.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssence), false);
-			lblCyberwareESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayCyberwareEssence), false);
-			lblBiowareESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayBiowareEssence), false);
-			lblEssenceHoleESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssenceHole), false);
+			lblESSMax.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssence), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblCyberwareESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayCyberwareEssence), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblBiowareESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayBiowareEssence), false, DataSourceUpdateMode.OnPropertyChanged);
+			lblEssenceHoleESS.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.DisplayEssenceHole), false, DataSourceUpdateMode.OnPropertyChanged);
 			objCharacter_AmbidextrousChanged(null);
+			tssEssence.Text = _objCharacter.DisplayEssence;
 
 			// Check for Special Attributes.
-			
+
 			lblFoci.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
 			treFoci.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
 			nudAdeptWayDiscount.DataBindings.Add("Visible", _objCharacter, nameof(_objCharacter.MAGEnabled), false, DataSourceUpdateMode.OnPropertyChanged);
@@ -13428,9 +13428,11 @@ namespace Chummer
 				// Reduce a character's MAG and RES from Essence Loss.
 				decimal decESS = Math.Round(_objCharacter.Essence, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero);
 				int intReduction = _objCharacter.ESS.MetatypeMaximum - Convert.ToInt32(Math.Floor(decESS));
+				
+				tssEssence.Text = _objCharacter.DisplayEssence; //TODO: This should be a databinding, but I ran into issues extending it with a bindable interface and getting it to play nice with StatusStrip.
 
-                // Remove any Improvements from MAG and RES from Essence Loss.
-                _objImprovementManager.RemoveImprovements(Improvement.ImprovementSource.EssenceLoss, "Essence Loss");
+				// Remove any Improvements from MAG and RES from Essence Loss.
+				_objImprovementManager.RemoveImprovements(Improvement.ImprovementSource.EssenceLoss, "Essence Loss");
 
                 // Create the Essence Loss Improvements which reduce the Maximum of MAG/RES.
                 if (intReduction > 0)
