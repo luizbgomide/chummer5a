@@ -20332,13 +20332,13 @@ namespace Chummer
                     Improvement.ImprovementType.ConditionMonitor, string.Empty, intCMPenalty);
 
 			// Remove any Improvements from Armor Encumbrance.
-			_objImprovementManager.RemoveImprovements(Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance");
+			ImprovementManager.RemoveImprovements(_objCharacter, Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance");
 			// Create the Armor Encumbrance Improvements.
 			if (_objCharacter.ArmorEncumbrance < 0)
 			{
-				_objImprovementManager.CreateImprovement("AGI", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
+				ImprovementManager.CreateImprovement(_objCharacter, "AGI", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
 					Improvement.ImprovementType.Attribute, "precedence-1", 0, 1, 0, 0, _objCharacter.ArmorEncumbrance);
-				_objImprovementManager.CreateImprovement("REA", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
+				ImprovementManager.CreateImprovement(_objCharacter, "REA", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
 					Improvement.ImprovementType.Attribute, "precedence-1", 0, 1, 0, 0, _objCharacter.ArmorEncumbrance);
 			}
 

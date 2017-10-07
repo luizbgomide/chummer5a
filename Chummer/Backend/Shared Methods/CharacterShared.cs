@@ -184,19 +184,6 @@ namespace Chummer
             ImprovementManager.Commit(_objCharacter);
         }
 
-		/// <summary>
-		/// Update the label and tooltip for the character's Armor Rating.
-		/// </summary>
-		/// <param name="lblArmor"></param>
-		/// <param name="tipTooltip"></param>
-		/// <param name="objImprovementManager"></param>
-		/// <param name="lblCMArmor"></param>
-		protected void UpdateArmorRating(Label lblArmor, HtmlToolTip tipTooltip, ImprovementManager objImprovementManager,
-			Label lblCMArmor = null)
-		{
-
-		}
-
         /// <summary>
         /// Update the labels and tooltips for the character's Limits.
         /// </summary>

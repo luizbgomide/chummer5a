@@ -9662,7 +9662,6 @@ namespace Chummer
             this.nudCounterspellingDice.Name = "nudCounterspellingDice";
             this.nudCounterspellingDice.Size = new System.Drawing.Size(40, 20);
             this.nudCounterspellingDice.TabIndex = 61;
-            this.nudCounterspellingDice.ValueChanged += new System.EventHandler(this.nudCounterspellingDice_Changed);
             // 
             // lbllSpellDefenceManipPhysical
             // 

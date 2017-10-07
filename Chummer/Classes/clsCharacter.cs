@@ -287,9 +287,7 @@ namespace Chummer
         public Action<object> AdvancedProgramsTabEnabledChanged;
         public Action<object> CyberwareTabDisabledChanged;
         public Action<object> TrustFundChanged;
-
         private frmViewer _frmPrintView;
-
         #region Initialization, Save, Load, Print, and Reset Methods
         /// <summary>
         /// Character.
@@ -4271,7 +4269,7 @@ namespace Chummer
         {
             get { return _attESS; }
         }
-
+        #endregion
         /// <summary>
         /// Is the MAG CharacterAttribute enabled?
         /// </summary>
@@ -4625,6 +4623,11 @@ namespace Chummer
                 return decESS;
             }
         }
+
+        /// <summary>
+		/// Total Essence remaining. Preformatted string for use in databinding. 
+		/// </summary>
+		public string DisplayEssence => Math.Round(Essence, Options.EssenceDecimals, MidpointRounding.AwayFromZero).ToString(GlobalOptions.CultureInfo);
 
         /// <summary>
         /// Essence consumed by Cyberware.
@@ -5912,7 +5915,7 @@ namespace Chummer
         {
             get
             {
-                decimal decImprovement = Convert.ToDecimal(ImprovementManager.ValueOf(this, Improvement.ImprovementType.NuyenMaxBP), GlobalOptions.InvariantCultureInfo);
+                decimal decImprovement = Convert.ToDecimal(ImprovementManager.ValueOf(this, Improvement.ImprovementType.NuyenMax), GlobalOptions.InvariantCultureInfo);
                 if (_objBuildMethod == CharacterBuildMethod.Karma)
                     decImprovement *= 2.0m;
 
@@ -5925,7 +5928,7 @@ namespace Chummer
             }
             set
             {
-				decimal decImprovement = Convert.ToDecimal(_objImprovementManager.ValueOf(Improvement.ImprovementType.NuyenMax), GlobalOptions.InvariantCultureInfo);
+				decimal decImprovement = Convert.ToDecimal(ImprovementManager.ValueOf(this,Improvement.ImprovementType.NuyenMax), GlobalOptions.InvariantCultureInfo);
 				_decNuyenMaximumBP = value - decImprovement;
             }
         }
@@ -7765,9 +7768,9 @@ namespace Chummer
 			get
 			{
 				string strTip = $"{WIL.DisplayAbbrev} ({WIL.TotalValue}) + {CHA.DisplayAbbrev} ({CHA.TotalValue})";
-				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Composure) != 0)
+				if (ImprovementManager.ValueOf(this,Improvement.ImprovementType.Composure) != 0)
 					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers")
-					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.Composure) + ")";
+					+ " (" + ImprovementManager.ValueOf(this,Improvement.ImprovementType.Composure) + ")";
 				return strTip;
 			}
 		}
@@ -7777,9 +7780,9 @@ namespace Chummer
 			get
 			{
 				string strTip = $"{INT.DisplayAbbrev} ({INT.TotalValue}) + {CHA.DisplayAbbrev} ({CHA.TotalValue})";
-				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.JudgeIntentions) != 0)
+				if (ImprovementManager.ValueOf(this,Improvement.ImprovementType.JudgeIntentions) != 0)
 					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
-					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.JudgeIntentions) + ")";
+					+ " (" + ImprovementManager.ValueOf(this,Improvement.ImprovementType.JudgeIntentions) + ")";
 				return strTip;
 			}
 		}
@@ -7788,9 +7791,9 @@ namespace Chummer
 			get
 			{
 				string strTip = $"{STR.DisplayAbbrev} ({STR.TotalValue}) + {BOD.DisplayAbbrev} ({BOD.TotalValue})";
-				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.LiftAndCarry) != 0)
+				if (ImprovementManager.ValueOf(this,Improvement.ImprovementType.LiftAndCarry) != 0)
 					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
-					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.LiftAndCarry).ToString() + ")";
+					+ " (" + ImprovementManager.ValueOf(this,Improvement.ImprovementType.LiftAndCarry).ToString() + ")";
 				return strTip;
 			}
 		}
@@ -7799,9 +7802,9 @@ namespace Chummer
 			get
 			{
 				string strTip = $"{WIL.DisplayAbbrev} ({WIL.TotalValue}) + {LOG.DisplayAbbrev} ({LOG.TotalValue})";
-				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Memory) != 0)
+				if (ImprovementManager.ValueOf(this,Improvement.ImprovementType.Memory) != 0)
 					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
-					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.Memory).ToString() + ")";
+					+ " (" + ImprovementManager.ValueOf(this,Improvement.ImprovementType.Memory).ToString() + ")";
 				return strTip;
 			}
 		}
@@ -7811,9 +7814,9 @@ namespace Chummer
 		    get
 		    {
 				string strTip = $"8 + ({BOD.DisplayAbbrev}/2)({(BOD.TotalValue + 1) / 2})";
-				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.PhysicalCM) != 0)
+				if (ImprovementManager.ValueOf(this,Improvement.ImprovementType.PhysicalCM) != 0)
 					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
-					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.PhysicalCM) + ")";
+					+ " (" + ImprovementManager.ValueOf(this,Improvement.ImprovementType.PhysicalCM) + ")";
 			    return strTip;
 		    }
 	    }
@@ -7823,9 +7826,9 @@ namespace Chummer
 		    get
 		    {
 				string strTip = $"8 + ({WIL.DisplayAbbrev}/2)({(WIL.TotalValue + 1) / 2})";
-				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.StunCM) != 0)
+				if (ImprovementManager.ValueOf(this,Improvement.ImprovementType.StunCM) != 0)
 					strTip += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") 
-					+ " (" + _objImprovementManager.ValueOf(Improvement.ImprovementType.StunCM) + ")";
+					+ " (" + ImprovementManager.ValueOf(this,Improvement.ImprovementType.StunCM) + ")";
 				return strTip;
 			}
 	    }
@@ -7838,8 +7841,8 @@ namespace Chummer
 			get
 			{
 				string strInit = $"{REA.DisplayAbbrev} ({REA.Value}) + {INT.DisplayAbbrev} ({INT.Value})";
-				if (_objImprovementManager.ValueOf(Improvement.ImprovementType.Initiative) > 0 || INT.AttributeModifiers > 0 || REA.AttributeModifiers > 0)
-					strInit += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" + (_objImprovementManager.ValueOf(Improvement.ImprovementType.Initiative) + INT.AttributeModifiers + REA.AttributeModifiers).ToString() + ")";
+				if (ImprovementManager.ValueOf(this,Improvement.ImprovementType.Initiative) > 0 || INT.AttributeModifiers > 0 || REA.AttributeModifiers > 0)
+					strInit += " + " + LanguageManager.Instance.GetString("Tip_Modifiers") + " (" + (ImprovementManager.ValueOf(this,Improvement.ImprovementType.Initiative) + INT.AttributeModifiers + REA.AttributeModifiers).ToString() + ")";
 				return LanguageManager.Instance.GetString("String_Initiative").Replace("{0}", strInit).Replace("{1}", InitiativeDice.ToString());
 			}
 		}

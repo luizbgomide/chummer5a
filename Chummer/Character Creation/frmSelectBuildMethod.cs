@@ -1,4 +1,4 @@
-﻿/*  This file is part of Chummer5a.
+/*  This file is part of Chummer5a.
  *
  *  Chummer5a is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -115,20 +115,20 @@ namespace Chummer
             switch (cboBuildMethod.SelectedValue.ToString())
             {
                 case "Karma":
-                    _objCharacter.NuyenMaximumBP = Convert.ToInt32(nudMaxNuyen.Value);
+                    _objCharacter.NuyenMaximum = Convert.ToInt32(nudMaxNuyen.Value);
                     _objCharacter.BuildMethod = CharacterBuildMethod.Karma;
                     break;
                 case "Priority":
-                    _objCharacter.NuyenMaximumBP = intNuyenBP;
+                    _objCharacter.NuyenMaximum = intNuyenBP;
                     _objCharacter.BuildMethod = CharacterBuildMethod.Priority;
                     break;
                 case "SumtoTen":
-                    _objCharacter.NuyenMaximumBP = intNuyenBP;
+                    _objCharacter.NuyenMaximum = intNuyenBP;
                     _objCharacter.BuildMethod = CharacterBuildMethod.SumtoTen;
                     _objCharacter.SumtoTen = Convert.ToInt32(nudSumtoTen.Value);
                     break;
                 case "LifeModule":
-                    _objCharacter.NuyenMaximumBP = Convert.ToInt32(nudMaxNuyen.Value);
+                    _objCharacter.NuyenMaximum = Convert.ToInt32(nudMaxNuyen.Value);
                     _objCharacter.BuildMethod = CharacterBuildMethod.LifeModule;
                     break;
             }

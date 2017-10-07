@@ -88,7 +88,7 @@ namespace Chummer
             FreePositiveQualities,
             FreeNegativeQualities,
             FreeKnowledgeSkills,
-            NuyenMaxBP,
+            NuyenMax,
             CMOverflow,
             FreeSpiritPowerPoints,
             AdeptPowerPoints,

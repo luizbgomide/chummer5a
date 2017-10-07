@@ -1686,7 +1686,7 @@ namespace Chummer.Classes
 			Log.Info("nuyenmax = " + bonusNode.OuterXml.ToString());
 			Log.Info("Calling CreateImprovement");
 			CreateImprovement("", _objImprovementSource, SourceName, Improvement.ImprovementType.NuyenMax, string.Empty,
-				ValueToInt(bonusNode.InnerText, _intRating));
+				ValueToInt(_objCharacter, bonusNode.InnerText, _intRating));
 		}
 
         // Apply a bonus/penalty to physical limit.

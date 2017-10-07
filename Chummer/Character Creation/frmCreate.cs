@@ -498,9 +498,9 @@ namespace Chummer
 				DataSourceUpdateMode.OnPropertyChanged);
 			lblKarmaMetatypeBP.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.MetatypeCost), false,
 				DataSourceUpdateMode.OnPropertyChanged);
-			lblPrimaryAttributesBP.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.PrimaryAttributeBP), false,
+			lblBuildPrimaryAttributes.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.PrimaryAttributeBP), false,
 		        DataSourceUpdateMode.OnPropertyChanged);
-			lblSpecialAttributesBP.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpecialAttributeBP), false,
+			lblPBuildSpecial.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.SpecialAttributeBP), false,
 				DataSourceUpdateMode.OnPropertyChanged);
 			lblEnemiesBP.DataBindings.Add("Text", _objCharacter, nameof(_objCharacter.EnemyBP), false,
 				DataSourceUpdateMode.OnPropertyChanged);
@@ -13879,21 +13879,12 @@ namespace Chummer
                 {
                     intCHA = _objCharacter.CHA.TotalValue;
                 }
-                _objCharacter.ContactPoints = intCHA * _objOptions.FreeContactsMultiplier;
 
                 if (_objCharacter.AdeptEnabled)
                 {
                     tabPowerUc.MissingDatabindingsWorkaround();
                 }
-
-                UpdateSkillRelatedInfo();
-
-                UpdateConditionMonitor(lblCMPhysical,lblCMStun,tipTooltip);
-
-                UpdateSpellDefence();
-
-                UpdateArmorRating(lblArmor, tipTooltip);
-
+                
                 // Nuyen can be affected by Qualities, so adjust the total amount available to the character.
                 //if (_objCharacter.IgnoreRules == true)
                 //    nudNuyen.Maximum = _objCharacter.NuyenMaximumBP;
@@ -13914,7 +13905,7 @@ namespace Chummer
 				tssEssence.Text = _objCharacter.DisplayEssence; //TODO: This should be a databinding, but I ran into issues extending it with a bindable interface and getting it to play nice with StatusStrip.
 
 				// Remove any Improvements from MAG and RES from Essence Loss.
-				_objImprovementManager.RemoveImprovements(Improvement.ImprovementSource.EssenceLoss, "Essence Loss");
+				ImprovementManager.RemoveImprovements(_objCharacter, Improvement.ImprovementSource.EssenceLoss, "Essence Loss");
 
                 // Create the Essence Loss Improvements which reduce the Maximum of MAG/RES.
                 if (intReduction > 0)
@@ -13930,6 +13921,8 @@ namespace Chummer
                         Improvement.ImprovementType.Attribute, "", 0, intReduction * -1, 0, 1, 1, 0);
                     */
                 }
+                int intMagReduction = _objCharacter.ESS.MetatypeMaximum - Convert.ToInt32(Math.Floor(Math.Round(_objCharacter.Essence + _objCharacter.EssencePenalty - _objCharacter.EssencePenaltyMAG, _objCharacter.Options.EssenceDecimals, MidpointRounding.AwayFromZero)));
+
                 if (intMagReduction > 0)
                 {
                     ImprovementManager.CreateImprovement(_objCharacter, "MAG", Improvement.ImprovementSource.EssenceLoss, "Essence Loss", Improvement.ImprovementType.Attribute, string.Empty, 0, 1, 0, intMagReduction * -1);
@@ -13951,13 +13944,13 @@ namespace Chummer
                 }
 				
 				// Remove any Improvements from Armor Encumbrance.
-				_objImprovementManager.RemoveImprovements(Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance");
+				ImprovementManager.RemoveImprovements(_objCharacter, Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance");
 				// Create the Armor Encumbrance Improvements.
 				if (_objCharacter.ArmorEncumbrance < 0)
 				{
-					_objImprovementManager.CreateImprovement("AGI", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
+					ImprovementManager.CreateImprovement(_objCharacter, "AGI", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
 						Improvement.ImprovementType.Attribute, "precedence-1", 0, 1, 0, 0, _objCharacter.ArmorEncumbrance);
-					_objImprovementManager.CreateImprovement("REA", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
+					ImprovementManager.CreateImprovement(_objCharacter, "REA", Improvement.ImprovementSource.ArmorEncumbrance, "Armor Encumbrance",
 						Improvement.ImprovementType.Attribute, "precedence-1", 0, 1, 0, 0, _objCharacter.ArmorEncumbrance);
 				}
 
@@ -14038,7 +14031,6 @@ namespace Chummer
             cmdAddCyberware.Enabled = !_objCharacter.HasImprovement(Improvement.ImprovementType.DisableCyberware, true);
             RefreshImprovements();
             RefreshLimitModifiers();
-            UpdateReputation();
             UpdateInitiationCost();
 
             if (Autosave_StopWatch.Elapsed.Minutes >= 5 && _blnIsDirty)
@@ -19795,7 +19787,7 @@ namespace Chummer
             // Character Info Tab.
             tipTooltip.SetToolTip(chkCharacterCreated, LanguageManager.Instance.GetString("Tip_CharacterCreated"));
             // Build Point Summary Tab.
-            tipTooltip.SetToolTip(lblPrimaryAttributes, LanguageManager.Instance.GetString("Tip_CommonAttributes"));
+            tipTooltip.SetToolTip(lblBuildPrimaryAttributes, LanguageManager.Instance.GetString("Tip_CommonAttributes"));
             tipTooltip.SetToolTip(lblBuildPositiveQualities, LanguageManager.Instance.GetString("Tip_BuildPositiveQualities"));
             tipTooltip.SetToolTip(lblBuildNegativeQualities, LanguageManager.Instance.GetString("Tip_BuildNegativeQualities"));
             tipTooltip.SetToolTip(lblBuildContacts, LanguageManager.Instance.GetString("Tip_CommonContacts").Replace("{0}", _objOptions.BPContact.ToString()));

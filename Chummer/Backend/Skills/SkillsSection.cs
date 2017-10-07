@@ -39,8 +39,8 @@ namespace Chummer.Skills
 
         }
 
-		private void CharacterOnImprovementEvent(List<Improvement> improvements, ImprovementManager improvementManager)
-		{
+        private void CharacterOnImprovementEvent(List<Improvement> improvements)
+        {
 			if (PropertyChanged != null && improvements.Any(x => x.ImproveType == Improvement.ImprovementType.FreeKnowledgeSkills))
 			{
 				PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(HasKnowledgePoints)));
@@ -120,7 +120,6 @@ namespace Chummer.Skills
                 foreach (SkillGroup skillgroup in loadingSkillGroups)
                 {
                     SkillGroups.Add(skillgroup);
-					skillgroup.PropertyChanged += SkillOnPropertyChanged;
 				}
                 Timekeeper.Finish("load_char_skills_groups");
 
@@ -467,8 +466,8 @@ namespace Chummer.Skills
             {
                 //Even if it is stupid, you can spend real skill points on knoskills...
                 int work = 0;
-                if (KnowledgeSkillRanksSum > KnowledgeSkillPoints)
-                    work -= KnowledgeSkillPoints - KnowledgeSkillRanksSum;
+                if (KnowledgeSkillRanksSum > KnowledgeSkillPointsMaximum)
+                    work -= KnowledgeSkillPointsMaximum - KnowledgeSkillRanksSum;
                 return work;
             }
         }
