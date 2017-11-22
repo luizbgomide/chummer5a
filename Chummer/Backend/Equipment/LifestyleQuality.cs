@@ -148,7 +148,7 @@ namespace Chummer.Backend.Equipment
             }
             objNode.Name = Name;
             objNode.Text = DisplayName;
-            objNode.Tag = InternalId;
+            objNode.Tag = this;
         }
 
         /// <summary>

@@ -187,7 +187,7 @@ namespace Chummer.Backend.Equipment
             string strSource = _guiID.ToString();
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
 
             // If the Gear is Ammunition, ask the user to select a Weapon Category for it to be limited to.
             if (_strCategory == "Ammunition" && (_strName.StartsWith("Ammo:") || _strName.StartsWith("Arrow:") || _strName.StartsWith("Bolt:")))
@@ -584,7 +584,7 @@ namespace Chummer.Backend.Equipment
             _strForcedValue = objGear._strForcedValue;
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
 
             foreach (Gear objGearChild in objGear.Children)
             {

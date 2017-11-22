@@ -370,7 +370,7 @@ namespace Chummer.Backend.Equipment
 
             // Create the TreeNode for the new item.
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
 
             // Retrieve the Bioware or Cyberware ESS Cost Multiplier. Bioware Modifiers do not apply to Genetech.
             if (MyXmlNode?["forcegrade"]?.InnerText != "None")
@@ -436,7 +436,7 @@ namespace Chummer.Backend.Equipment
                     Cyberware objSubsystem = new Cyberware(_objCharacter);
                     TreeNode objSubsystemNode = new TreeNode();
                     objSubsystemNode.Text = objSubsystem.DisplayName;
-                    objSubsystemNode.Tag = objSubsystem.InternalId;
+                    objSubsystemNode.Tag = objSubsystem;
                     objSubsystemNode.ForeColor = SystemColors.GrayText;
                     objSubsystemNode.ContextMenuStrip = objParentTreeNode.ContextMenuStrip;
                     int intSubSystemRating = Convert.ToInt32(objXmlSubsystemNode["rating"]?.InnerText);
@@ -463,7 +463,7 @@ namespace Chummer.Backend.Equipment
                     Cyberware objSubsystem = new Cyberware(_objCharacter);
                     TreeNode objSubsystemNode = new TreeNode();
                     objSubsystemNode.Text = objSubsystem.DisplayName;
-                    objSubsystemNode.Tag = objSubsystem.InternalId;
+                    objSubsystemNode.Tag = objSubsystem;
                     objSubsystemNode.ForeColor = SystemColors.GrayText;
                     objSubsystemNode.ContextMenuStrip = objParentTreeNode.ContextMenuStrip;
                     int intSubSystemRating = Convert.ToInt32(objXmlSubsystemNode["rating"]?.InnerText);
@@ -547,7 +547,7 @@ namespace Chummer.Backend.Equipment
                     _lstGear.Add(objChild);
 
                     objChildNode.Text = objChild.DisplayName;
-                    objChildNode.Tag = objChild.InternalId;
+                    objChildNode.Tag = objChild;
                     objParentTreeNode.Nodes.Add(objChildNode);
                     if (!blnStartCollapsed)
                         objParentTreeNode.Expand();

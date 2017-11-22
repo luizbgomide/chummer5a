@@ -191,7 +191,7 @@ namespace Chummer.Backend.Equipment
             }
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
 
             // If there are any VehicleMods that come with the Vehicle, add them.
             if (objXmlVehicle.InnerXml.Contains("<mods>") && blnCreateChildren)

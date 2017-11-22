@@ -199,7 +199,7 @@ namespace Chummer.Backend.Equipment
             objXmlWeapon.TryGetBoolFieldQuickly("allowaccessory", ref _blnAllowAccessory);
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
 
             // If the Weapon comes with an Underbarrel Weapon, add it.
             if (objXmlWeapon.InnerXml.Contains("<underbarrels>") && blnCreateChildren)

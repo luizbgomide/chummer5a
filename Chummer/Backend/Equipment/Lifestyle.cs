@@ -89,7 +89,7 @@ namespace Chummer.Backend.Equipment
             }             
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID;
+            objNode.Tag = this;
         }
 
         /// <summary>

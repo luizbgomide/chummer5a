@@ -32,7 +32,7 @@ namespace Chummer.helpers
         {
             TreeNode newNode = new TreeNode();
             newNode.Text = newNode.Name = input.DisplayName;
-            newNode.Tag = input.InternalId;
+            newNode.Tag = input;
             if (!string.IsNullOrEmpty(input.Notes))
                 newNode.ForeColor = Color.SaddleBrown;
             newNode.ToolTipText = CommonFunctions.WordWrap(input.Notes, 100);
@@ -55,7 +55,7 @@ namespace Chummer.helpers
             if (!string.IsNullOrEmpty(input.Condition))
                 strName += ", " + input.Condition;
             newNode.Text = newNode.Name = strName;
-            newNode.Tag = input.SourceName;
+            newNode.Tag = input;
             if (!string.IsNullOrEmpty(input.Notes))
                 newNode.ForeColor = Color.SaddleBrown;
             newNode.ToolTipText = CommonFunctions.WordWrap(input.Notes, 100);
@@ -81,7 +81,7 @@ namespace Chummer.helpers
         {
             TreeNode newNode = new TreeNode();
             newNode.Text = input.DisplayName;
-            newNode.Tag = input.InternalId;
+            newNode.Tag = input;
             newNode.ContextMenuStrip = strip;
             if (!string.IsNullOrEmpty(input.Notes))
                 newNode.ForeColor = Color.SaddleBrown;
@@ -91,7 +91,7 @@ namespace Chummer.helpers
             {
                 TreeNode objAdvantageNode = new TreeNode();
                 objAdvantageNode.Text = objAdvantage.DisplayName;
-                objAdvantageNode.Tag = objAdvantage.InternalId;
+                objAdvantageNode.Tag = objAdvantage;
                 newNode.Nodes.Add(objAdvantageNode);
                 newNode.Expand();
             }
@@ -111,7 +111,7 @@ namespace Chummer.helpers
         {
             TreeNode newNode = new TreeNode();
             newNode.Text = input.DisplayName;
-            newNode.Tag = input.InternalId;
+            newNode.Tag = input;
             newNode.ContextMenuStrip = strip;
 
             if (!string.IsNullOrEmpty(input.Notes))
@@ -133,7 +133,7 @@ namespace Chummer.helpers
         {
             TreeNode objNode = new TreeNode();
             objNode.Text = input.DisplayName;
-            objNode.Tag = input.InternalId;
+            objNode.Tag = input;
             objNode.ContextMenuStrip = strip;
             if (!string.IsNullOrEmpty(input.Notes))
                 objNode.ForeColor = Color.SaddleBrown;

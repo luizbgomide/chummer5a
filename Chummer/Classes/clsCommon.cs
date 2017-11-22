@@ -1182,7 +1182,7 @@ namespace Chummer
             {
                 TreeNode objChildNode = new TreeNode();
                 objChildNode.Text = objChild.DisplayName;
-                objChildNode.Tag = objChild.InternalId;
+                objChildNode.Tag = objChild;
                 objChildNode.ContextMenuStrip = objMenu;
                 if (!string.IsNullOrEmpty(objChild.Notes))
                     objChildNode.ForeColor = Color.SaddleBrown;
@@ -1211,7 +1211,7 @@ namespace Chummer
         {
             TreeNode objNode = new TreeNode();
             objNode.Text = objCyberware.DisplayName;
-            objNode.Tag = objCyberware.InternalId;
+            objNode.Tag = objCyberware;
             if (!string.IsNullOrEmpty(objCyberware.Notes))
                 objNode.ForeColor = Color.SaddleBrown;
             else if (!string.IsNullOrEmpty(objCyberware.ParentID))
@@ -1229,7 +1229,7 @@ namespace Chummer
             {
                 TreeNode objGearNode = new TreeNode();
                 objGearNode.Text = objGear.DisplayName;
-                objGearNode.Tag = objGear.InternalId;
+                objGearNode.Tag = objGear;
                 if (!string.IsNullOrEmpty(objGear.Notes))
                     objGearNode.ForeColor = Color.SaddleBrown;
                 else if (objGear.IncludedInParent)
@@ -1260,7 +1260,7 @@ namespace Chummer
         {
             TreeNode objNode = new TreeNode();
             objNode.Text = objArmor.DisplayName;
-            objNode.Tag = objArmor.InternalId;
+            objNode.Tag = objArmor;
             if (!string.IsNullOrEmpty(objArmor.Notes))
                 objNode.ForeColor = Color.SaddleBrown;
             objNode.ToolTipText = objArmor.Notes;
@@ -1269,7 +1269,7 @@ namespace Chummer
             {
                 TreeNode objChild = new TreeNode();
                 objChild.Text = objMod.DisplayName;
-                objChild.Tag = objMod.InternalId;
+                objChild.Tag = objMod;
                 objChild.ContextMenuStrip = string.IsNullOrEmpty(objMod.GearCapacity) ? cmsArmorMod : cmsArmorGear;
                 if (!string.IsNullOrEmpty(objMod.Notes))
                     objChild.ForeColor = Color.SaddleBrown;
@@ -1280,7 +1280,7 @@ namespace Chummer
                 {
                     TreeNode objChildGear = new TreeNode();
                     objChildGear.Text = objGear.DisplayName;
-                    objChildGear.Tag = objGear.InternalId;
+                    objChildGear.Tag = objGear;
                     if (!string.IsNullOrEmpty(objGear.Notes))
                         objChildGear.ForeColor = Color.SaddleBrown;
                     else if (objGear.IncludedInParent)
@@ -1301,7 +1301,7 @@ namespace Chummer
             {
                 TreeNode objChild = new TreeNode();
                 objChild.Text = objGear.DisplayName;
-                objChild.Tag = objGear.InternalId;
+                objChild.Tag = objGear;
                 if (!string.IsNullOrEmpty(objGear.Notes))
                     objChild.ForeColor = Color.SaddleBrown;
                 else if (objGear.IncludedInParent)
@@ -1350,7 +1350,7 @@ namespace Chummer
         {
             TreeNode objNode = new TreeNode();
             objNode.Text = objVehicle.DisplayName;
-            objNode.Tag = objVehicle.InternalId;
+            objNode.Tag = objVehicle;
             if (!string.IsNullOrEmpty(objVehicle.Notes))
                 objNode.ForeColor = Color.SaddleBrown;
             else if (!string.IsNullOrEmpty(objVehicle.ParentID))
@@ -1372,7 +1372,7 @@ namespace Chummer
             {
                 TreeNode objChildNode = new TreeNode();
                 objChildNode.Text = objMod.DisplayName;
-                objChildNode.Tag = objMod.InternalId;
+                objChildNode.Tag = objMod;
                 if (!string.IsNullOrEmpty(objMod.Notes))
                     objChildNode.ForeColor = Color.SaddleBrown;
                 else if (objMod.IncludedInVehicle)
@@ -1384,7 +1384,7 @@ namespace Chummer
                 {
                     TreeNode objCyberwareNode = new TreeNode();
                     objCyberwareNode.Text = objCyberware.DisplayName;
-                    objCyberwareNode.Tag = objCyberware.InternalId;
+                    objCyberwareNode.Tag = objCyberware;
                     if (!string.IsNullOrEmpty(objCyberware.Notes))
                         objCyberwareNode.ForeColor = Color.SaddleBrown;
                     else if (!string.IsNullOrEmpty(objCyberware.ParentID))
@@ -1414,7 +1414,7 @@ namespace Chummer
             {
                 TreeNode objGearNode = new TreeNode();
                 objGearNode.Text = objGear.DisplayName;
-                objGearNode.Tag = objGear.InternalId;
+                objGearNode.Tag = objGear;
                 if (!string.IsNullOrEmpty(objGear.Notes))
                     objGearNode.ForeColor = Color.SaddleBrown;
                 else if (objGear.IncludedInParent)
@@ -1462,7 +1462,7 @@ namespace Chummer
         {
             TreeNode objNode = new TreeNode();
             objNode.Text = objWeapon.DisplayName;
-            objNode.Tag = WeaponID ?? objWeapon.InternalId;
+            objNode.Tag = objWeapon;
             if (!string.IsNullOrEmpty(objWeapon.Notes))
                 objNode.ForeColor = Color.SaddleBrown;
             else if (objWeapon.Cyberware || objWeapon.Category == "Gear" || objWeapon.Category.StartsWith("Quality") || WeaponID != null || !string.IsNullOrEmpty(objWeapon.ParentID))
@@ -1475,7 +1475,7 @@ namespace Chummer
             {
                 TreeNode objChild = new TreeNode();
                 objChild.Text = objAccessory.DisplayName;
-                objChild.Tag = objAccessory.InternalId;
+                objChild.Tag = objAccessory;
                 objChild.ContextMenuStrip = cmsWeaponAccessory;
                 if (!string.IsNullOrEmpty(objAccessory.Notes))
                     objChild.ForeColor = Color.SaddleBrown;
@@ -1488,7 +1488,7 @@ namespace Chummer
                 {
                     TreeNode objGearChild = new TreeNode();
                     objGearChild.Text = objGear.DisplayName;
-                    objGearChild.Tag = objGear.InternalId;
+                    objGearChild.Tag = objGear;
                     if (!string.IsNullOrEmpty(objGear.Notes))
                         objGearChild.ForeColor = Color.SaddleBrown;
                     else if (objGear.IncludedInParent)
@@ -2279,7 +2279,7 @@ namespace Chummer
                 List<Focus> removeFoci = new List<Focus>();
                 TreeNode objNode = new TreeNode();
                 objNode.Text = objGear.DisplayName.Replace(LanguageManager.GetString("String_Rating"), LanguageManager.GetString("String_Force"));
-                objNode.Tag = objGear.InternalId;
+                objNode.Tag = objGear;
                 foreach (Focus objFocus in objCharacter.Foci)
                 {
                     if (objFocus.GearId == objGear.InternalId)
@@ -2325,7 +2325,7 @@ namespace Chummer
                         {
                             TreeNode objNode = new TreeNode();
                             objNode.Text = LanguageManager.GetString("String_StackedFocus") + ": " + objStack.Name;
-                            objNode.Tag = objStack.InternalId;
+                            objNode.Tag = objStack;
 
                             ImprovementManager.RemoveImprovements(objCharacter, Improvement.ImprovementSource.StackedFocus, objStack.InternalId);
 

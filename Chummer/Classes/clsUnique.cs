@@ -303,7 +303,7 @@ namespace Chummer
                         objWeapon.Page = objXmlNaturalWeapon["page"].InnerText;
                     objGearWeaponNode.ForeColor = SystemColors.GrayText;
                     objGearWeaponNode.Text = objWeapon.Name;
-                    objGearWeaponNode.Tag = objWeapon.InternalId;
+                    objGearWeaponNode.Tag = objWeapon;
                     objWeaponNodes.Add(objGearWeaponNode);
 
                     _objCharacter.Weapons.Add(objWeapon);
@@ -346,7 +346,7 @@ namespace Chummer
                 objNode.ForeColor = SystemColors.GrayText;
 
             objNode.Text = DisplayName;
-            objNode.Tag = InternalId;
+            objNode.Tag = this;
         }
 
         /// <summary>
@@ -1458,7 +1458,7 @@ namespace Chummer
 
             //TreeNode objNode = new TreeNode();
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
 
             //return objNode;
         }
@@ -2595,7 +2595,7 @@ namespace Chummer
                 objNode.Text = LanguageManager.GetString("Label_Echo") + " " + DisplayName;
             else
                 objNode.Text = LanguageManager.GetString("Label_Metamagic") + " " + DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>
@@ -2845,7 +2845,7 @@ namespace Chummer
             }
 
             objNode.Text = LanguageManager.GetString("Label_Art") + " " + DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>
@@ -3076,7 +3076,7 @@ namespace Chummer
             }
 
             objNode.Text = LanguageManager.GetString("Label_Enhancement") + " " + DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>
@@ -3318,7 +3318,7 @@ namespace Chummer
             objXmlComplexFormNode.TryGetStringFieldQuickly("notes", ref _strNotes);
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>
@@ -3569,7 +3569,7 @@ namespace Chummer
             objXmlProgramNode.TryGetStringFieldQuickly("notes", ref _strNotes);
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
             }
 
         /// <summary>
@@ -3825,7 +3825,7 @@ namespace Chummer
             }
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>
@@ -4059,7 +4059,7 @@ namespace Chummer
             }
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>
@@ -4205,7 +4205,7 @@ namespace Chummer
             objXmlManeuverNode.TryGetStringFieldQuickly("page", ref _strPage);
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>
@@ -4405,7 +4405,7 @@ namespace Chummer
             }
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// Create a Skill Limit Modifier from properties and return the TreeNodes for it.
@@ -4421,7 +4421,7 @@ namespace Chummer
             _strCondition = strCondition;
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>
@@ -5125,7 +5125,7 @@ namespace Chummer
 
             // Create the TreeNode for the new item.
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>

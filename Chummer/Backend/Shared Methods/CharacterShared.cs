@@ -299,7 +299,7 @@ namespace Chummer
             //Add the new treeview node for the LimitModifier.
             objNode.ContextMenuStrip = cmsLimitModifier;
             objNode.Text = objLimitModifier.DisplayName;
-            objNode.Tag = objLimitModifier.InternalId;
+            objNode.Tag = objLimitModifier;
             objSelectedNode.Parent.Nodes.Add(objNode);
             objSelectedNode.Remove();
         }
@@ -340,7 +340,7 @@ namespace Chummer
             {
                 TreeNode objNode = new TreeNode();
                 objNode.Text = objPower.DisplayName;
-                objNode.Tag = objPower.InternalId;
+                objNode.Tag = objPower;
                 objNode.ContextMenuStrip = cmsCritterPowers;
                 if (!string.IsNullOrEmpty(objPower.Notes))
                     objNode.ForeColor = Color.SaddleBrown;
@@ -397,7 +397,7 @@ namespace Chummer
                         continue;
                     TreeNode objNode = new TreeNode();
                     objNode.Text = objQuality.DisplayName;
-                    objNode.Tag = objQuality.InternalId;
+                    objNode.Tag = objQuality;
                     objNode.ContextMenuStrip = cmsQuality;
 
                     if (!string.IsNullOrEmpty(objQuality.Notes))

@@ -717,7 +717,7 @@ namespace Chummer
             {
                 TreeNode objNode = new TreeNode();
                 objNode.Text = objProgram.DisplayName;
-                objNode.Tag = objProgram.InternalId;
+                objNode.Tag = objProgram;
                 if (!string.IsNullOrEmpty(objProgram.Notes))
                     objNode.ForeColor = Color.SaddleBrown;
                 objNode.ToolTipText = CommonFunctions.WordWrap(objProgram.Notes, 100);
@@ -730,7 +730,7 @@ namespace Chummer
             {
                 TreeNode objNode = new TreeNode();
                 objNode.Text = objProgram.DisplayName;
-                objNode.Tag = objProgram.InternalId;
+                objNode.Tag = objProgram;
                 if (!string.IsNullOrEmpty(objProgram.Notes))
                     objNode.ForeColor = Color.SaddleBrown;
                 else if (!objProgram.CanDelete)
@@ -748,7 +748,7 @@ namespace Chummer
             {
                 TreeNode objMartialArtNode = new TreeNode();
                 objMartialArtNode.Text = objMartialArt.DisplayName;
-                objMartialArtNode.Tag = objMartialArt.InternalId;
+                objMartialArtNode.Tag = objMartialArt;
                 objMartialArtNode.ContextMenuStrip = cmsMartialArts;
                 if (!string.IsNullOrEmpty(objMartialArt.Notes))
                     objMartialArtNode.ForeColor = Color.SaddleBrown;
@@ -758,7 +758,7 @@ namespace Chummer
                 {
                     TreeNode objAdvantageNode = new TreeNode();
                     objAdvantageNode.Text = objAdvantage.DisplayName;
-                    objAdvantageNode.Tag = objAdvantage.InternalId;
+                    objAdvantageNode.Tag = objAdvantage;
                     objAdvantageNode.ContextMenuStrip = cmsTechnique;
 
                     if (!string.IsNullOrEmpty(objAdvantage.Notes))
@@ -817,7 +817,7 @@ namespace Chummer
             {
                 TreeNode objLifestyleNode = new TreeNode();
                 objLifestyleNode.Text = objLifestyle.DisplayName;
-                objLifestyleNode.Tag = objLifestyle.InternalId;
+                objLifestyleNode.Tag = objLifestyle;
                 if (objLifestyle.StyleType.ToString() != "Standard")
                     objLifestyleNode.ContextMenuStrip = cmsAdvancedLifestyle;
                 else
@@ -3025,7 +3025,7 @@ namespace Chummer
 
                         TreeNode objLifestyleNode = new TreeNode();
                         objLifestyleNode.Text = objLifestyle.DisplayName;
-                        objLifestyleNode.Tag = objLifestyle.InternalId;
+                        objLifestyleNode.Tag = objLifestyle;
                         if (objLifestyle.StyleType.ToString() != "Standard")
                             objLifestyleNode.ContextMenuStrip = cmsAdvancedLifestyle;
                         else
@@ -3089,7 +3089,7 @@ namespace Chummer
                                 objCharacterArmor.Gear.Add(objGear);
                                 TreeNode objNode = new TreeNode();
                                 objNode.Text = objGear.DisplayName;
-                                objNode.Tag = objGear.InternalId;
+                                objNode.Tag = objGear;
                                 objNode.ContextMenuStrip = cmsArmorGear;
                                 if (!string.IsNullOrEmpty(objGear.Notes))
                                     objNode.ForeColor = Color.SaddleBrown;
@@ -3167,7 +3167,7 @@ namespace Chummer
                             objAccessory.Gear.Add(objGear);
                             TreeNode objNode = new TreeNode();
                             objNode.Text = objGear.DisplayName;
-                            objNode.Tag = objGear.InternalId;
+                            objNode.Tag = objGear;
                             objNode.ContextMenuStrip = cmsWeaponAccessoryGear;
                             if (!string.IsNullOrEmpty(objGear.Notes))
                                 objNode.ForeColor = Color.SaddleBrown;
@@ -3245,7 +3245,7 @@ namespace Chummer
 
                         TreeNode objNode = new TreeNode();
                         objNode.Text = objGear.DisplayName;
-                        objNode.Tag = objGear.InternalId;
+                        objNode.Tag = objGear;
                         if (!string.IsNullOrEmpty(objGear.Notes))
                             objNode.ForeColor = Color.SaddleBrown;
                         else if (objGear.IncludedInParent)
@@ -3343,7 +3343,7 @@ namespace Chummer
                             objCharacterVehicle.Gear.Add(objGear);
                             TreeNode objNode = new TreeNode();
                             objNode.Text = objGear.DisplayName;
-                            objNode.Tag = objGear.InternalId;
+                            objNode.Tag = objGear;
                             objNode.ContextMenuStrip = cmsVehicleGear;
                             objVehicle = objCharacterVehicle;
                             if (!string.IsNullOrEmpty(objGear.Notes))
@@ -3376,7 +3376,7 @@ namespace Chummer
                         }
                         TreeNode objNode = new TreeNode();
                         objNode.Text = objGear.DisplayName;
-                        objNode.Tag = objGear.InternalId;
+                        objNode.Tag = objGear;
                         objNode.ContextMenuStrip = cmsVehicleGear;
                         if (!string.IsNullOrEmpty(objGear.Notes))
                             objNode.ForeColor = Color.SaddleBrown;
@@ -4486,7 +4486,7 @@ namespace Chummer
 
             _objCharacter.AIPrograms.Add(objProgram);
             objNode.Text = objProgram.DisplayName;
-            objNode.Tag = objProgram.InternalId;
+            objNode.Tag = objProgram;
             if (!string.IsNullOrEmpty(objProgram.Notes))
                 objNode.ForeColor = Color.SaddleBrown;
             else if (!objProgram.CanDelete)
@@ -4540,7 +4540,7 @@ namespace Chummer
 
                     TreeNode nodNewNode = new TreeNode();
                     nodNewNode.Text = objNode.Text;
-                    nodNewNode.Tag = objNode.Tag;
+                    nodNewNode.Tag = objNode;
                     nodNewNode.ContextMenuStrip = cmsArmor;
 
                     // Add child nodes.
@@ -4548,13 +4548,13 @@ namespace Chummer
                     {
                         TreeNode nodChildNode = new TreeNode();
                         nodChildNode.Text = objChild.DisplayName;
-                        nodChildNode.Tag = objChild.InternalId;
+                        nodChildNode.Tag = objChild;
                         nodChildNode.ContextMenuStrip = string.IsNullOrEmpty(objChild.GearCapacity) ? cmsArmorMod : cmsArmorGear;
                         foreach (Gear objChildGear in objChild.Gear)
                         {
                             TreeNode nodChildGearNode = new TreeNode();
                             nodChildGearNode.Text = objChildGear.DisplayName;
-                            nodChildGearNode.Tag = objChildGear.InternalId;
+                            nodChildGearNode.Tag = objChildGear;
                             nodChildGearNode.ContextMenuStrip = cmsArmorGear;
                             nodChildNode.Nodes.Add(nodChildGearNode);
                             nodChildNode.Expand();
@@ -4567,7 +4567,7 @@ namespace Chummer
                     {
                         TreeNode nodChildNode = new TreeNode();
                         nodChildNode.Text = objChild.DisplayName;
-                        nodChildNode.Tag = objChild.InternalId;
+                        nodChildNode.Tag = objChild;
                         nodChildNode.ContextMenuStrip = cmsArmorGear;
                         nodNewNode.Nodes.Add(nodChildNode);
                         nodNewNode.Expand();
@@ -4818,7 +4818,7 @@ namespace Chummer
 
             TreeNode objNode = new TreeNode();
             objNode.Text = objLifestyle.DisplayName;
-            objNode.Tag = objLifestyle.InternalId;
+            objNode.Tag = objLifestyle;
             objNode.ContextMenuStrip = cmsLifestyleNotes;
             treLifestyles.Nodes[0].Nodes.Add(objNode);
             treLifestyles.Nodes[0].Expand();
@@ -6601,7 +6601,7 @@ namespace Chummer
 
             TreeNode nodStackNode = new TreeNode();
             nodStackNode.Text = objStackItem.DisplayNameShort;
-            nodStackNode.Tag = objStackItem.InternalId;
+            nodStackNode.Tag = objStackItem;
 
             treGear.Nodes[0].Nodes.Add(nodStackNode);
 
@@ -7775,7 +7775,7 @@ namespace Chummer
 
             TreeNode objNode = new TreeNode();
             objNode.Text = objNewLifestyle.Name;
-            objNode.Tag = objNewLifestyle.InternalId;
+            objNode.Tag = objNewLifestyle;
             objNode.ContextMenuStrip = cmsAdvancedLifestyle;
             treLifestyles.Nodes[0].Nodes.Add(objNode);
             treLifestyles.Nodes[0].Expand();
@@ -7944,14 +7944,14 @@ namespace Chummer
 
             TreeNode nodNexus = new TreeNode();
             nodNexus.Text = objGear.Name;
-            nodNexus.Tag = objGear.InternalId;
+            nodNexus.Tag = objGear;
             nodNexus.ContextMenuStrip = cmsGear;
 
             foreach (Gear objChild in objGear.Children)
             {
                 TreeNode nodModule = new TreeNode();
                 nodModule.Text = objChild.Name;
-                nodModule.Tag = objChild.InternalId;
+                nodModule.Tag = objChild;
                 nodModule.ContextMenuStrip = cmsGear;
                 nodNexus.Nodes.Add(nodModule);
                 nodNexus.Expand();
@@ -8015,14 +8015,14 @@ namespace Chummer
 
             TreeNode nodNexus = new TreeNode();
             nodNexus.Text = objGear.Name;
-            nodNexus.Tag = objGear.InternalId;
+            nodNexus.Tag = objGear;
             nodNexus.ContextMenuStrip = cmsVehicleGear;
 
             foreach (Gear objChild in objGear.Children)
             {
                 TreeNode nodModule = new TreeNode();
                 nodModule.Text = objChild.Name;
-                nodModule.Tag = objChild.InternalId;
+                nodModule.Tag = objChild;
                 nodModule.ContextMenuStrip = cmsVehicleGear;
                 nodNexus.Nodes.Add(nodModule);
                 nodNexus.Expand();
@@ -9170,7 +9170,7 @@ namespace Chummer
             Spell objSpell = frmSpell.SelectedSpell;
             TreeNode objNode = new TreeNode();
             objNode.Text = objSpell.DisplayName;
-            objNode.Tag = objSpell.InternalId;
+            objNode.Tag = objSpell;
             objNode.ContextMenuStrip = cmsSpell;
 
             _objCharacter.Spells.Add(objSpell);
@@ -14289,7 +14289,7 @@ namespace Chummer
             {
                 TreeNode objNode = new TreeNode();
                 objNode.Text = objAIProgram.DisplayName;
-                objNode.Tag = objAIProgram.InternalId;
+                objNode.Tag = objAIProgram;
                 if (!string.IsNullOrEmpty(objAIProgram.Notes))
                     objNode.ForeColor = Color.SaddleBrown;
                 else if (!objAIProgram.CanDelete)
@@ -18552,7 +18552,7 @@ namespace Chummer
                     AIProgram objProgram = new AIProgram(_objCharacter);
                     objProgram.Create(objXmlProgramNode, objNode, boolIsAdvancedProgram);
                     objNode.Text = objProgram.DisplayName;
-                    objNode.Tag = objProgram.InternalId;
+                    objNode.Tag = objProgram;
                     if (!string.IsNullOrEmpty(objProgram.Notes))
                         objNode.ForeColor = Color.SaddleBrown;
                     else if (!objProgram.CanDelete)
@@ -19281,7 +19281,7 @@ namespace Chummer
             foreach (InitiationGrade objGrade in _objCharacter.InitiationGrades)
             {
                 TreeNode nodGrade = treMetamagic.Nodes.Add(objGrade.Grade.ToString(), objGrade.Text);
-                nodGrade.Tag = objGrade.InternalId;
+                nodGrade.Tag = objGrade;
                 nodGrade.ContextMenuStrip = cmsMetamagic;
                 if (!string.IsNullOrEmpty(objGrade.Notes))
                     nodGrade.ForeColor = Color.SaddleBrown;
@@ -19292,7 +19292,7 @@ namespace Chummer
                     if (objArt.Grade == objGrade.Grade)
                     {
                         TreeNode nodArt = nodGrade.Nodes.Add(objArt.InternalId, LanguageManager.GetString("Label_Art") + " " + objArt.DisplayName);
-                        nodArt.Tag = objArt.InternalId;
+                        nodArt.Tag = objArt;
                         nodArt.ContextMenuStrip = cmsInitiationNotes;
                         if (!string.IsNullOrEmpty(objArt.Notes))
                             nodArt.ForeColor = Color.SaddleBrown;
@@ -19309,7 +19309,7 @@ namespace Chummer
                         else
                             strName = LanguageManager.GetString("Label_Echo") + " " + objMetamagic.DisplayName;
                         TreeNode nodMetamagic = nodGrade.Nodes.Add(objMetamagic.InternalId, strName);
-                        nodMetamagic.Tag = objMetamagic.InternalId;
+                        nodMetamagic.Tag = objMetamagic;
                         nodMetamagic.ContextMenuStrip = cmsInitiationNotes;
                         if (!string.IsNullOrEmpty(objMetamagic.Notes))
                             nodMetamagic.ForeColor = Color.SaddleBrown;
@@ -19326,7 +19326,7 @@ namespace Chummer
                         if (objSpell.Category == "Enchantments")
                             strCategory = LanguageManager.GetString("Label_Enchantment") + " ";
                         TreeNode nodSpell = nodGrade.Nodes.Add(objSpell.InternalId, strCategory + " " + objSpell.DisplayName);
-                        nodSpell.Tag = objSpell.InternalId;
+                        nodSpell.Tag = objSpell;
                         nodSpell.ContextMenuStrip = cmsInitiationNotes;
                         if (!string.IsNullOrEmpty(objSpell.Notes))
                             nodSpell.ForeColor = Color.SaddleBrown;
@@ -19338,7 +19338,7 @@ namespace Chummer
                     if (objEnhancement.Grade == objGrade.Grade)
                     {
                         TreeNode nodEnhancement = nodGrade.Nodes.Add(objEnhancement.InternalId, LanguageManager.GetString("Label_Enhancement") + " " + objEnhancement.DisplayName);
-                        nodEnhancement.Tag = objEnhancement.InternalId;
+                        nodEnhancement.Tag = objEnhancement;
                         nodEnhancement.ContextMenuStrip = cmsInitiationNotes;
                         if (!string.IsNullOrEmpty(objEnhancement.Notes))
                             nodEnhancement.ForeColor = Color.SaddleBrown;
@@ -19352,7 +19352,7 @@ namespace Chummer
                         if (objEnhancement.Grade == objGrade.Grade)
                         {
                             TreeNode nodEnhancement = nodGrade.Nodes.Add(objEnhancement.InternalId, LanguageManager.GetString("Label_Enhancement") + " " + objEnhancement.DisplayName);
-                            nodEnhancement.Tag = objEnhancement.InternalId;
+                            nodEnhancement.Tag = objEnhancement;
                             nodEnhancement.ContextMenuStrip = cmsInitiationNotes;
                             if (!string.IsNullOrEmpty(objEnhancement.Notes))
                                 nodEnhancement.ForeColor = Color.SaddleBrown;
@@ -19369,7 +19369,7 @@ namespace Chummer
                 else
                     strName = LanguageManager.GetString("Label_Echo") + " " + objMetamagic.DisplayName;
                 TreeNode nodMetamagic = treMetamagic.Nodes.Add(objMetamagic.InternalId, strName);
-                nodMetamagic.Tag = objMetamagic.InternalId;
+                nodMetamagic.Tag = objMetamagic;
                 nodMetamagic.ContextMenuStrip = cmsInitiationNotes;
                 if (!string.IsNullOrEmpty(objMetamagic.Notes))
                     nodMetamagic.ForeColor = Color.SaddleBrown;
@@ -20870,7 +20870,7 @@ namespace Chummer
                 {
                     TreeNode objNode = new TreeNode();
                     objNode.Text = objGear.DisplayName;
-                    objNode.Tag = objGear.InternalId;
+                    objNode.Tag = objGear;
                     if (!string.IsNullOrEmpty(objGear.Notes))
                         objNode.ForeColor = Color.SaddleBrown;
                     else if (objGear.IncludedInParent)
@@ -21080,7 +21080,7 @@ namespace Chummer
 
             TreeNode objSpellNode = new TreeNode();
             objSpellNode.Text = objNode.Text;
-            objSpellNode.Tag = objNode.Tag;
+            objSpellNode.Tag = objNode;
 
             string strCategory = string.Empty;
             if (objNewSpell.Category == "Rituals")
@@ -21141,7 +21141,7 @@ namespace Chummer
 
             TreeNode objSpellNode = new TreeNode();
             objSpellNode.Text = objNode.Text;
-            objSpellNode.Tag = objNode.Tag;
+            objSpellNode.Tag = objNode;
 
             string strCategory = string.Empty;
             if (objNewSpell.Category == "Rituals")

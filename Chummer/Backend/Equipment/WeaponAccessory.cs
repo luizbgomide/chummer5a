@@ -215,7 +215,7 @@ namespace Chummer.Backend.Equipment
             }
 
             objNode.Text = DisplayName;
-            objNode.Tag = _guiID.ToString();
+            objNode.Tag = this;
         }
 
         /// <summary>
