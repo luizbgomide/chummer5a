@@ -823,6 +823,15 @@ namespace Chummer.Backend.Equipment
                 _strNotes = value;
             }
         }
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (IncludedInWeapon) return SystemColors.GrayText;
+                if (string.IsNullOrWhiteSpace(Notes)) return SystemColors.WindowText;
+                return Color.SaddleBrown;
+            }
+        }
 
         /// <summary>
         /// Total Availability.

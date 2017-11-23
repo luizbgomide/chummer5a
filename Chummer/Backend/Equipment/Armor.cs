@@ -1102,6 +1102,18 @@ namespace Chummer.Backend.Equipment
             }
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
+        }
+
         /// <summary>
         /// Whether or not the Armor's cost should be discounted by 10% through the Black Market Pipeline Quality.
         /// </summary>

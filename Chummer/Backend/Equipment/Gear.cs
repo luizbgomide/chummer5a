@@ -1417,6 +1417,16 @@ namespace Chummer.Backend.Equipment
             }
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (IncludedInParent) return SystemColors.GrayText;
+                if (string.IsNullOrWhiteSpace(Notes)) return SystemColors.WindowText;
+                return Color.SaddleBrown;
+            }
+        }
+
         /// <summary>
         /// Device Rating string.
         /// </summary>

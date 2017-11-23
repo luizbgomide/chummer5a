@@ -778,6 +778,25 @@ namespace Chummer
             set => _strNotes = value;
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (!Implemented) return Color.Red;
+                if (OriginSource == QualitySource.Metatype ||
+                    OriginSource == QualitySource.MetatypeRemovable ||
+                    OriginSource == QualitySource.Improvement)
+                {
+                    return SystemColors.GrayText;
+                }
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
+        }
+
         public XmlNode MyXmlNode
         {
             get
@@ -1313,6 +1332,18 @@ namespace Chummer
         {
             get => _strNotes;
             set => _strNotes = value;
+        }
+
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
         }
 
         public bool Fettered { get; internal set; }
@@ -2098,6 +2129,18 @@ namespace Chummer
             set => _strNotes = value;
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
+        }
+
         /// <summary>
         /// The name of the object as it should be displayed on printouts (translated name only).
         /// </summary>
@@ -2781,6 +2824,18 @@ namespace Chummer
             set => _strNotes = value;
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
+        }
+
         public XmlNode MyXmlNode
         {
             get
@@ -3016,6 +3071,18 @@ namespace Chummer
             set => _strNotes = value;
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
+        }
+
         public XmlNode MyXmlNode
         {
             get
@@ -3245,6 +3312,18 @@ namespace Chummer
         {
             get => _strNotes;
             set => _strNotes = value;
+        }
+
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
         }
 
         /// <summary>
@@ -3503,6 +3582,18 @@ namespace Chummer
         {
             get => _strNotes;
             set => _strNotes = value;
+        }
+
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
         }
 
         public XmlNode MyXmlNode
@@ -3771,6 +3862,16 @@ namespace Chummer
             set => _strNotes = value;
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (!CanDelete) return SystemColors.GrayText;
+                if (string.IsNullOrWhiteSpace(Notes)) return SystemColors.WindowText;
+                return Color.SaddleBrown;
+            }
+        }
+
         /// <summary>
         /// If the AI Program is an Advanced Program.
         /// </summary>
@@ -4009,6 +4110,18 @@ namespace Chummer
             set => _strNotes = value;
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
+        }
+
         public XmlNode MyXmlNode
         {
             get
@@ -4145,6 +4258,18 @@ namespace Chummer
         {
             get => _strNotes;
             set => _strNotes = value;
+        }
+
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
         }
 
         /// <summary>
@@ -4346,6 +4471,18 @@ namespace Chummer
             set => _strNotes = value;
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
+        }
+
         public XmlNode MyXmlNode
         {
             get
@@ -4502,6 +4639,18 @@ namespace Chummer
         {
             get => _strNotes;
             set => _strNotes = value;
+        }
+
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
         }
 
         /// <summary>
@@ -4977,6 +5126,18 @@ namespace Chummer
         {
             get => _strNotes;
             set => _strNotes = value;
+        }
+
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
         }
 
         /// <summary>
@@ -5525,6 +5686,18 @@ namespace Chummer
             set => _strNotes = value;
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
+        }
+
         /// <summary>
         /// Whether or not the Critter Power counts towards their total number of Critter Powers.
         /// </summary>
@@ -5753,6 +5926,18 @@ namespace Chummer
         {
             get => _strNotes;
             set => _strNotes = value;
+        }
+
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
         }
         #endregion
     }
@@ -6004,6 +6189,18 @@ namespace Chummer
         {
             get => _strNotes;
             set => _strNotes = value;
+        }
+
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return SystemColors.WindowText;
+                }
+                return Color.SaddleBrown;
+            }
         }
         #endregion
     }

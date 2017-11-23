@@ -314,7 +314,7 @@ namespace Chummer.Backend.Equipment
                             objMod.Weapons.Add(objWeapon);
                             foreach (TreeNode objModNode in objNode.Nodes)
                             {
-                                if (objModNode.Tag.ToString() == objMod.InternalId)
+                                if (objModNode.Tag == objMod)
                                 {
                                     objWeaponNode.ContextMenuStrip = cmsVehicleWeapon;
                                     objModNode.Nodes.Add(objWeaponNode);
@@ -337,7 +337,7 @@ namespace Chummer.Backend.Equipment
                                 objMod.Weapons.Add(objWeapon);
                                 foreach (TreeNode objModNode in objNode.Nodes)
                                 {
-                                    if (objModNode.Tag.ToString() == objMod.InternalId)
+                                    if (objModNode.Tag == objMod)
                                     {
                                         objWeaponNode.ContextMenuStrip = cmsVehicleWeapon;
                                         objModNode.Nodes.Add(objWeaponNode);
@@ -1276,6 +1276,16 @@ namespace Chummer.Backend.Equipment
             set
             {
                 _strNotes = value;
+            }
+        }
+
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(ParentID)) return SystemColors.GrayText;
+                if (string.IsNullOrWhiteSpace(Notes)) return SystemColors.WindowText;
+                return Color.SaddleBrown;
             }
         }
 

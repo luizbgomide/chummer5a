@@ -753,6 +753,16 @@ namespace Chummer.Backend.Equipment
             }
         }
 
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (IncludedInArmor) return SystemColors.GrayText;
+                if (string.IsNullOrWhiteSpace(Notes)) return SystemColors.WindowText;
+                return Color.SaddleBrown;
+            }
+        }
+
         /// <summary>
         /// Value that was selected during the Improvement Manager dialogue.
         /// </summary>

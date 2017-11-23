@@ -599,6 +599,18 @@ namespace Chummer.Backend.Equipment
             }
         }
 
+        public System.Drawing.Color PreferredNodeColor
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(Notes))
+                {
+                    return System.Drawing.SystemColors.WindowText;
+                }
+                return System.Drawing.Color.SaddleBrown;
+            }
+        }
+
         /// <summary>
         /// A custom name for the Lifestyle assigned by the player.
         /// </summary>

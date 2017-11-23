@@ -267,14 +267,14 @@ namespace Chummer
         protected void UpdateLimitModifier(TreeView treLimit, ContextMenuStrip cmsLimitModifier)
         {
             TreeNode objSelectedNode = treLimit.SelectedNode;
-            LimitModifier objLimitModifier = CommonFunctions.FindByIdWithNameCheck(treLimit.SelectedNode.Tag.ToString(),
-                _objCharacter.LimitModifiers);
+            LimitModifier objLimitModifier = (LimitModifier)treLimit.SelectedNode.Tag;
             //If the LimitModifier couldn't be found (Ie it comes from an Improvement or the user hasn't properly selected a treenode, fail out early.
             if (objLimitModifier == null)
             {
                 MessageBox.Show(LanguageManager.GetString("Warning_NoLimitFound"));
                 return;
             }
+            string strGuid = objLimitModifier.InternalId;
             frmSelectLimitModifier frmPickLimitModifier = new frmSelectLimitModifier(objLimitModifier);
             frmPickLimitModifier.ShowDialog(this);
 
@@ -290,7 +290,7 @@ namespace Chummer
             string strCondition = frmPickLimitModifier.SelectedCondition;
             objLimitModifier.Create(frmPickLimitModifier.SelectedName, frmPickLimitModifier.SelectedBonus, strLimit,
                 strCondition, objNode);
-            objLimitModifier.Guid = new Guid(objSelectedNode.Tag.ToString());
+            objLimitModifier.Guid = new Guid(strGuid);
             if (objLimitModifier.InternalId == Guid.Empty.ToString())
                 return;
 
@@ -342,8 +342,7 @@ namespace Chummer
                 objNode.Text = objPower.DisplayName;
                 objNode.Tag = objPower;
                 objNode.ContextMenuStrip = cmsCritterPowers;
-                if (!string.IsNullOrEmpty(objPower.Notes))
-                    objNode.ForeColor = Color.SaddleBrown;
+                objNode.ForeColor = objPower.PreferredNodeColor;
                 objNode.ToolTipText = CommonFunctions.WordWrap(objPower.Notes, 100);
 
                 if (objPower.Category != "Weakness")
@@ -400,14 +399,7 @@ namespace Chummer
                     objNode.Tag = objQuality;
                     objNode.ContextMenuStrip = cmsQuality;
 
-                    if (!string.IsNullOrEmpty(objQuality.Notes))
-                        objNode.ForeColor = Color.SaddleBrown;
-                    else if (objQuality.OriginSource == QualitySource.Metatype ||
-                            objQuality.OriginSource == QualitySource.MetatypeRemovable ||
-                            objQuality.OriginSource == QualitySource.Improvement)
-                    {
-                        objNode.ForeColor = SystemColors.GrayText;
-                    }
+                    objNode.ForeColor = objQuality.PreferredNodeColor;
                     objNode.ToolTipText = CommonFunctions.WordWrap(objQuality.Notes, 100);
 
                     switch (objQuality.Type)

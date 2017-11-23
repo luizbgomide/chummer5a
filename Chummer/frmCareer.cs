@@ -2781,7 +2781,7 @@ namespace Chummer
                 if (tabStreetGearTabs.SelectedTab == tabLifestyle && treLifestyles.SelectedNode != null)
                 {
                         // Copy the selected Lifestyle.
-                    Lifestyle objCopyLifestyle = CommonFunctions.FindByIdWithNameCheck(treLifestyles.SelectedNode.Tag.ToString(), _objCharacter.Lifestyles);
+                    Lifestyle objCopyLifestyle = (Lifestyle)treLifestyles.SelectedNode.Tag;
 
                     if (objCopyLifestyle == null)
                         return;
@@ -2869,7 +2869,7 @@ namespace Chummer
                     }
 
                         // Attempt to copy Gear.
-                    Gear objCopyGear = CommonFunctions.FindArmorGear(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                    Gear objCopyGear = (Gear)treArmor.SelectedNode.Tag;
 
                     if (objCopyGear != null)
                     {
@@ -2937,7 +2937,7 @@ namespace Chummer
                 else if (tabStreetGearTabs.SelectedTab == tabWeapons && treWeapons.SelectedNode != null)
                 {
                     // Copy the selected Weapon.
-                    Weapon objCopyWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+                    Weapon objCopyWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
                     if (objCopyWeapon != null)
                     {
@@ -2983,7 +2983,7 @@ namespace Chummer
                         return;
                     }
 
-                    Gear objCopyGear = CommonFunctions.FindWeaponGear(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+                    Gear objCopyGear = (Gear)treWeapons.SelectedNode.Tag;
 
                     if (objCopyGear != null)
                     {
@@ -3050,7 +3050,7 @@ namespace Chummer
                 else if (tabStreetGearTabs.SelectedTab == tabGear && treGear.SelectedNode != null)
                 {
                     // Copy the selected Gear.
-                    Gear objCopyGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+                    Gear objCopyGear = (Gear)treGear.SelectedNode.Tag;
 
                     if (objCopyGear == null)
                         return;
@@ -3160,7 +3160,7 @@ namespace Chummer
                     }
                     else
                     {
-                        Gear objCopyGear = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                        Gear objCopyGear = (Gear)treVehicles.SelectedNode.Tag;
 
                         if (objCopyGear != null)
                         {
@@ -3831,7 +3831,7 @@ namespace Chummer
                 // The Rating NUD is only enabled if a Martial Art is currently selected.
                 if (treMartialArts.SelectedNode.Level == 1 && treMartialArts.SelectedNode.Parent == treMartialArts.Nodes[0])
                 {
-                    MartialArt objMartialArt = CommonFunctions.FindByIdWithNameCheck(treMartialArts.SelectedNode.Tag.ToString(), _objCharacter.MartialArts);
+                    MartialArt objMartialArt = (MartialArt)treMartialArts.SelectedNode.Tag;
 
                     string strBook = _objOptions.LanguageBookShort(objMartialArt.Source);
                     string strPage = objMartialArt.Page;
@@ -4095,7 +4095,7 @@ namespace Chummer
                 if (treSpells.SelectedNode.Level > 0)
                 {
                     // Locate the Spell that is selected in the tree.
-                    Spell objSpell = CommonFunctions.FindByIdWithNameCheck(treSpells.SelectedNode.Tag.ToString(), _objCharacter.Spells);
+                    Spell objSpell = (Spell)treSpells.SelectedNode.Tag;
 
                     // Cannot delete spells acquired through initiation
                     if (objSpell.Grade != 0 )
@@ -4207,7 +4207,7 @@ namespace Chummer
                     Cyberware objParent = null;
                     XmlDocument objXmlDocument = null;
                     // Locate the piece of Cyberware that is selected in the tree.
-                    Cyberware objCyberware = CommonFunctions.DeepFindById(treCyberware.SelectedNode.Tag.ToString(), _objCharacter.Cyberware);
+                    Cyberware objCyberware = (Cyberware)treCyberware.SelectedNode.Tag;
                     if (objCyberware != null)
                     {
                         objParent = objCyberware.Parent;
@@ -4722,7 +4722,7 @@ namespace Chummer
                     if (treWeapons.SelectedNode.Level == 1)
                     {
                         // Locate the Weapon that is selected in the tree.
-                        Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+                        Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
                         // Cyberweapons cannot be removed through here and must be done by removing the piece of Cyberware.
                         if (objWeapon.Cyberware)
@@ -4783,7 +4783,7 @@ namespace Chummer
                         Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Parent.Tag.ToString(), _objCharacter.Weapons);
 
                         // Locate the Accessory that is selected in the tree.
-                        WeaponAccessory objAccessory = CommonFunctions.FindWeaponAccessory(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+                        WeaponAccessory objAccessory = (WeaponAccessory)treWeapons.SelectedNode.Tag;
                         if (objAccessory != null)
                         {
                             foreach (Gear objGear in objAccessory.Gear)
@@ -4859,7 +4859,7 @@ namespace Chummer
                     if (!CommonFunctions.ConfirmDelete(_objCharacter, LanguageManager.GetString("Message_DeleteLifestyle")))
                         return;
 
-                    Lifestyle objLifestyle = CommonFunctions.FindByIdWithNameCheck(treLifestyles.SelectedNode.Tag.ToString(), _objCharacter.Lifestyles);
+                    Lifestyle objLifestyle = (Lifestyle)treLifestyles.SelectedNode.Tag;
                     if (objLifestyle == null)
                         return;
 
@@ -4924,7 +4924,7 @@ namespace Chummer
                     if (!CommonFunctions.ConfirmDelete(_objCharacter, LanguageManager.GetString("Message_DeleteGear")))
                         return;
 
-                    Gear objGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+                    Gear objGear = (Gear)treGear.SelectedNode.Tag;
                     Gear objParent = CommonFunctions.DeepFindById(treGear.SelectedNode.Parent.Tag.ToString(), _objCharacter.Gear);
 
                     CommonFunctions.DeleteGear(_objCharacter, objGear, treWeapons);
@@ -5059,7 +5059,7 @@ namespace Chummer
             }
 
             // Locate the Vehicle that is selected in the tree.
-            Vehicle objVehicle = CommonFunctions.FindByIdWithNameCheck(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Vehicle objVehicle = (Vehicle)treVehicles.SelectedNode.Tag;
 
             // Removing a Vehicle
             if (objVehicle != null)
@@ -5101,7 +5101,7 @@ namespace Chummer
             else
             {
                 // Locate the VehicleMod that is selected in the tree.
-                VehicleMod objMod = CommonFunctions.FindVehicleMod(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles, out objVehicle);
+                VehicleMod objMod = (VehicleMod)treVehicles.SelectedNode.Tag;
                 // Removing a Vehicle Mod
                 if (objMod != null)
                 {
@@ -5332,7 +5332,7 @@ namespace Chummer
                 if (treMartialArts.SelectedNode.Level == 1)
                 {
                     // Delete the selected Martial Art.
-                    MartialArt objMartialArt = CommonFunctions.FindByIdWithNameCheck(treMartialArts.SelectedNode.Tag.ToString(), _objCharacter.MartialArts);
+                    MartialArt objMartialArt = (MartialArt)treMartialArts.SelectedNode.Tag;
 
                     bool blnDoQualityRefresh = false;
                     if (objMartialArt.Name == "One Trick Pony")
@@ -5730,7 +5730,7 @@ namespace Chummer
                 if (treMetamagic.SelectedNode.Level == 0)
                 {
                     // Locate the selected Metamagic.
-                    Metamagic objMetamagic = CommonFunctions.FindByIdWithNameCheck(treMetamagic.SelectedNode.Tag.ToString(), _objCharacter.Metamagics);
+                    Metamagic objMetamagic = (Metamagic)treMetamagic.SelectedNode.Tag;
                     if (objMetamagic.Grade < 0)
                         return;
 
@@ -5960,7 +5960,7 @@ namespace Chummer
                     return;
 
             // Locate the selected Lifestyle.
-            Lifestyle objLifestyle = CommonFunctions.FindByIdWithNameCheck(treLifestyles.SelectedNode.Tag.ToString(), _objCharacter.Lifestyles);
+            Lifestyle objLifestyle = (Lifestyle)treLifestyles.SelectedNode.Tag;
             if (objLifestyle == null)
                 return;
 
@@ -5979,7 +5979,7 @@ namespace Chummer
                     return;
 
             // Locate the selected Lifestyle.
-            Lifestyle objLifestyle = CommonFunctions.FindByIdWithNameCheck(treLifestyles.SelectedNode.Tag.ToString(), _objCharacter.Lifestyles);
+            Lifestyle objLifestyle = (Lifestyle)treLifestyles.SelectedNode.Tag;
             if (objLifestyle == null)
                 return;
 
@@ -6090,7 +6090,7 @@ namespace Chummer
                 return;
 
             // Locate the selected Critter Power.
-            CritterPower objPower = CommonFunctions.FindByIdWithNameCheck(treCritterPowers.SelectedNode.Tag.ToString(), _objCharacter.CritterPowers);
+            CritterPower objPower = (CritterPower)treCritterPowers.SelectedNode.Tag;
 
             // Remove any Improvements that were created by the Critter Power.
             ImprovementManager.RemoveImprovements(_objCharacter, Improvement.ImprovementSource.CritterPower, objPower.InternalId);
@@ -6125,7 +6125,7 @@ namespace Chummer
                         return;
 
                     // Locate the Program that is selected in the tree.
-                    ComplexForm objProgram = CommonFunctions.FindByIdWithNameCheck(treComplexForms.SelectedNode.Tag.ToString(), _objCharacter.ComplexForms);
+                    ComplexForm objProgram = (ComplexForm)treComplexForms.SelectedNode.Tag;
 
                     ImprovementManager.RemoveImprovements(_objCharacter, Improvement.ImprovementSource.ComplexForm, objProgram.InternalId);
 
@@ -6146,7 +6146,7 @@ namespace Chummer
             if (treComplexForms.SelectedNode.Level == 1)
             {
                 // Locate the Program that is selected in the tree.
-                    ComplexForm objProgram = CommonFunctions.FindByIdWithNameCheck(treComplexForms.SelectedNode.Tag.ToString(), _objCharacter.ComplexForms);
+                    ComplexForm objProgram = (ComplexForm)treComplexForms.SelectedNode.Tag;
 
                 // Make sure the character has enough Karma.
                 int intKarmaCost = _objOptions.KarmaImproveComplexForm;
@@ -6182,7 +6182,7 @@ namespace Chummer
 
         private void cmdGearReduceQty_Click(object sender, EventArgs e)
         {
-            Gear objGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Gear objGear = (Gear)treGear.SelectedNode.Tag;
             Gear objParent = CommonFunctions.DeepFindById(treGear.SelectedNode.Parent.Tag.ToString(), _objCharacter.Gear);
 
             if (!CommonFunctions.ConfirmDelete(_objCharacter, LanguageManager.GetString("Message_ReduceQty")))
@@ -6243,7 +6243,7 @@ namespace Chummer
             if (treGear.SelectedNode == null || treGear.SelectedNode.Level != 1)
                     return;
 
-            Gear objSelectedGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Gear objSelectedGear = (Gear)treGear.SelectedNode.Tag;
 
             // Cannot split a stack of 1 item.
             if (objSelectedGear.Quantity <= (objSelectedGear.Category == "Currency" ? 0.01m : 1.0m))
@@ -6310,7 +6310,7 @@ namespace Chummer
 
         private void cmdGearMergeQty_Click(object sender, EventArgs e)
         {
-            Gear objGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Gear objGear = (Gear)treGear.SelectedNode.Tag;
             List<Gear> lstGear = new List<Gear>();
 
             foreach (Gear objCharacterGear in _objCharacter.Gear)
@@ -6441,7 +6441,7 @@ namespace Chummer
                 }
             }
 
-            Gear objSelectedGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Gear objSelectedGear = (Gear)treGear.SelectedNode.Tag;
             decimal decMove = 0;
             decimal decMinAmount = (objSelectedGear.Category == "Currency" ? 0.01m : 1.0m);
             if (objSelectedGear.Quantity == decMinAmount)
@@ -6623,7 +6623,7 @@ namespace Chummer
             else
             {
                 // Locate the selected Gear.
-                Gear objSelectedGear = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                Gear objSelectedGear = (Gear)treVehicles.SelectedNode.Tag;
 
                 decimal decMove = 0;
                 decimal decMinAmount = (objSelectedGear.Category == "Currency" ? 0.01m : 1.0m);
@@ -6715,7 +6715,7 @@ namespace Chummer
         
         private void cmdGearIncreaseQty_Click(object sender, EventArgs e)
         {
-            Gear objGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Gear objGear = (Gear)treGear.SelectedNode.Tag;
             
             // Select the root Gear node then open the Select Gear window.
             bool blnAddAgain = PickGear((objGear.Category == "Ammunition"), objGear, objGear.Name);
@@ -6921,7 +6921,7 @@ namespace Chummer
             if (treQualities.SelectedNode == null || treQualities.SelectedNode.Level <= 0)
                 return;
 
-            Quality objSelectedQuality = CommonFunctions.FindByIdWithNameCheck(treQualities.SelectedNode.Tag.ToString(), _objCharacter.Qualities);
+            Quality objSelectedQuality = (Quality)treQualities.SelectedNode.Tag;
             string strInternalIDToRemove = objSelectedQuality.QualityId;
             // Can't do a foreach because we're removing items, this is the next best thing
             bool blnFirstRemoval = true;
@@ -6965,7 +6965,7 @@ namespace Chummer
             if (treQualities.SelectedNode == null || treQualities.SelectedNode.Level == 0)
                 return;
 
-            Quality objQuality = CommonFunctions.FindByIdWithNameCheck(treQualities.SelectedNode.Tag.ToString(), _objCharacter.Qualities);
+            Quality objQuality = (Quality)treQualities.SelectedNode.Tag;
             if (objQuality.InternalId == Guid.Empty.ToString())
                 return;
 
@@ -7372,7 +7372,7 @@ namespace Chummer
             if (nudQualityLevel.Enabled && treQualities.SelectedNode != null && treQualities.SelectedNode.Level > 0)
             {
                 // Locate the selected Quality.
-                Quality objSelectedQuality = CommonFunctions.FindByIdWithNameCheck(treQualities.SelectedNode.Tag.ToString(), _objCharacter.Qualities);
+                Quality objSelectedQuality = (Quality)treQualities.SelectedNode.Tag;
                 int intCurrentLevels = objSelectedQuality.Levels;
 
                 bool blnRequireUpdate = false;
@@ -8358,7 +8358,7 @@ namespace Chummer
             }
 
             // Locate the Weapon that is selected in the Tree.
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
             // Accessories cannot be added to Cyberweapons.
             if (objWeapon.Cyberware)
@@ -8525,7 +8525,7 @@ namespace Chummer
                 treArmor.SelectedNode = treArmor.SelectedNode.Parent;
 
             // Locate the Armor that is selected in the tree.
-            Armor objArmor = CommonFunctions.FindByIdWithNameCheck(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+            Armor objArmor = (Armor)treArmor.SelectedNode.Tag;
 
             // Open the Armor XML file and locate the selected Armor.
             XmlDocument objXmlDocument = XmlManager.Load("armor.xml");
@@ -8666,7 +8666,7 @@ namespace Chummer
                 return;
             }
 
-            Vehicle objSelectedVehicle = CommonFunctions.FindByIdWithNameCheck(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Vehicle objSelectedVehicle = (Vehicle)treVehicles.SelectedNode.Tag;
             frmSelectVehicleMod frmPickVehicleMod = new frmSelectVehicleMod(_objCharacter, true);
             // Pass the selected vehicle on to the form.
             frmPickVehicleMod.SelectedVehicle = objSelectedVehicle;
@@ -8842,7 +8842,7 @@ namespace Chummer
         {
             // Make sure that a Weapon Mount has been selected.
                 // Attempt to locate the selected VehicleMod.
-            VehicleMod objMod = CommonFunctions.FindVehicleMod(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            VehicleMod objMod = (VehicleMod)treVehicles.SelectedNode.Tag;
             if (objMod == null || (!objMod.Name.Contains("Weapon Mount") && !objMod.Name.StartsWith("Mechanical Arm") || string.IsNullOrEmpty(objMod.WeaponMountCategories)))
             {
                 MessageBox.Show(LanguageManager.GetString("Message_CannotAddWeapon"), LanguageManager.GetString("MessageTitle_CannotAddWeapon"), MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -8922,7 +8922,7 @@ namespace Chummer
         private void tsVehicleAddWeaponAccessory_Click(object sender, EventArgs e)
         {
             // Attempt to locate the selected VehicleWeapon.
-            Weapon objWeapon = CommonFunctions.FindVehicleWeapon(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Weapon objWeapon = (Weapon)treVehicles.SelectedNode.Tag;
             if (objWeapon == null)
             {
                 MessageBox.Show(LanguageManager.GetString("Message_VehicleWeaponAccessories"), LanguageManager.GetString("MessageTitle_VehicleWeaponAccessories"), MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -9041,7 +9041,7 @@ namespace Chummer
         private void tsVehicleAddUnderbarrelWeapon_Click(object sender, EventArgs e)
         {
             // Attempt to locate the selected VehicleWeapon.
-            Weapon objSelectedWeapon = CommonFunctions.FindVehicleWeapon(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Weapon objSelectedWeapon = (Weapon)treVehicles.SelectedNode.Tag;
             if (objSelectedWeapon == null)
             {
                 MessageBox.Show(LanguageManager.GetString("Message_VehicleWeaponUnderbarrel"), LanguageManager.GetString("MessageTitle_VehicleWeaponUnderbarrel"), MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -9147,7 +9147,7 @@ namespace Chummer
                 if (treMartialArts.SelectedNode.Level > 1)
                     treMartialArts.SelectedNode = treMartialArts.SelectedNode.Parent;
 
-                MartialArt objMartialArt = CommonFunctions.FindByIdWithNameCheck(treMartialArts.SelectedNode.Tag.ToString(), _objCharacter.MartialArts);
+                MartialArt objMartialArt = (MartialArt)treMartialArts.SelectedNode.Tag;
 
                 frmSelectMartialArtAdvantage frmPickMartialArtAdvantage = new frmSelectMartialArtAdvantage(_objCharacter);
                 frmPickMartialArtAdvantage.MartialArt = objMartialArt.Name;
@@ -9211,7 +9211,7 @@ namespace Chummer
                 treVehicles.SelectedNode = treVehicles.SelectedNode.Parent;
 
             // Locate the selected Vehicle.
-            Vehicle objSelectedVehicle = CommonFunctions.FindByIdWithNameCheck(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Vehicle objSelectedVehicle = (Vehicle)treVehicles.SelectedNode.Tag;
 
             frmSelectGear frmPickGear = new frmSelectGear(_objCharacter, true, 0, 1, objSelectedVehicle?.MyXmlNode);
             frmPickGear.ShowPositiveCapacityOnly = false;
@@ -9372,7 +9372,7 @@ namespace Chummer
                 treVehicles.SelectedNode = treVehicles.SelectedNode.Parent;
 
             // Locate the Vehicle Sensor Gear.
-            Gear objSensor = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Gear objSensor = (Gear)treVehicles.SelectedNode.Tag;
             if (objSensor == null)
             // Make sure the Sensor was found.
             {
@@ -9519,7 +9519,7 @@ namespace Chummer
 
         private void tsVehicleGearNotes_Click(object sender, EventArgs e)
         {
-            Gear objGear = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Gear objGear = (Gear)treVehicles.SelectedNode.Tag;
             if (objGear != null)
             {
                 frmNotes frmItemNotes = new frmNotes();
@@ -9550,7 +9550,7 @@ namespace Chummer
         private void cmsAmmoSingleShot_Click(object sender, EventArgs e)
         {
             // Locate the selected Weapon.
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
             if (objWeapon.AmmoRemaining == 0)
             {
@@ -9570,7 +9570,7 @@ namespace Chummer
         private void cmsAmmoShortBurst_Click(object sender, EventArgs e)
         {
             // Locate the selected Weapon.
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
             if (objWeapon.AmmoRemaining == 0)
             {
@@ -9606,7 +9606,7 @@ namespace Chummer
         private void cmsAmmoLongBurst_Click(object sender, EventArgs e)
         {
             // Locate the selected Weapon.
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
             if (objWeapon.AmmoRemaining == 0)
             {
@@ -9657,7 +9657,7 @@ namespace Chummer
         private void cmsAmmoFullBurst_Click(object sender, EventArgs e)
         {
             // Locate the selected Weapon.
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
             if (objWeapon.AmmoRemaining == 0)
             {
@@ -9684,7 +9684,7 @@ namespace Chummer
         private void cmsAmmoSuppressiveFire_Click(object sender, EventArgs e)
         {
             // Locate the selected Weapon.
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
             if (objWeapon.AmmoRemaining == 0)
             {
@@ -9871,7 +9871,7 @@ namespace Chummer
                 if (treCyberware.SelectedNode.Level > 0)
                 {
                     // Locate the piece of Cyberware that is selected in the tree.
-                    Cyberware objCyberware = CommonFunctions.DeepFindById(treCyberware.SelectedNode.Tag.ToString(), _objCharacter.Cyberware);
+                    Cyberware objCyberware = (Cyberware)treCyberware.SelectedNode.Tag;
                     Cyberware objParent = objCyberware?.Parent;
 
                     if (objCyberware != null)
@@ -9968,7 +9968,7 @@ namespace Chummer
                 if (treArmor.SelectedNode.Level == 1)
                 {
                     // Locate the piece of Armor that is selected in the tree.
-                    Armor objArmor = CommonFunctions.FindByIdWithNameCheck(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                    Armor objArmor = (Armor)treArmor.SelectedNode.Tag;
 
                     frmSellItem frmSell = new frmSellItem();
                     frmSell.ShowDialog(this);
@@ -9987,7 +9987,7 @@ namespace Chummer
                 else if (treArmor.SelectedNode.Level == 2)
                 {
                     // Locate the ArmorMod that is selected in the tree.
-                    ArmorMod objMod = CommonFunctions.FindArmorMod(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                    ArmorMod objMod = (ArmorMod)treArmor.SelectedNode.Tag;
                     if (objMod != null)
                     {
                         // Record the cost of the Armor with the ArmorMod.
@@ -10233,7 +10233,7 @@ namespace Chummer
             {
                 if (treGear.SelectedNode.Level > 0)
                 {
-                    Gear objGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+                    Gear objGear = (Gear)treGear.SelectedNode.Tag;
                     if (objGear == null)
                         return;
                     Gear objParent = objGear.Parent;
@@ -10294,7 +10294,7 @@ namespace Chummer
                 }
 
                 // Locate the Vehicle that is selected in the tree.
-                Vehicle objVehicle = CommonFunctions.FindByIdWithNameCheck(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                Vehicle objVehicle = (Vehicle)treVehicles.SelectedNode.Tag;
 
                 // Selling a Vehicle
                 if (objVehicle != null)
@@ -10350,7 +10350,7 @@ namespace Chummer
                 else
                 {
                     // Locate the VehicleMod that is selected in the tree.
-                    VehicleMod objMod = CommonFunctions.FindVehicleMod(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles, out objVehicle);
+                    VehicleMod objMod = (VehicleMod)treVehicles.SelectedNode.Tag;
                     // Selling a Vehicle Mod
                     if (objMod != null)
                     {
@@ -10661,7 +10661,7 @@ namespace Chummer
                 treWeapons.SelectedNode = treWeapons.SelectedNode.Parent;
 
             // Get the information for the currently selected Weapon.
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
             if (objWeapon == null)
                 return;
 
@@ -10689,7 +10689,7 @@ namespace Chummer
             }
 
             // Get the information for the currently selected Gear.
-            Gear objGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Gear objGear = (Gear)treGear.SelectedNode.Tag;
             if (objGear == null)
                 return;
 
@@ -10737,7 +10737,7 @@ namespace Chummer
             }
 
             // Locate the Weapon that is selected in the tree.
-            Weapon objSelectedWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objSelectedWeapon = (Weapon)treWeapons.SelectedNode.Tag;
             if (objSelectedWeapon == null)
                 return;
 
@@ -10908,7 +10908,7 @@ namespace Chummer
                 treVehicles.SelectedNode = treVehicles.SelectedNode.Parent;
 
             // Attempt to locate the selected Vehicle.
-            Vehicle objSelectedVehicle = CommonFunctions.FindByIdWithNameCheck(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Vehicle objSelectedVehicle = (Vehicle)treVehicles.SelectedNode.Tag;
 
             frmSelectNexus frmPickNexus = new frmSelectNexus(_objCharacter);
             frmPickNexus.ShowDialog(this);
@@ -12093,10 +12093,10 @@ namespace Chummer
 
             // Make sure the selected item is another piece of Gear.
             ArmorMod objMod = null;
-            Gear objGear = CommonFunctions.FindArmorGear(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+            Gear objGear = (Gear)treArmor.SelectedNode.Tag;
             if (objGear == null)
             {
-                objMod = CommonFunctions.FindArmorMod(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                objMod = (ArmorMod)treArmor.SelectedNode.Tag;
                 if (objMod == null || string.IsNullOrEmpty(objMod.GearCapacity))
                 {
                     MessageBox.Show(LanguageManager.GetString("Message_SelectArmor"), LanguageManager.GetString("MessageTitle_SelectArmor"), MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -12113,7 +12113,7 @@ namespace Chummer
         {
             if (treArmor.SelectedNode == null)
                 return;
-            Armor objArmor = CommonFunctions.FindByIdWithNameCheck(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+            Armor objArmor = (Armor)treArmor.SelectedNode.Tag;
                 if (objArmor != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12143,7 +12143,7 @@ namespace Chummer
         {
             if (treArmor.SelectedNode == null)
                 return;
-            ArmorMod objArmorMod = CommonFunctions.FindArmorMod(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+            ArmorMod objArmorMod = (ArmorMod)treArmor.SelectedNode.Tag;
                 if (objArmorMod != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12175,7 +12175,7 @@ namespace Chummer
         {
             if (treArmor.SelectedNode == null)
                 return;
-            Gear objArmorGear = CommonFunctions.FindArmorGear(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+            Gear objArmorGear = (Gear)treArmor.SelectedNode.Tag;
             if (objArmorGear != null)
             {
                 frmNotes frmItemNotes = new frmNotes();
@@ -12207,7 +12207,7 @@ namespace Chummer
         {
             if (treWeapons.SelectedNode == null)
                 return;
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
             if (objWeapon != null)
             {
                 frmNotes frmItemNotes = new frmNotes();
@@ -12239,7 +12239,7 @@ namespace Chummer
         {
             if (treWeapons.SelectedNode == null)
                 return;
-            WeaponAccessory objAccessory = CommonFunctions.FindWeaponAccessory(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            WeaponAccessory objAccessory = (WeaponAccessory)treWeapons.SelectedNode.Tag;
 
             frmNotes frmItemNotes = new frmNotes();
             frmItemNotes.Notes = objAccessory.Notes;
@@ -12269,7 +12269,7 @@ namespace Chummer
         {
             if (treCyberware.SelectedNode == null)
                 return;
-            Cyberware objCyberware = CommonFunctions.DeepFindById(treCyberware.SelectedNode.Tag.ToString(), _objCharacter.Cyberware);
+            Cyberware objCyberware = (Cyberware)treCyberware.SelectedNode.Tag;
                 if (objCyberware != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12301,7 +12301,7 @@ namespace Chummer
         {
             if (treQualities.SelectedNode == null)
                 return;
-            Quality objQuality = CommonFunctions.FindByIdWithNameCheck(treQualities.SelectedNode.Tag.ToString(), _objCharacter.Qualities);
+            Quality objQuality = (Quality)treQualities.SelectedNode.Tag;
                 if (objQuality != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12333,7 +12333,7 @@ namespace Chummer
         {
             if (treMartialArts.SelectedNode == null)
                 return;
-            MartialArt objMartialArt = CommonFunctions.FindByIdWithNameCheck(treMartialArts.SelectedNode.Tag.ToString(), _objCharacter.MartialArts);
+            MartialArt objMartialArt = (MartialArt)treMartialArts.SelectedNode.Tag;
             if (objMartialArt != null)
             {
                 frmNotes frmItemNotes = new frmNotes();
@@ -12420,7 +12420,7 @@ namespace Chummer
         {
             if (treSpells.SelectedNode == null)
                 return;
-            Spell objSpell = CommonFunctions.FindByIdWithNameCheck(treSpells.SelectedNode.Tag.ToString(), _objCharacter.Spells);
+            Spell objSpell = (Spell)treSpells.SelectedNode.Tag;
                 if (objSpell != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12450,7 +12450,7 @@ namespace Chummer
         {
             if (treComplexForms.SelectedNode == null)
                 return;
-            ComplexForm objComplexForm = CommonFunctions.FindByIdWithNameCheck(treComplexForms.SelectedNode.Tag.ToString(), _objCharacter.ComplexForms);
+            ComplexForm objComplexForm = (ComplexForm)treComplexForms.SelectedNode.Tag;
                 if (objComplexForm != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12480,7 +12480,7 @@ namespace Chummer
         {
             if (treCritterPowers.SelectedNode == null)
                 return;
-            CritterPower objCritterPower = CommonFunctions.FindByIdWithNameCheck(treCritterPowers.SelectedNode.Tag.ToString(), _objCharacter.CritterPowers);
+            CritterPower objCritterPower = (CritterPower)treCritterPowers.SelectedNode.Tag;
                 if (objCritterPower != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12540,7 +12540,7 @@ namespace Chummer
         {
             if (treGear.SelectedNode == null)
                 return;
-            Gear objGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Gear objGear = (Gear)treGear.SelectedNode.Tag;
                 if (objGear != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12572,7 +12572,7 @@ namespace Chummer
         {
             if (treGear.SelectedNode == null)
                 return;
-            Gear objGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Gear objGear = (Gear)treGear.SelectedNode.Tag;
                 if (objGear != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12631,7 +12631,7 @@ namespace Chummer
             }
             else
             {
-                VehicleMod objMod = CommonFunctions.FindVehicleMod(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                VehicleMod objMod = (VehicleMod)treVehicles.SelectedNode.Tag;
                 if (objMod != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12664,7 +12664,7 @@ namespace Chummer
         {
             if (treLifestyles.SelectedNode != null)
             {
-                Lifestyle objLifestyle = CommonFunctions.FindByIdWithNameCheck(treLifestyles.SelectedNode.Tag.ToString(), _objCharacter.Lifestyles);
+                Lifestyle objLifestyle = (Lifestyle)treLifestyles.SelectedNode.Tag;
                 if (objLifestyle != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -12695,7 +12695,7 @@ namespace Chummer
         {
             if (treVehicles.SelectedNode != null)
                 return;
-            Weapon objWeapon = CommonFunctions.FindVehicleWeapon(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Weapon objWeapon = (Weapon)treVehicles.SelectedNode.Tag;
             if (objWeapon != null)
             {
                 frmNotes frmItemNotes = new frmNotes();
@@ -12738,7 +12738,7 @@ namespace Chummer
             }
 
             // Get the information for the currently selected Vehicle.
-            Vehicle objVehicle = CommonFunctions.FindByIdWithNameCheck(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Vehicle objVehicle = (Vehicle)treVehicles.SelectedNode.Tag;
 
             frmSelectText frmPickText = new frmSelectText();
             frmPickText.Description = LanguageManager.GetString("String_VehicleName");
@@ -12759,7 +12759,7 @@ namespace Chummer
         {
             Vehicle objVehicle = null;
             Cyberware objCyberwareParent = null;
-            VehicleMod objMod = CommonFunctions.FindVehicleMod(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles, out objVehicle);
+            VehicleMod objMod = (VehicleMod)treVehicles.SelectedNode.Tag;
             if (objMod == null)
                 objCyberwareParent = CommonFunctions.FindVehicleCyberware(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles, out objMod);
 
@@ -12962,7 +12962,7 @@ namespace Chummer
                 treArmor.SelectedNode = treArmor.SelectedNode.Parent;
 
             // Get the information for the currently selected Armor.
-            Armor objArmor = CommonFunctions.FindByIdWithNameCheck(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+            Armor objArmor = (Armor)treArmor.SelectedNode.Tag;
 
             frmSelectText frmPickText = new frmSelectText();
             frmPickText.Description = LanguageManager.GetString("String_ArmorName");
@@ -13302,7 +13302,7 @@ namespace Chummer
                 return;
             }
 
-            Cyberware objCyberware = CommonFunctions.DeepFindById(treCyberware.SelectedNode.Tag.ToString(), _objCharacter.Cyberware);
+            Cyberware objCyberware = (Cyberware)treCyberware.SelectedNode.Tag;
 
             // Make sure the Cyberware is allowed to accept Gear.
             if (objCyberware.AllowGear == null)
@@ -13588,7 +13588,7 @@ namespace Chummer
 
         private void tsWeaponAccessoryAddGear_Click(object sender, EventArgs e)
         {
-            WeaponAccessory objAccessory = CommonFunctions.FindWeaponAccessory(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            WeaponAccessory objAccessory = (WeaponAccessory)treWeapons.SelectedNode.Tag;
 
             // Make sure the Weapon Accessory is allowed to accept Gear.
             if (objAccessory.AllowGear == null)
@@ -13722,7 +13722,7 @@ namespace Chummer
         private void tsWeaponAccessoryGearMenuAddAsPlugin_Click(object sender, EventArgs e)
         {
             // Locate the Vehicle Sensor Gear.
-            Gear objSensor = CommonFunctions.FindWeaponGear(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Gear objSensor = (Gear)treWeapons.SelectedNode.Tag;
             if (objSensor == null)
             // Make sure the Gear was found.
             {
@@ -13925,7 +13925,7 @@ namespace Chummer
 
         private void tsVehicleWeaponAccessoryNotes_Click(object sender, EventArgs e)
         {
-            WeaponAccessory objAccessory = CommonFunctions.FindVehicleWeaponAccessory(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            WeaponAccessory objAccessory = (WeaponAccessory)treVehicles.SelectedNode.Tag;
 
             frmNotes frmItemNotes = new frmNotes();
             frmItemNotes.Notes = objAccessory.Notes;
@@ -13954,7 +13954,7 @@ namespace Chummer
         private void tsVehicleWeaponAccessoryGearMenuAddAsPlugin_Click(object sender, EventArgs e)
         {
             // Locate the Vehicle Sensor Gear.
-            Gear objSensor = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Gear objSensor = (Gear)treVehicles.SelectedNode.Tag;
             if (objSensor == null)
             // Make sure the Gear was found.
             {
@@ -14091,7 +14091,7 @@ namespace Chummer
 
         private void tsVehicleWeaponAccessoryAddGear_Click(object sender, EventArgs e)
         {
-            WeaponAccessory objAccessory = CommonFunctions.FindVehicleWeaponAccessory(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            WeaponAccessory objAccessory = (WeaponAccessory)treVehicles.SelectedNode.Tag;
 
             // Make sure the Weapon Accessory is allowed to accept Gear.
             if (objAccessory.AllowGear == null)
@@ -14222,7 +14222,7 @@ namespace Chummer
                     return;
             }
 
-            Quality objQuality = CommonFunctions.FindByIdWithNameCheck(treQualities.SelectedNode.Tag.ToString(), _objCharacter.Qualities);
+            Quality objQuality = (Quality)treQualities.SelectedNode.Tag;
 
             string strBook = _objOptions.LanguageBookShort(objQuality.Source);
             string strPage = objQuality.Page;
@@ -14536,7 +14536,7 @@ namespace Chummer
             {
                 if (treArmor.SelectedNode.Level == 1)
                 {
-                    Armor objArmor = CommonFunctions.FindByIdWithNameCheck(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                    Armor objArmor = (Armor)treArmor.SelectedNode.Tag;
                     if (objArmor != null)
                     {
                         objArmor.Equipped = chkArmorEquipped.Checked;
@@ -14609,7 +14609,7 @@ namespace Chummer
                 }
                 else if (treArmor.SelectedNode.Level > 1)
                 {
-                    ArmorMod objMod = CommonFunctions.FindArmorMod(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                    ArmorMod objMod = (ArmorMod)treArmor.SelectedNode.Tag;
                     if (objMod != null)
                     {
                         objMod.Equipped = chkArmorEquipped.Checked;
@@ -14688,7 +14688,7 @@ namespace Chummer
             objExternalSource.Name = "External Source";
 
             // Locate the selected Weapon.
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
             if (!objWeapon.RequireAmmo)
             {
                 // If the Weapon does not require Ammo, just use External Source.
@@ -14893,7 +14893,7 @@ namespace Chummer
             if (_blnSkipRefresh)
                 return;
             // Locate the selected Weapon Accessory or Modification.
-            WeaponAccessory objAccessory = CommonFunctions.FindWeaponAccessory(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            WeaponAccessory objAccessory = (WeaponAccessory)treWeapons.SelectedNode.Tag;
             if (objAccessory != null)
             {
                 objAccessory.Installed = chkWeaponAccessoryInstalled.Checked;
@@ -14901,7 +14901,7 @@ namespace Chummer
             else
             {
                 // Determine if this is an Underbarrel Weapon.
-                Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+                Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
                 if (objWeapon != null)
                 {
                     objWeapon.Installed = chkWeaponAccessoryInstalled.Checked;
@@ -14909,7 +14909,7 @@ namespace Chummer
                 else
                 {
                     // Find the selected Gear.
-                    Gear objSelectedGear = CommonFunctions.FindWeaponGear(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+                    Gear objSelectedGear = (Gear)treWeapons.SelectedNode.Tag;
 
                     if (objSelectedGear != null)
                     {
@@ -14930,7 +14930,7 @@ namespace Chummer
             if (_blnSkipRefresh)
                 return;
             // Locate the selected Weapon Accessory or Modification.
-            WeaponAccessory objAccessory = CommonFunctions.FindWeaponAccessory(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            WeaponAccessory objAccessory = (WeaponAccessory)treWeapons.SelectedNode.Tag;
             if (objAccessory != null)
             {
                 objAccessory.IncludedInWeapon = chkIncludedInWeapon.Checked;
@@ -15035,7 +15035,7 @@ namespace Chummer
                 return;
 
             // Attempt to locate the selected piece of Gear.
-            Gear objSelectedGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Gear objSelectedGear = (Gear)treGear.SelectedNode.Tag;
             if (objSelectedGear != null)
             {
                 objSelectedGear.Equipped = chkGearEquipped.Checked;
@@ -15058,7 +15058,7 @@ namespace Chummer
             if (_blnSkipRefresh)
                 return;
 
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
             objWeapon.ActiveAmmoSlot = Convert.ToInt32(cboWeaponAmmo.SelectedValue.ToString());
             ScheduleCharacterUpdate();
@@ -15093,7 +15093,7 @@ namespace Chummer
         private void cmdWeaponBuyAmmo_Click(object sender, EventArgs e)
         {
             // Locate the selected Weapon.
-            Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+            Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
             bool blnAddAgain = PickGear(true, null, objWeapon.AmmoCategory);
             if (blnAddAgain)
@@ -15226,7 +15226,7 @@ namespace Chummer
 
         private void cmdArmorIncrease_Click(object sender, EventArgs e)
         {
-            Armor objArmor = CommonFunctions.FindByIdWithNameCheck(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+            Armor objArmor = (Armor)treArmor.SelectedNode.Tag;
             if (objArmor == null)
                 return;
 
@@ -15240,7 +15240,7 @@ namespace Chummer
 
         private void cmdArmorDecrease_Click(object sender, EventArgs e)
         {
-            Armor objArmor = CommonFunctions.FindByIdWithNameCheck(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+            Armor objArmor = (Armor)treArmor.SelectedNode.Tag;
             if (objArmor == null)
                 return;
 
@@ -15258,7 +15258,7 @@ namespace Chummer
                 return;
 
             // Locate the selected Armor Modification.
-            ArmorMod objMod = CommonFunctions.FindArmorMod(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+            ArmorMod objMod = (ArmorMod)treArmor.SelectedNode.Tag;
             if (objMod != null)
                 objMod.IncludedInArmor = chkIncludedInArmor.Checked;
 
@@ -15280,7 +15280,7 @@ namespace Chummer
             // Attempt to locate the selected piece of Gear.
             if (treGear.SelectedNode != null)
             {
-                Commlink objSelectedCommlink = CommonFunctions.FindCommlink(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+                Commlink objSelectedCommlink = (Commlink)treGear.SelectedNode.Tag;
                 if (objSelectedCommlink != null)
                 {
                     objSelectedCommlink.IsActive = chkActiveCommlink.Checked;
@@ -15298,7 +15298,7 @@ namespace Chummer
         {
             if (_blnSkipRefresh || !cboGearAttack.Enabled)
                 return;
-            Commlink objCommlink = CommonFunctions.FindCommlink(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Commlink objCommlink = (Commlink)treGear.SelectedNode.Tag;
             if (objCommlink == null)
                 return;
             int intCurrentIndex = cboGearAttack.SelectedIndex;
@@ -15341,7 +15341,7 @@ namespace Chummer
         {
             if (_blnSkipRefresh || !cboGearSleaze.Enabled)
                 return;
-            Commlink objCommlink = CommonFunctions.FindCommlink(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Commlink objCommlink = (Commlink)treGear.SelectedNode.Tag;
             if (objCommlink == null)
                 return;
             int intCurrentIndex = cboGearSleaze.SelectedIndex;
@@ -15384,7 +15384,7 @@ namespace Chummer
         {
             if (_blnSkipRefresh || !cboGearDataProcessing.Enabled)
                 return;
-            Commlink objCommlink = CommonFunctions.FindCommlink(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Commlink objCommlink = (Commlink)treGear.SelectedNode.Tag;
             if (objCommlink == null)
                 return;
             int intCurrentIndex = cboGearDataProcessing.SelectedIndex;
@@ -15427,7 +15427,7 @@ namespace Chummer
         {
             if (_blnSkipRefresh || !cboGearFirewall.Enabled)
                 return;
-            Commlink objCommlink = CommonFunctions.FindCommlink(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Commlink objCommlink = (Commlink)treGear.SelectedNode.Tag;
             if (objCommlink == null)
                 return;
             int intCurrentIndex = cboGearFirewall.SelectedIndex;
@@ -15471,7 +15471,7 @@ namespace Chummer
         {
             if (_blnSkipRefresh || !cboVehicleGearAttack.Enabled)
                 return;
-            Commlink objCommlink = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles) as Commlink;
+            Commlink objCommlink = (Commlink)treVehicles.SelectedNode.Tag;
             if (objCommlink != null)
             {
                 int intCurrentIndex = cboVehicleGearAttack.SelectedIndex;
@@ -15515,7 +15515,7 @@ namespace Chummer
         {
             if (_blnSkipRefresh || !cboVehicleGearSleaze.Enabled)
                 return;
-            Commlink objCommlink = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles) as Commlink;
+            Commlink objCommlink = (Commlink)treVehicles.SelectedNode.Tag;
             if (objCommlink != null)
             {
                 int intCurrentIndex = cboVehicleGearSleaze.SelectedIndex;
@@ -15559,7 +15559,7 @@ namespace Chummer
         {
             if (_blnSkipRefresh || !cboVehicleGearFirewall.Enabled)
                 return;
-            Commlink objCommlink = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles) as Commlink;
+            Commlink objCommlink = (Commlink)treVehicles.SelectedNode.Tag;
             if (objCommlink != null)
             {
                 int intCurrentIndex = cboVehicleGearFirewall.SelectedIndex;
@@ -15603,7 +15603,7 @@ namespace Chummer
         {
             if (_blnSkipRefresh || !cboVehicleGearDataProcessing.Enabled)
                 return;
-            Commlink objCommlink = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles) as Commlink;
+            Commlink objCommlink = (Commlink)treVehicles.SelectedNode.Tag;
             if (objCommlink != null)
             {
                 int intCurrentIndex = cboVehicleGearDataProcessing.SelectedIndex;
@@ -16013,7 +16013,7 @@ namespace Chummer
                 if (treVehicles.SelectedNode.Level != 1)
                 {
                     // Determine if this is a piece of Gear. If not, don't let the user drag the Node.
-                    Gear objGear = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                    Gear objGear = (Gear)treVehicles.SelectedNode.Tag;
                     if (objGear != null)
                     {
                         _objDragButton = e.Button;
@@ -16298,19 +16298,19 @@ namespace Chummer
         private void chkVehicleWeaponAccessoryInstalled_CheckedChanged(object sender, EventArgs e)
         {
             // Locate the the Selected Vehicle Weapon Accessory of Modification.
-            WeaponAccessory objAccessory = CommonFunctions.FindVehicleWeaponAccessory(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            WeaponAccessory objAccessory = (WeaponAccessory)treVehicles.SelectedNode.Tag;
             if (objAccessory != null)
                 objAccessory.Installed = chkVehicleWeaponAccessoryInstalled.Checked;
             else
             {
                 // If this isn't a Weapon Mod, then it must be a Vehicle Mod.
-                VehicleMod objVehicleMod = CommonFunctions.FindVehicleMod(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                VehicleMod objVehicleMod = (VehicleMod)treVehicles.SelectedNode.Tag;
                 if (objVehicleMod != null)
                     objVehicleMod.Installed = chkVehicleWeaponAccessoryInstalled.Checked;
                 else
                 {
                     // If everything else has failed, we're left with a Vehicle Weapon.
-                    Weapon objWeapon = CommonFunctions.FindVehicleWeapon(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                    Weapon objWeapon = (Weapon)treVehicles.SelectedNode.Tag;
                     objWeapon.Installed = chkVehicleWeaponAccessoryInstalled.Checked;
                 }
             }
@@ -16329,7 +16329,7 @@ namespace Chummer
             if (_blnSkipRefresh)
                 return;
 
-            Weapon objWeapon = CommonFunctions.FindVehicleWeapon(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+            Weapon objWeapon = (Weapon)treVehicles.SelectedNode.Tag;
 
             objWeapon.ActiveAmmoSlot = Convert.ToInt32(cboVehicleWeaponAmmo.SelectedValue.ToString());
             ScheduleCharacterUpdate();
@@ -17151,7 +17151,7 @@ namespace Chummer
         private void treMetamagic_AfterSelect(object sender, TreeViewEventArgs e)
         {
             // Locate the selected Metamagic.
-            Metamagic objMetamagic = CommonFunctions.FindByIdWithNameCheck(treMetamagic.SelectedNode.Tag.ToString(), _objCharacter.Metamagics);
+            Metamagic objMetamagic = (Metamagic)treMetamagic.SelectedNode.Tag;
 
             if (objMetamagic != null)
             {
@@ -17163,7 +17163,7 @@ namespace Chummer
             }
 
             // Locate the selected Art.
-            Art objArt = CommonFunctions.FindByIdWithNameCheck(treMetamagic.SelectedNode.Tag.ToString(), _objCharacter.Arts);
+            Art objArt = (Art)treMetamagic.SelectedNode.Tag;
 
             if (objArt != null)
             {
@@ -17175,7 +17175,7 @@ namespace Chummer
             }
 
             // Locate the selected Spell.
-            Spell objSpell = CommonFunctions.FindByIdWithNameCheck(treMetamagic.SelectedNode.Tag.ToString(), _objCharacter.Spells);
+            Spell objSpell = (Spell)treMetamagic.SelectedNode.Tag;
 
             if (objSpell != null)
             {
@@ -17187,7 +17187,7 @@ namespace Chummer
             }
 
             // Locate the selected Enhancement.
-            Enhancement objEnhancement = CommonFunctions.FindEnhancement(treMetamagic.SelectedNode.Tag.ToString(), _objCharacter);
+            Enhancement objEnhancement = (Enhancement)treMetamagic.SelectedNode.Tag;
 
             if (objEnhancement != null)
             {
@@ -17348,7 +17348,7 @@ namespace Chummer
             {
                 if (treCritterPowers.SelectedNode.Level > 0)
                 {
-                    CritterPower objPower = CommonFunctions.FindByIdWithNameCheck(treCritterPowers.SelectedNode.Tag.ToString(), _objCharacter.CritterPowers);
+                    CritterPower objPower = (CritterPower)treCritterPowers.SelectedNode.Tag;
 
                     if (objPower != null)
                     {
@@ -17382,7 +17382,7 @@ namespace Chummer
             }
 
             // Locate the selected Critter Power.
-            CritterPower objPower = CommonFunctions.FindByIdWithNameCheck(treCritterPowers.SelectedNode.Tag.ToString(), _objCharacter.CritterPowers);
+            CritterPower objPower = (CritterPower)treCritterPowers.SelectedNode.Tag;
 
             objPower.CountTowardsLimit = chkCritterPowerCount.Checked;
 
@@ -19513,7 +19513,7 @@ namespace Chummer
             // Locate the selected Weapon.
             if (treWeapons.SelectedNode.Level == 1)
             {
-                Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+                Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
                 if (objWeapon == null)
                     return;
 
@@ -19655,7 +19655,7 @@ namespace Chummer
             else
             {
                 // See if this is an Underbarrel Weapon.
-                Weapon objWeapon = CommonFunctions.DeepFindById(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+                Weapon objWeapon = (Weapon)treWeapons.SelectedNode.Tag;
 
                 if (objWeapon != null)
                 {
@@ -19775,7 +19775,7 @@ namespace Chummer
                     cboWeaponAmmo.Enabled = false;
 
                     Weapon objSelectedWeapon = null;
-                    WeaponAccessory objSelectedAccessory = CommonFunctions.FindWeaponAccessory(treWeapons.SelectedNode.Tag.ToString(), _objCharacter.Weapons);
+                    WeaponAccessory objSelectedAccessory = (WeaponAccessory)treWeapons.SelectedNode.Tag;
                     if (objSelectedAccessory != null)
                     {
                         if (objSelectedAccessory.IncludedInWeapon)
@@ -19951,7 +19951,7 @@ namespace Chummer
             if (treArmor.SelectedNode.Level == 1)
             {
                 // Loclate the selected Armor
-                Armor objArmor = CommonFunctions.FindByIdWithNameCheck(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                Armor objArmor = (Armor)treArmor.SelectedNode.Tag;
                 if (objArmor == null)
                     return;
 
@@ -19972,7 +19972,7 @@ namespace Chummer
             else if (treArmor.SelectedNode.Level == 2)
             {
                 Armor objSelectedArmor = null;
-                ArmorMod objSelectedMod = CommonFunctions.FindArmorMod(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                ArmorMod objSelectedMod = (ArmorMod)treArmor.SelectedNode.Tag;
                 if (objSelectedMod != null)
                 {
                     objSelectedArmor = objSelectedMod.Parent;
@@ -20053,7 +20053,7 @@ namespace Chummer
             }
             else if (treArmor.SelectedNode.Level > 2)
             {
-                Gear objSelectedGear = CommonFunctions.FindArmorGear(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                Gear objSelectedGear = (Gear)treArmor.SelectedNode.Tag;
 
                 if (objSelectedGear.IncludedInParent)
                     cmdDeleteArmor.Enabled = false;
@@ -20118,7 +20118,7 @@ namespace Chummer
 
             if (treGear.SelectedNode.Level > 0)
             {
-                Gear objGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+                Gear objGear = (Gear)treGear.SelectedNode.Tag;
 
                 if (objGear != null)
                 {
@@ -20400,7 +20400,7 @@ namespace Chummer
 
             // Attempt to locate the selected piece of Cyberware.
             if (treCyberware.SelectedNode != null && treCyberware.SelectedNode.Level > 0)
-                objSelectedCyberware = CommonFunctions.DeepFindById(treCyberware.SelectedNode.Tag.ToString(), _objCharacter.Cyberware);
+                objSelectedCyberware = (Cyberware)treCyberware.SelectedNode.Tag;
 
             frmSelectCyberware frmPickCyberware = new frmSelectCyberware(_objCharacter, objSource, true, objSelectedCyberware?.MyXmlNode);
             double dblMultiplier = 1;
@@ -20729,7 +20729,7 @@ namespace Chummer
             bool blnNullParent = false;
             Gear objSelectedGear = null;
             if (treGear.SelectedNode != null)
-                objSelectedGear = CommonFunctions.DeepFindById(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+                objSelectedGear = (Gear)treGear.SelectedNode.Tag;
             if (objSelectedGear == null)
             {
                 objSelectedGear = new Gear(_objCharacter);
@@ -21029,7 +21029,7 @@ namespace Chummer
             {
                 objSelectedGear = CommonFunctions.FindArmorGear(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor, out objSelectedArmor, out objSelectedMod);
                 if (objSelectedGear == null)
-                    objSelectedMod = CommonFunctions.FindArmorMod(treArmor.SelectedNode.Tag.ToString(), _objCharacter.Armor);
+                    objSelectedMod = (ArmorMod)treArmor.SelectedNode.Tag;
             }
 
             // Open the Gear XML file and locate the selected Gear.
@@ -21290,7 +21290,7 @@ namespace Chummer
             if (treLifestyles.SelectedNode.Level > 0)
             {
                 // Locate the selected Lifestyle.
-                Lifestyle objLifestyle = CommonFunctions.FindByIdWithNameCheck(treLifestyles.SelectedNode.Tag.ToString(), _objCharacter.Lifestyles);
+                Lifestyle objLifestyle = (Lifestyle)treLifestyles.SelectedNode.Tag;
                 if (objLifestyle == null)
                     return;
 
@@ -21488,7 +21488,7 @@ namespace Chummer
             // Locate the selected Vehicle.
             if (treVehicles.SelectedNode.Level == 1)
             {
-                Vehicle objVehicle = CommonFunctions.FindByIdWithNameCheck(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                Vehicle objVehicle = (Vehicle)treVehicles.SelectedNode.Tag;
                 if (objVehicle == null)
                 {
                     _blnSkipRefresh = false;
@@ -21699,7 +21699,7 @@ namespace Chummer
                 else
                 {
                     // If it's not a Vehicle Mod then it must be a Sensor.
-                    Gear objGear = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                    Gear objGear = (Gear)treVehicles.SelectedNode.Tag;
                     if (objGear != null)
                     {
                         if (objGear.IncludedInParent)
@@ -21905,7 +21905,7 @@ namespace Chummer
             else if (treVehicles.SelectedNode.Level == 3)
             {
                 panVehicleCM.Visible = true;
-                Gear objGear = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                Gear objGear = (Gear)treVehicles.SelectedNode.Tag;
                 if (objGear != null)
                 {
                     if (objGear.IncludedInParent)
@@ -22121,7 +22121,7 @@ namespace Chummer
             else if (treVehicles.SelectedNode.Level == 4)
             {
                 panVehicleCM.Visible = true;
-                Gear objGear = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                Gear objGear = (Gear)treVehicles.SelectedNode.Tag;
                 if (objGear != null)
                 {
                     if (objGear.IncludedInParent)
@@ -22170,7 +22170,7 @@ namespace Chummer
                 {
                     // Locate the the Selected Vehicle Weapon Accessory of Modification.
                     Weapon objWeapon = null;
-                    WeaponAccessory objAccessory = CommonFunctions.FindVehicleWeaponAccessory(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                    WeaponAccessory objAccessory = (WeaponAccessory)treVehicles.SelectedNode.Tag;
                     if (objAccessory != null)
                     {
                         objWeapon = objAccessory.Parent;
@@ -22386,7 +22386,7 @@ namespace Chummer
 
                 // Locate the the Selected Vehicle Underbarrel Weapon Accessory or Modification.
                 Weapon objWeapon = null;
-                WeaponAccessory objAccessory = CommonFunctions.FindVehicleWeaponAccessory(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                WeaponAccessory objAccessory = (WeaponAccessory)treVehicles.SelectedNode.Tag;
                 if (objAccessory != null)
                 {
                     objWeapon = objAccessory.Parent;
@@ -22464,7 +22464,7 @@ namespace Chummer
                 else
                 {
                     panVehicleCM.Visible = true;
-                    Gear objGear = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                    Gear objGear = (Gear)treVehicles.SelectedNode.Tag;
 
                     if (objGear.IncludedInParent)
                         cmdDeleteVehicle.Enabled = false;
@@ -22512,7 +22512,7 @@ namespace Chummer
             else if (treVehicles.SelectedNode.Level > 5)
             {
                 panVehicleCM.Visible = true;
-                Gear objGear = CommonFunctions.FindVehicleGear(treVehicles.SelectedNode.Tag.ToString(), _objCharacter.Vehicles);
+                Gear objGear = (Gear)treVehicles.SelectedNode.Tag;
 
                 if (objGear.IncludedInParent)
                     cmdDeleteVehicle.Enabled = false;
@@ -23866,7 +23866,7 @@ namespace Chummer
                 if (treComplexForms.SelectedNode.Level == 1)
                 {
                     // Locate the Program that is selected in the tree.
-                    ComplexForm objProgram = CommonFunctions.FindByIdWithNameCheck(treComplexForms.SelectedNode.Tag.ToString(), _objCharacter.ComplexForms);
+                    ComplexForm objProgram = (ComplexForm)treComplexForms.SelectedNode.Tag;
                     string strDuration = objProgram.Duration;
                     string strTarget = objProgram.Target;
                     string strFV = objProgram.FV;
@@ -24796,7 +24796,7 @@ namespace Chummer
             if (treMetamagic.SelectedNode != null)
             {
                 // Locate the selected Metamagic.
-                Metamagic objMetamagic = CommonFunctions.FindByIdWithNameCheck(treMetamagic.SelectedNode.Tag.ToString(), _objCharacter.Metamagics);
+                Metamagic objMetamagic = (Metamagic)treMetamagic.SelectedNode.Tag;
                 if (objMetamagic != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -24825,7 +24825,7 @@ namespace Chummer
                 }
 
                 // Locate the selected Art.
-                Art objArt = CommonFunctions.FindByIdWithNameCheck(treMetamagic.SelectedNode.Tag.ToString(), _objCharacter.Arts);
+                Art objArt = (Art)treMetamagic.SelectedNode.Tag;
                 if (objArt != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -24852,7 +24852,7 @@ namespace Chummer
                 }
 
                 // Locate the selected Spell.
-                Spell objSpell = CommonFunctions.FindByIdWithNameCheck(treMetamagic.SelectedNode.Tag.ToString(), _objCharacter.Spells);
+                Spell objSpell = (Spell)treMetamagic.SelectedNode.Tag;
                 if (objSpell != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -25138,7 +25138,7 @@ namespace Chummer
         {
             if (_blnLoading || !_objCharacter.Overclocker)
                 return;
-            Commlink objCommlink = CommonFunctions.FindCommlink(treGear.SelectedNode.Tag.ToString(), _objCharacter.Gear);
+            Commlink objCommlink = (Commlink)treGear.SelectedNode.Tag;
             objCommlink.Overclocked = cboGearOverclocker.SelectedValue.ToString();
             objCommlink.RefreshCommlinkCBOs(cboGearAttack, cboGearSleaze, cboGearDataProcessing, cboGearFirewall);
         }
@@ -25276,7 +25276,7 @@ namespace Chummer
                 if (treAIPrograms.SelectedNode.Level == 1)
                 {
                     // Locate the Program that is selected in the tree.
-                    AIProgram objProgram = CommonFunctions.FindByIdWithNameCheck(treAIPrograms.SelectedNode.Tag.ToString(), _objCharacter.AIPrograms);
+                    AIProgram objProgram = (AIProgram)treAIPrograms.SelectedNode.Tag;
 
                     if (objProgram != null && objProgram.CanDelete)
                     {
@@ -25312,7 +25312,7 @@ namespace Chummer
                 if (treAIPrograms.SelectedNode.Level == 1)
                 {
                     // Locate the Program that is selected in the tree.
-                    AIProgram objProgram = CommonFunctions.FindByIdWithNameCheck(treAIPrograms.SelectedNode.Tag.ToString(), _objCharacter.AIPrograms);
+                    AIProgram objProgram = (AIProgram)treAIPrograms.SelectedNode.Tag;
 
                     if (objProgram != null)
                     {
@@ -25341,7 +25341,7 @@ namespace Chummer
         {
             if (treAIPrograms.SelectedNode != null)
             {
-                AIProgram objAIProgram = CommonFunctions.FindByIdWithNameCheck(treAIPrograms.SelectedNode.Tag.ToString(), _objCharacter.AIPrograms);
+                AIProgram objAIProgram = (AIProgram)treAIPrograms.SelectedNode.Tag;
                 if (objAIProgram != null)
                 {
                     frmNotes frmItemNotes = new frmNotes();
@@ -25417,7 +25417,7 @@ namespace Chummer
         {
             if (treCyberware.SelectedNode == null)
                 return;
-            Cyberware objModularCyberware = CommonFunctions.DeepFindById(treCyberware.SelectedNode.Tag.ToString(), _objCharacter.Cyberware);
+            Cyberware objModularCyberware = (Cyberware)treCyberware.SelectedNode.Tag;
             if (objModularCyberware == null)
                 return;
             frmSelectItem frmPickMount = new frmSelectItem();

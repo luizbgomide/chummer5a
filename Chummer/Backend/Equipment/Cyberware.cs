@@ -1740,6 +1740,15 @@ namespace Chummer.Backend.Equipment
                 _strNotes = value;
             }
         }
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (Capacity == "[*]" || !string.IsNullOrEmpty(ParentID)) return SystemColors.GrayText;
+                if (string.IsNullOrWhiteSpace(Notes)) return SystemColors.WindowText;
+                return Color.SaddleBrown;
+            }
+        }
 
         /// <summary>
         /// Whether or not the Cyberware's cost should be discounted by 10% through the Black Market Pipeline Quality.

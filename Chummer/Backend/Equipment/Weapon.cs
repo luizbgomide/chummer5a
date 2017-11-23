@@ -1237,7 +1237,15 @@ namespace Chummer.Backend.Equipment
                 _strNotes = value;
             }
         }
-
+        public Color PreferredNodeColor
+        {
+            get
+            {
+                if (Cyberware || Category == "Gear" || !string.IsNullOrEmpty(ParentID)) return SystemColors.GrayText;
+                if (string.IsNullOrWhiteSpace(Notes)) return SystemColors.WindowText;
+                return Color.SaddleBrown;
+            }
+        }
         /// <summary>
         /// Whether or not the Weapon is mounted on a Vehicle.
         /// </summary>
