@@ -3881,7 +3881,7 @@ namespace Chummer
             string strBook = string.Empty;
             string strPage = string.Empty;
             // The Rating NUD is only enabled if a Martial Art is currently selected.
-            if (treMartialArts.SelectedNode.Level == 1)
+            if (treMartialArts.SelectedNode.Tag.GetType() == typeof(MartialArt))
             {
                 MartialArt objMartialArt = (MartialArt)treMartialArts.SelectedNode.Tag;
 
@@ -3890,39 +3890,15 @@ namespace Chummer
                 lblMartialArtSource.Text = strBook + " " + strPage;
                 tipTooltip.SetToolTip(lblMartialArtSource, _objOptions.LanguageBookLong(objMartialArt.Source) + " page " + strPage);
             }
-
-            // Display the Martial Art Advantage information.
-            else if (treMartialArts.SelectedNode.Level == 2)
+            else if (treMartialArts.SelectedNode.Tag.GetType() == typeof(MartialArtAdvantage))
             {
-                // Load the Martial Art information.
-                XmlDocument _objXmlDocument = XmlManager.Load("martialarts.xml");
-                XmlNode objXmlTechnique = _objXmlDocument.SelectSingleNode("/chummer/techniques/technique[name = \"" + treMartialArts.SelectedNode.Text.ToString() + "\"]");
+                MartialArtAdvantage objMartialArt = (MartialArtAdvantage)treMartialArts.SelectedNode.Tag;
 
-                if (objXmlTechnique != null)
-                {
-                    objXmlTechnique.TryGetStringFieldQuickly("source", ref strBook);
-                    string strBookShort = _objOptions.LanguageBookShort(strBook);
-                    objXmlTechnique.TryGetStringFieldQuickly("page", ref strPage);
-                    lblMartialArtSource.Text = strBookShort + " " + strPage;
-                    tipTooltip.SetToolTip(lblMartialArtSource, _objOptions.LanguageBookLong(strBook) + " page " + strPage);
-                }
+                strBook = _objOptions.LanguageBookShort(objMartialArt.Source);
+                strPage = objMartialArt.Page;
+                lblMartialArtSource.Text = strBook + " " + strPage;
+                tipTooltip.SetToolTip(lblMartialArtSource, _objOptions.LanguageBookLong(objMartialArt.Source) + " page " + strPage);
             }
-
-            //// Display the Maneuver information.
-            //if (treMartialArts.SelectedNode.Level == 1 && treMartialArts.SelectedNode.Parent == treMartialArts.Nodes[1])
-            //{
-            //    // Load the Martial Art information.
-            //    XmlDocument _objXmlDocument = XmlManager.Load("martialarts.xml");
-            //    XmlNode objXmlTechnique = _objXmlDocument.SelectSingleNode("/chummer/techniques/technique[name = \"" + treMartialArts.SelectedNode.Text.ToString() + "\"]");
-
-            //    if (objXmlTechnique != null)
-            //    {
-            //        string strBook = _objOptions.LanguageBookShort(objXmlTechnique["source"].InnerText);
-            //        string strPage = objXmlTechnique["page"].InnerText;
-            //        lblMartialArtSource.Text = strBook + " " + strPage;
-            //        tipTooltip.SetToolTip(lblMartialArtSource, _objOptions.LanguageBookLong(objXmlTechnique["source"].InnerText) + " page " + objXmlTechnique["page"].InnerText);
-            //    }
-            //}
             _blnSkipRefresh = false;
         }
         #endregion
@@ -13785,11 +13761,10 @@ namespace Chummer
                 _blnSkipRefresh = false;
                 return;
             }
-
-            // Locate the selected piece of Cyberware.
-            Cyberware objCyberware = (Cyberware)treCyberware.SelectedNode.Tag;
-            if (objCyberware != null)
+            else if (treCyberware.SelectedNode.Tag.GetType() == typeof(Cyberware))
             {
+                // Locate the selected piece of Cyberware.
+                Cyberware objCyberware = (Cyberware)treCyberware.SelectedNode.Tag;
                 if (!string.IsNullOrEmpty(objCyberware.ParentID))
                     cmdDeleteCyberware.Enabled = false;
                 cmdCyberwareChangeMount.Visible = !string.IsNullOrEmpty(objCyberware.PlugsIntoModularMount);
@@ -13865,10 +13840,10 @@ namespace Chummer
                 if (objCyberware.AddToParentESS)
                     lblCyberwareEssence.Text = "+" + lblCyberwareEssence.Text;
             }
-            else
+            else if (treCyberware.SelectedNode.Tag.GetType() == typeof(Gear))
             {
                 // Locate the piece of Gear.
-                Gear objGear = (Gear)treCyberware.SelectedNode.Tag;
+                Gear objGear = (Gear) treCyberware.SelectedNode.Tag;
 
                 if (objGear.IncludedInParent)
                     cmdDeleteCyberware.Enabled = false;
@@ -13876,17 +13851,21 @@ namespace Chummer
                 lblCyberwareCategory.Text = objGear.DisplayCategory;
                 lblCyberwareAvail.Text = objGear.TotalAvail(true);
                 lblCyberwareCost.Text = $"{objGear.TotalCost:###,###,##0.##¥}";
-                lblCyberwareCapacity.Text = objGear.CalculatedCapacity + " (" + objGear.CapacityRemaining.ToString("0.##", GlobalOptions.CultureInfo) + " " + LanguageManager.GetString("String_Remaining") + ")";
+                lblCyberwareCapacity.Text = objGear.CalculatedCapacity + " (" +
+                                            objGear.CapacityRemaining.ToString("0.##", GlobalOptions.CultureInfo) +
+                                            " " + LanguageManager.GetString("String_Remaining") + ")";
                 lblCyberwareEssence.Text = "0";
                 cboCyberwareGrade.Enabled = false;
                 string strBook = _objOptions.LanguageBookShort(objGear.Source);
                 string strPage = objGear.Page;
                 lblCyberwareSource.Text = strBook + " " + strPage;
-                tipTooltip.SetToolTip(lblCyberwareSource, _objOptions.LanguageBookLong(objGear.Source) + " " + LanguageManager.GetString("String_Page") + " " + objGear.Page);
+                tipTooltip.SetToolTip(lblCyberwareSource,
+                    _objOptions.LanguageBookLong(objGear.Source) + " " + LanguageManager.GetString("String_Page") +
+                    " " + objGear.Page);
 
                 if (objGear.GetType() == typeof(Commlink))
                 {
-                    Commlink objCommlink = (Commlink)objGear;
+                    Commlink objCommlink = (Commlink) objGear;
                     lblCyberDeviceRating.Text = objCommlink.GetTotalMatrixAttribute("Device Rating").ToString();
                     lblCyberAttack.Text = objCommlink.GetTotalMatrixAttribute("Attack").ToString();
                     lblCyberSleaze.Text = objCommlink.GetTotalMatrixAttribute("Sleaze").ToString();
@@ -13939,6 +13918,10 @@ namespace Chummer
                     nudCyberwareRating.Maximum = 0;
                     nudCyberwareRating.Enabled = false;
                 }
+            }
+            else
+            {
+                Utils.BreakIfDebug();
             }
             _blnSkipRefresh = false;
         }
