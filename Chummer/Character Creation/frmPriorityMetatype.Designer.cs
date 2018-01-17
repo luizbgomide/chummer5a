@@ -721,6 +721,7 @@ namespace Chummer
             this.Controls.Add(this.pnlMetatypes);
             this.Name = "frmPriorityMetatype";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Tag = "Title_SelectPriority";
             this.Text = "Choose Character Priorities";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmPriorityMetatype_FormClosed);
             this.Load += new System.EventHandler(this.frmPriorityMetatype_Load);

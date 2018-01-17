@@ -712,6 +712,10 @@
       <text>Metavariant:</text>
     </string>
     <string>
+      <key>Title_SelectPriority</key>
+      <text>Choose Character Priorities</text>
+    </string>
+    <string>
       <key>Label_PriorityHeritage</key>
       <text>Metatype:</text>
     </string>
